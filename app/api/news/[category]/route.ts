@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { fetchAllNews } from '../../../lib/rss-service';
-
+import { fetchAllNews } from '@/lib/rss-service'
 export const revalidate = 300;
 
 export async function GET(

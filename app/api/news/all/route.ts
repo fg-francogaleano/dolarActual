@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { fetchAllNews } from '../../../lib/rss-service';
-
+import { fetchAllNews } from '@/lib/rss-service'
 // Revalidar cada 5 minutos (300 segundos) para no saturar la fuente original y mejorar performance
 export const revalidate = 300; 
 
