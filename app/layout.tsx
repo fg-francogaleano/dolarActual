@@ -22,13 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-white dark:bg-[#1A202C] transition-colors duration-300">
         <ThemeProvider>
           <LanguageProvider>
             <Header />
 
-            <main className="flex-grow">{children}</main>
+            <main className="grow">{children}</main>
 
             <Footer />
 

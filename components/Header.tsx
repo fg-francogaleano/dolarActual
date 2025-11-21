@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { language, changeLanguage, t } = useLanguage();
 
-  const pathname = usePathname(); // ⬅️ reemplazo de useLocation()
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   const navItems: NavItem[] = [
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
     { path: "/noticias", label: t("nav.news") },
     { path: "/blog", label: t("nav.blog") },
     { path: "/faq", label: t("nav.faq") },
-    { path: "/contacto", label: t("nav.contact") },
+    // { path: "/contacto", label: t("nav.contact") },
   ];
 
   const isActive = (path: string): boolean => pathname === path;

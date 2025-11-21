@@ -37,7 +37,8 @@ export default function HomePage() {
           </Link>
         </div>
       </div>
-      {/* Cotizaciones Destacadas */}
+
+      {/* COTIZACIONES DESTACADAS */}
       <section className="py-16 bg-white dark:bg-[#1A202C] transition-colors duration-300">
       <div className="container mx-auto px-4">
         {/* Título + Ver todas */}
@@ -70,6 +71,7 @@ export default function HomePage() {
         </div>
       </div>
     </section>
+
       {/* SECCIÓN CONVERSOR */}
       <section className="py-12 px-6 max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold mb-6 text-gray-100">
