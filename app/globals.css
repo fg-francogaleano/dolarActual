@@ -112,6 +112,33 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* .dark {
+  --background: 0 0% 5%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 186 91% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 48%;
+  --accent: 186 91% 65%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 71%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 17%;
+  --input: 0 0% 17%;
+  --ring: 186 91% 65%;
+  --chart-1: 186 91% 65%;
+  --chart-2: 141 100% 71%;
+  --chart-3: 45 100% 67%;
+  --chart-4: 0 72% 71%;
+  --chart-5: 199 92% 64%;
+} */
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

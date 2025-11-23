@@ -3,6 +3,7 @@
 // ---------------------
 export interface Cotizacion {
   id: string;
+  destacado: boolean,
   compra: number;
   venta: number;
   variacion: number;
@@ -46,12 +47,78 @@ export interface FAQs {
   respuesta: string;
 }
 
+export interface CotizacionItem {
+  id: string,
+  destacado: boolean,
+  compra: number;
+  venta: number;
+  variacion: number;
+  fechaActualizacion: string;
+}
+
+export interface CotizacionesMap {
+  [key: string]: CotizacionItem;
+}
+
 // ---------------------
 // Mock Cotizaciones
 // ---------------------
+
+export const mockCotizacionesObj: CotizacionesMap = {
+  blue: {
+    id: "blue",
+    destacado: true,
+    compra: 1150,
+    venta: 1170,
+    variacion: 2.5,
+    fechaActualizacion: "2025-01-10T10:30:00Z",
+  },
+  oficial: {
+    id: "oficial",
+    destacado: true,
+    compra: 950,
+    venta: 990,
+    variacion: 0.1,
+    fechaActualizacion: "2025-01-10T10:30:00Z",
+  },
+  mep: {
+    id: "mep",
+    destacado: false,
+    compra: 1080,
+    venta: 1100,
+    variacion: 1.2,
+    fechaActualizacion: "2025-01-10T10:30:00Z",
+  },
+  ccl: {
+    id: "ccl",
+    destacado: false,
+    compra: 1095,
+    venta: 1115,
+    variacion: 1.5,
+    fechaActualizacion: "2025-01-10T10:30:00Z",
+  },
+  turista: {
+    id: "turista",
+    destacado: false,
+    compra: 0,
+    venta: 1584,
+    variacion: 0.2,
+    fechaActualizacion: "2025-01-10T10:30:00Z",
+  },
+  cripto: {
+    id: "cripto",
+    destacado: false,
+    compra: 1105,
+    venta: 1125,
+    variacion: -0.8,
+    fechaActualizacion: "2025-01-10T10:30:00Z",
+  },
+};
+
 export const mockCotizaciones: Cotizacion[] = [
   {
     id: "blue",
+    destacado:false,
     compra: 1150,
     venta: 1170,
     variacion: 2.5,
@@ -59,6 +126,7 @@ export const mockCotizaciones: Cotizacion[] = [
   },
   {
     id: "oficial",
+    destacado:false,
     compra: 950,
     venta: 990,
     variacion: 0.1,
@@ -66,6 +134,7 @@ export const mockCotizaciones: Cotizacion[] = [
   },
   {
     id: "mep",
+    destacado:false,
     compra: 1080,
     venta: 1100,
     variacion: 1.2,
@@ -73,6 +142,7 @@ export const mockCotizaciones: Cotizacion[] = [
   },
   {
     id: "ccl",
+    destacado:false,
     compra: 1095,
     venta: 1115,
     variacion: 1.5,
@@ -80,6 +150,7 @@ export const mockCotizaciones: Cotizacion[] = [
   },
   {
     id: "turista",
+    destacado:false,
     compra: 0,
     venta: 1584,
     variacion: 0.2,
@@ -87,6 +158,7 @@ export const mockCotizaciones: Cotizacion[] = [
   },
   {
     id: "cripto",
+    destacado:false,
     compra: 1105,
     venta: 1125,
     variacion: -0.8,
@@ -101,6 +173,7 @@ export const mockCotizaciones: Cotizacion[] = [
 export const mockOtrasCotizaciones: Cotizacion[] = [
    {
     id: "real",
+    destacado: false,
     compra: 185,
     venta: 195,
     variacion: 0.5,
@@ -108,6 +181,7 @@ export const mockOtrasCotizaciones: Cotizacion[] = [
   },
    {
     id: "euro",
+    destacado: false,
     compra: 1050,
     venta: 1090,
     variacion: 0.3,
@@ -115,6 +189,7 @@ export const mockOtrasCotizaciones: Cotizacion[] = [
   },
    {
     id: "oro",
+    destacado: false,
     compra: 2650000,
     venta: 2680000,
     variacion: 1.1,
