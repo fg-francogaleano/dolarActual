@@ -18,7 +18,7 @@ interface BlogPost {
   slug: string;
 }
 
-const Blog: FC = () => {
+function Blog() {
   const { t } = useLanguage();
 
   return (
@@ -82,6 +82,6 @@ const Blog: FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Blog;

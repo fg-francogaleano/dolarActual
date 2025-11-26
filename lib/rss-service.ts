@@ -100,7 +100,6 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
     RSS_SOURCES.map(async (source) => {
       try {
         const feed = await parser.parseURL(source.url);
-        
         if (!feed || !feed.items || !Array.isArray(feed.items)) {
              return [];
         }
@@ -137,7 +136,6 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
               return null;
           }
         });
-
         return normalizedItems.filter((i): i is NewsItem => i !== null);
 
       } catch (error: any) {
