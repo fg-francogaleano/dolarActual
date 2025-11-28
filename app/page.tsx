@@ -17,6 +17,7 @@ import NewsGridVariantC from "@/components/NewsGridVariantC";
 import NewsGridVariantD from "@/components/NewsGridViariantD"; // <--- NUEVO COMPONENTE
 
 import { Loader2 } from "lucide-react";
+import NewsGridVariantE from "@/components/NewsGridVariantE";
 
 // (Ya no necesitamos la interfaz NewsItem localmente, ni los estados de dolarNews)
 
@@ -126,10 +127,17 @@ export default function HomePage() {
             accentColor="bg-purple-500" 
           />
           
-          {/* 4. SECCIÓN FINANCIERO (Variante C - 5 Cards) */}
+          {/* 4. SECCIÓN POLITICA (Variante C - 5 Cards) */}
           <NewsGridVariantC 
             title="Política" 
-            category="política" 
+            category="politica" 
+            accentColor="bg-orange-500" 
+          />
+
+          {/* 4. SECCIÓN POLITICA (Variante C - 7 Cards) */}
+          <NewsGridVariantE 
+            title="Bolsas" 
+            category="acciones" 
             accentColor="bg-orange-500" 
           />
           

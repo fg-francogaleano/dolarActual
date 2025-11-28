@@ -1,10 +1,16 @@
-// lib/rss-service.ts
 import Parser from 'rss-parser';
-import { NewsItem, RSS_SOURCES, INFOBAE_KEYWORDS, LANACION_ALLOWED_CATS } from './rss-config';
+import { RSS_SOURCES, NewsItem, CategoryType } from './rss-config';
+import { 
+  cleanText, 
+  extractImage, 
+  determineCategoryByTags, 
+  determineCategoryByKeywords 
+} from './rss-helpers';
 
+// Configuración del Parser
 const parser = new Parser({
   headers: {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124 Safari/537.36',
   },
   customFields: {
     item: [
@@ -14,132 +20,62 @@ const parser = new Parser({
       ['category', 'categories'] 
     ],
   },
-  timeout: 5000,
+  timeout: 10000,
 });
 
-/**
- * FUNCIÓN DE LIMPIEZA PROFUNDA
- * Diseñada para eliminar HTML y cortar scripts inyectados (caso iProfesional)
- */
-const cleanText = (text?: string) => {
-  if (!text) return "";
-
-  let clean = text;
-
-  // 1. Eliminar explícitamente bloques de script/style y su contenido interno
-  // (Por si el RSS parser no los eliminó y trajo el código crudo)
-  clean = clean.replace(/<(script|style)[\s\S]*?<\/\1>/gi, "");
-
-  // 2. Eliminar etiquetas HTML remanentes (<br>, <p>, etc.)
-  clean = clean.replace(/<[^>]+>/g, " ");
-
-  // 3. HEURÍSTICA DE CORTE (La solución para iProfesional)
-  // Buscamos patrones comunes de inicio de scripts de tracking que suelen ensuciar los RSS
-  // Cortamos el string en la primera aparición de cualquiera de estos.
-  const garbagePatterns = [
-    "(function(",       // Inicio de IIFE común en analytics
-    "var _comscore",     // Comscore
-    "ga('create'",       // Google Analytics antiguo
-    "window.onload",     
-    "var ",              // Declaraciones de variables sueltas al final
-    "{"                  // A veces inyectan JSON directo
-  ];
-
-  for (const pattern of garbagePatterns) {
-    const index = clean.indexOf(pattern);
-    if (index !== -1) {
-      // Cortamos todo desde donde empieza la basura
-      clean = clean.substring(0, index);
-    }
-  }
-
-  // 4. Normalización de espacios
-  // Reemplaza saltos de línea, tabs y espacios múltiples por un único espacio
-  clean = clean.replace(/[\r\n\t]+/g, " ").replace(/\s+/g, " ");
-
-  // 5. Decodificación básica de entidades HTML comunes (opcional pero recomendado)
-  clean = clean
-    .replace(/&nbsp;/g, " ")
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>');
-
-  return clean.trim();
-};
-
-const matchesKeywords = (title?: string): boolean => {
-  if (!title) return false;
-  const lowerTitle = title.toLowerCase();
-  return INFOBAE_KEYWORDS.some(keyword => lowerTitle.includes(keyword.toLowerCase()));
-};
-
-const extractImage = (item: any, strategy: string): string | null => {
-  try {
-    if (strategy === 'enclosure' && item.enclosure?.url) {
-      return item.enclosure.url;
-    }
-    if (strategy === 'media') {
-        const media = item.mediaContent;
-        if (Array.isArray(media)) {
-             return media[0]?.url || media[0]?.$?.url || null;
-        }
-        if (media && media.$ && media.$.url) return media.$.url;
-        if (media && media.url) return media.url;
-    }
-    return null;
-  } catch (e) {
-    return null;
-  }
-};
-
 export async function fetchAllNews(): Promise<NewsItem[]> {
-  console.log("🔄 Iniciando fetch con limpieza avanzada...");
+  console.log("🔄 [RSS Service] Iniciando recolección de noticias...");
 
   const results = await Promise.allSettled(
     RSS_SOURCES.map(async (source) => {
       try {
         const feed = await parser.parseURL(source.url);
+        
         if (!feed || !feed.items || !Array.isArray(feed.items)) {
+             console.warn(`⚠️ [RSS Service] ${source.name} devolvió un feed inválido.`);
              return [];
         }
 
-        const normalizedItems = feed.items.map((item: any) => {
-          if (!item) return null;
+        const processedItems = feed.items.map((item: any) => {
+          // --- 1. DETERMINAR CATEGORÍA ---
+          let assignedCategory: CategoryType | null = null;
 
-          try {
-            // Filtros
-            if (source.filterType === 'category') {
-                const itemCats = item.categories || [];
-                const catsString = Array.isArray(itemCats) 
-                    ? itemCats.map((c: any) => typeof c === 'string' ? c : JSON.stringify(c)).join(' ')
-                    : '';
-                const hasCategory = LANACION_ALLOWED_CATS.some(allowed => catsString.includes(allowed));
-                if (!hasCategory) return null;
-            }
-
-            if (source.filterType === 'keyword') {
-                if (!matchesKeywords(item.title)) return null;
-            }
-
-            // Normalización con limpieza de descripción
-            return {
-                title: item.title ? item.title.trim() : 'Sin título',
-                link: item.link || '#',
-                pubDate: item.pubDate || new Date().toISOString(),
-                description: cleanText(item.contentSnippet || item.description), // APLICAMOS CLEAN TEXT AQUÍ
-                creator: source.name, 
-                image: extractImage(item, source.strategy)
-            } as NewsItem;
-
-          } catch (innerError) {
-              return null;
+          if (source.strategy === 'explicit' && source.targetCategory) {
+            assignedCategory = source.targetCategory;
+          } 
+          else if (source.strategy === 'tag_filter') {
+            assignedCategory = determineCategoryByTags(item.categories);
+          } 
+          else if (source.strategy === 'keyword_inference') {
+            assignedCategory = determineCategoryByKeywords(item.title, item.contentSnippet || item.description);
           }
+
+          if (!assignedCategory) return null;
+
+          // --- 2. NORMALIZACIÓN ---
+          const normalized: NewsItem = {
+            title: item.title ? item.title.trim() : 'Sin título',
+            link: item.link || '#',
+            pubDate: item.pubDate || new Date().toISOString(),
+            description: cleanText(item.contentSnippet || item.description),
+            
+            // CORRECCIÓN SOLICITADA:
+            // Forzamos el uso de source.name (Nombre del Medio) en lugar de item.creator (Periodista)
+            creator: source.name, 
+            
+            image: extractImage(item, source.imageStrategy),
+            category: assignedCategory,
+            source: source.name
+          };
+
+          return normalized;
         });
-        return normalizedItems.filter((i): i is NewsItem => i !== null);
+
+        const validItems = processedItems.filter((i): i is NewsItem => i !== null);
+        return validItems;
 
       } catch (error: any) {
-        console.error(`❌ Error en fuente ${source.name}: ${error.message}`);
+        console.error(`❌ [RSS Service] Error en ${source.name} [${source.url}]: ${error.message}`);
         return []; 
       }
     })
@@ -149,6 +85,9 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
     .flatMap(r => (r.status === 'fulfilled' ? r.value : []))
     .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 
-  console.log(`🚀 Total noticias limpias: ${allNews.length}`);
-  return allNews;
+  // Deduplicación por Link
+  const uniqueNews = Array.from(new Map(allNews.map(item => [item.link, item])).values());
+
+  console.log(`🚀 [RSS Service] Total final de noticias listas para ingestión: ${uniqueNews.length}`);
+  return uniqueNews;
 }
