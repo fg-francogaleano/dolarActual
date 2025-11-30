@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: Call API Route
         run: |
-          curl -X GET https://dolar-actual.vercel.app/api/cron/update-news \
+          curl -X GET ${{secrets.VERCEL_URL}} \
           -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"

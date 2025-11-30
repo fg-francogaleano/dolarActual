@@ -116,14 +116,14 @@ export default function HomePage() {
           {/* 2. SECCIÓN ECONOMÍA (Variante A - 3 Cards) */}
           <NewsGridVariantA 
             title="Economía" 
-            category="economia" 
+            category="criptomoneda" 
             accentColor="bg-emerald-500" 
           />
 
           {/* 3. SECCIÓN FINANZAS (Variante B - 4 Cards) */}
           <NewsGridVariantB 
             title="Finanzas" 
-            category="financiero" 
+            category="finanzas" 
             accentColor="bg-purple-500" 
           />
           
