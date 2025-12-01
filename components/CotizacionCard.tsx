@@ -152,7 +152,7 @@ export default function CotizacionCard({
             } text-[#0D47A1] dark:text-[#B0C4DE]`}
             style={{ fontFamily: "Montserrat, sans-serif" }}
           >
-            {id.toUpperCase()}
+            {t(`quotations.${id}`).toLocaleUpperCase()}
           </CardTitle>
         </CardHeader>
 

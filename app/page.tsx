@@ -67,17 +67,18 @@ export default function HomePage() {
           {loading && <Loader2 className="animate-spin text-[#55EEF9]" />}
         </div>
         
-        <div className="hidden sm:block">
+        <div className="sm:block">
            {!loading && (
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                <div className="h-full">{blue && <CotizacionCard cotizacion={blue} />}</div>
-               <div className="grid grid-cols-2 gap-2">
+               <div className="lg:col-span-2 block md:hidden">{oficial && <CotizacionCard cotizacion={oficial} />}</div>
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                  {mep && <CotizacionCard cotizacion={mep} />}
                  {ccl && <CotizacionCard cotizacion={ccl} />}
                  {cripto && <CotizacionCard cotizacion={cripto} />}
                  {turista && <CotizacionCard cotizacion={turista} />}
                </div>
-               <div className="lg:col-span-2">{oficial && <CotizacionCard cotizacion={oficial} />}</div>
+               <div className="lg:col-span-2 hidden md:block">{oficial && <CotizacionCard cotizacion={oficial} />}</div>
              </div>
            )}
         </div>
