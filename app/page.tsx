@@ -117,7 +117,7 @@ export default function HomePage() {
           {/* 2. SECCIÓN ECONOMÍA (Variante A - 3 Cards) */}
           <NewsGridVariantA 
             title="Economía" 
-            category="criptomoneda" 
+            category="economia" 
             accentColor="bg-emerald-500" 
           />
 
@@ -137,8 +137,8 @@ export default function HomePage() {
 
           {/* 4. SECCIÓN POLITICA (Variante C - 7 Cards) */}
           <NewsGridVariantE 
-            title="Bolsas" 
-            category="acciones" 
+            title="Negocios" 
+            category="negocios" 
             accentColor="bg-orange-500" 
           />
           
