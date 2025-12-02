@@ -63,7 +63,7 @@ export default function NewsGridVariantE({
       </h3>
 
       {loading ? (
-        <div className="h-[600px] bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse" />
+        <SkeletonVariantE />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-auto lg:h-[600px]">
           {/* TARJETA PRINCIPAL */}
@@ -202,5 +202,45 @@ export default function NewsGridVariantE({
         </div>
       )}
     </section>
+  );
+}
+
+function SkeletonVariantE() {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[600px]">
+      {/* Principal */}
+      <div className="lg:col-span-2 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse" />
+
+      {/* Medianas */}
+      <div className="lg:col-span-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <div className="h-1/2 bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          <div className="p-4 flex flex-col gap-2">
+            <div className="h-3 w-1/2 bg-slate-200 dark:bg-slate-800 animate-pulse" />
+            <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <div className="h-1/2 bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          <div className="p-4 flex flex-col gap-2">
+            <div className="h-3 w-1/2 bg-slate-200 dark:bg-slate-800 animate-pulse" />
+            <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          </div>
+        </div>
+      </div>
+
+      {/* Pequeñas */}
+      <div className="lg:col-span-1 flex flex-col gap-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="flex-1 flex items-center p-2">
+            <div className="flex-1 pr-3 flex flex-col gap-2">
+              <div className="h-2 w-1/3 bg-slate-200 dark:bg-slate-800 animate-pulse" />
+              <div className="h-3 w-full bg-slate-200 dark:bg-slate-800 animate-pulse" />
+            </div>
+            <div className="w-20 h-16 bg-slate-200 dark:bg-slate-800 rounded-lg animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

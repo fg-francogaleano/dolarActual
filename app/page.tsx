@@ -3,23 +3,17 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { mockNoticias } from "@/mock";
-import ConversorWidget from "@/components/ConversorWidget";
-import NewsCard from "@/components/NewsCard";
 import CotizacionCard from "@/components/CotizacionCard";
 import { getDolarRates } from "@/lib/dolar-service"; 
 import { CotizacionesMap, Cotizacion } from "@/types/dolar";
 
-// Importamos TODAS las variantes (Incluyendo la nueva D)
 import NewsGridVariantA from "@/components/NewsGridVariantA";
 import NewsGridVariantB from "@/components/NewsGridVariantB"; 
 import NewsGridVariantC from "@/components/NewsGridVariantC"; 
-import NewsGridVariantD from "@/components/NewsGridViariantD"; // <--- NUEVO COMPONENTE
+import NewsGridVariantD from "@/components/NewsGridViariantD";
 
 import { Loader2 } from "lucide-react";
 import NewsGridVariantE from "@/components/NewsGridVariantE";
-
-// (Ya no necesitamos la interfaz NewsItem localmente, ni los estados de dolarNews)
 
 const INITIAL_STATE: CotizacionesMap = {
   blue: { id: "blue", compra: 0, venta: 0, destacado: true, variacion: 0, fechaActualizacion: "" },
@@ -83,16 +77,6 @@ export default function HomePage() {
            )}
         </div>
       </section>
-
-      {/* SECCIÓN CONVERSOR */}
-      {/* <section className="py-16 px-6 dark:bg-[#111827]">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-white text-center md:text-left">
-            {t("home.quickConverter")}
-          </h2>
-          <ConversorWidget />
-        </div>
-      </section> */}
 
       {/* SECCIÓN NOTICIAS */}
       <section className="py-16 px-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120]">

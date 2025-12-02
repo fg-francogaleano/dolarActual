@@ -62,7 +62,7 @@ export default function NewsGridVariantB({
       </h3>
 
       {loading ? (
-        <div className="h-[400px] bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse" />
+        <SkeletonVariantB />
       ) : (
         <div className="flex flex-col gap-4">
           {/* TARJETA PRINCIPAL */}
@@ -162,5 +162,29 @@ export default function NewsGridVariantB({
         </div>
       )}
     </section>
+  );
+}
+
+function SkeletonVariantB() {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Skeleton Grande Superior */}
+      <div className="w-full h-[350px] md:h-[450px] bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse relative">
+         <div className="absolute bottom-8 left-8 right-8 h-8 bg-slate-300 dark:bg-slate-700 rounded animate-pulse" />
+      </div>
+      
+      {/* Skeleton Fila Inferior (3 cards) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="flex flex-col gap-3">
+            {/* Imagen aspect-video */}
+            <div className="w-full aspect-video bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse" />
+            {/* Texto */}
+            <div className="h-3 w-1/2 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+            <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

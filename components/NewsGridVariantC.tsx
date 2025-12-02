@@ -62,7 +62,7 @@ export default function NewsGridVariantC({
       </h3>
 
       {loading ? (
-        <div className="h-[600px] bg-slate-100 dark:bg-slate-800 rounded-xl animate-pulse" />
+        <SkeletonVariantC />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-auto lg:h-[600px]">
           {/* TARJETA PRINCIPAL */}
@@ -163,5 +163,33 @@ export default function NewsGridVariantC({
         </div>
       )}
     </section>
+  );
+}
+
+function SkeletonVariantC() {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-auto lg:h-[600px]">
+      {/* Skeleton Principal */}
+      <div className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col h-full">
+        <div className="w-full h-[60%] bg-slate-200 dark:bg-slate-800 animate-pulse" />
+        <div className="p-6 flex-1 flex flex-col gap-3">
+          <div className="h-3 w-1/4 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+          <div className="h-6 w-full bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+          <div className="h-6 w-3/4 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+          <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded animate-pulse mt-auto" />
+        </div>
+      </div>
+
+      {/* Skeleton Derecha (Grid 2x2) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="flex flex-col gap-2">
+            <div className="w-full aspect-video bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse" />
+            <div className="h-3 w-1/3 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+            <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
