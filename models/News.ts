@@ -26,7 +26,7 @@ NewsSchema.index({
 
 // NUEVO ÍNDICE TTL: 1296000 segundos = 15 Días
 // MongoDB borrará documentos donde 'pubDate' sea más viejo de 15 días.
-NewsSchema.index({ pubDate: 1 }, { expireAfterSeconds: 1296000 });
+NewsSchema.index({ pubDate: 1 }, { expireAfterSeconds: 259200 });
 
 // Lógica de desarrollo para recargar modelo
 if (process.env.NODE_ENV === "development" && models.News) {
