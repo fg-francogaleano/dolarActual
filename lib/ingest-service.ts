@@ -1,15 +1,34 @@
-import { fetchAllNews } from '@/lib/rss-service';
-import connectDB from '@/lib/db'; 
-import News from '@/models/News';
+import { fetchAllNews } from "@/lib/rss-service";
+import connectDB from "@/lib/db";
+import News from "@/models/News";
 
 export async function ingestNews() {
   await connectDB();
   console.log("🚀 [Ingest Service] Iniciando proceso de ingesta...");
 
   const rawNews = await fetchAllNews();
-  if (!rawNews.length) return { status: 'Warning', message: 'No news fetched' };
+  if (!rawNews.length) return { status: "Warning", message: "No news fetched" };
 
-  const operations = rawNews.map(item => ({
+  // --- REFACTORIZACIÓN: FILTRO DE CALIDAD ---
+  // Filtramos las noticias donde la imagen sea null, undefined, cadena vacía o el string "null"
+  const validNews = rawNews.filter((item) => {
+    const hasImage =
+      item.image && item.image !== "null" && item.image.trim() !== "";
+    return hasImage;
+  });
+
+  if (validNews.length === 0) {
+    console.log(
+      "⚠️ [Ingest Service] Se obtuvieron noticias pero ninguna tenía imagen válida. No se guardará nada."
+    );
+    return { status: "Warning", message: "No valid news with images found" };
+  }
+
+  console.log(
+    `🔍 [Ingest Service] Filtrado: ${rawNews.length} originales -> ${validNews.length} con imagen.`
+  );
+
+  const operations = rawNews.map((item) => ({
     updateOne: {
       filter: { link: item.link },
       update: {
@@ -21,18 +40,22 @@ export async function ingestNews() {
           image: item.image,
           category: item.category,
           source: item.source,
-          favicon: item.favicon, 
-          searchableText: `${item.title} ${item.description} ${item.category || ''} ${item.creator}`
-        }
+          favicon: item.favicon,
+          searchableText: `${item.title} ${item.description} ${
+            item.category || ""
+          } ${item.creator}`,
+        },
       },
-      upsert: true
-    }
+      upsert: true,
+    },
   }));
 
   try {
     // console.log(operations)
     const result = await News.bulkWrite(operations);
-    console.log(`✅ [Ingest Service] Completado. Insertados: ${result.upsertedCount}, Modificados: ${result.modifiedCount}`);
+    console.log(
+      `✅ [Ingest Service] Completado. Insertados: ${result.upsertedCount}, Modificados: ${result.modifiedCount}`
+    );
     return result;
   } catch (error) {
     console.error("❌ [Ingest Service] Error guardando en DB:", error);
@@ -40,10 +63,8 @@ export async function ingestNews() {
   }
 }
 
-
-
 // import { fetchAllNews } from '@/lib/rss-service';
-// import connectDB from '@/lib/db'; 
+// import connectDB from '@/lib/db';
 // import News from '@/models/News';
 
 // export async function ingestNews() {
