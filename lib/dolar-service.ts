@@ -1,10 +1,12 @@
 "use server";
 
 import { DolarApiResponse, Cotizacion, CotizacionesMap, DolarData } from "@/types/dolar";
+import connectDB from '@/lib/db';
+import RateHistory from '@/models/RateHistory';
 
 const API_URL = "https://dolarapi.com/v1/dolares";
 
-// Diccionario de mapeo: "Nombre API" -> "Tu ID interno"
+// Diccionario de mapeo: "Nombre API (DolarApi)" -> "Tu ID interno"
 const ID_MAPPING: Record<string, string> = {
   oficial: "oficial",
   blue: "blue",
@@ -15,16 +17,16 @@ const ID_MAPPING: Record<string, string> = {
   mayorista: "mayorista"
 };
 
-// IDs que quieres destacar en la UI (poniendo destacado: true)
+// IDs que quieres destacar en la UI
 const DESTACADOS = ["blue", "oficial"];
 
 export async function getDolarRates(): Promise<DolarData> {
   try {
+    // 1. Fetch Cotizaciones EN VIVO desde DolarApi
     const response = await fetch(API_URL, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      // Next.js caching: revalidar cada 60 segundos
-      next: { revalidate: 60 } 
+      next: { revalidate: 60 } // Cache de 60 segundos
     });
 
     if (!response.ok) {
@@ -33,31 +35,58 @@ export async function getDolarRates(): Promise<DolarData> {
 
     const rawData: DolarApiResponse[] = await response.json();
 
-    // Estructuras de salida
+    // 2. Fetch HISTORIAL (Cierre de Ayer) desde MongoDB
+    let historyRates: any = null;
+    try {
+      await connectDB();
+      // Buscamos el último registro que NO sea el de hoy
+      const today = new Date().toISOString().split('T')[0];
+      
+      const lastRecord = await RateHistory.findOne({ date: { $ne: today } })
+        .sort({ date: -1 }) // El más reciente anterior a hoy
+        .lean();
+        
+      if (lastRecord) {
+        historyRates = lastRecord.rates;
+      }
+    } catch (dbError) {
+      console.warn("⚠️ No se pudo leer el historial de DB, las variaciones se mostrarán en 0.");
+    }
+
+    // 3. Procesamiento y Cálculo
     const cotizacionesMap: CotizacionesMap = {};
     const cotizacionesArray: Cotizacion[] = [];
 
     rawData.forEach((item) => {
-      // 1. Obtener el ID interno mapeado
+      // Obtener el ID interno mapeado
       const internalId = ID_MAPPING[item.casa];
 
-      // Si la casa no está en nuestro mapa (ej: 'mayorista' si no lo usaras), la ignoramos o la agregamos
-      if (!internalId) return; 
+      // Si la casa no está en nuestro mapa, la ignoramos
+      if (!internalId) return;
 
-      // 2. Crear el objeto normalizado
+      // CÁLCULO DE VARIACIÓN: (Actual - Ayer) / Ayer * 100
+      let variacionCalculada = 0;
+      
+      if (historyRates && historyRates[internalId]) {
+        const precioAyer = historyRates[internalId].venta;
+        // Evitamos división por cero
+        if (precioAyer > 0) {
+          variacionCalculada = ((item.venta - precioAyer) / precioAyer) * 100;
+        }
+      }
+
+      // Crear el objeto normalizado
       const cotizacion: Cotizacion = {
         id: internalId,
         destacado: DESTACADOS.includes(internalId),
         compra: item.compra,
         venta: item.venta,
-        // La API no da variación diaria. 
-        // Solución Pro: Devolver 0 o calcularlo si tuvieramos histórico.
-        variacion: 0, 
+        variacion: variacionCalculada, // Dato calculado contra MongoDB
         fechaActualizacion: item.fechaActualizacion,
         nombreDisplay: item.nombre
       };
 
-      // 3. Llenar las estructuras
+      // Llenar las estructuras
       cotizacionesMap[internalId] = cotizacion;
       cotizacionesArray.push(cotizacion);
     });
@@ -69,7 +98,7 @@ export async function getDolarRates(): Promise<DolarData> {
 
   } catch (error) {
     console.error("Error en dolar-service:", error);
-    // Fallback silencioso: Devolver estructuras vacías para no romper la UI
+    // Fallback silencioso para no romper la UI
     return { array: [], object: {} };
   }
 }
