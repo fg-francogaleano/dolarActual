@@ -45,10 +45,11 @@ export async function getDolarRates(): Promise<DolarData> {
       const lastRecord = await RateHistory.findOne({ date: { $ne: today } })
         .sort({ date: -1 }) // El más reciente anterior a hoy
         .lean();
-        
       if (lastRecord) {
+        console.log(lastRecord)
         historyRates = lastRecord.rates;
       }
+      console.log("[historyRates]",historyRates)
     } catch (dbError) {
       console.warn("⚠️ No se pudo leer el historial de DB, las variaciones se mostrarán en 0.");
     }
@@ -90,7 +91,6 @@ export async function getDolarRates(): Promise<DolarData> {
       cotizacionesMap[internalId] = cotizacion;
       cotizacionesArray.push(cotizacion);
     });
-
     return {
       array: cotizacionesArray,
       object: cotizacionesMap

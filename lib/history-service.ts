@@ -30,6 +30,7 @@ export async function saveDailyRates() {
   const today = new Date().toISOString().split('T')[0];
 
   // 4. Guardamos o Actualizamos (Upsert)
+  console.log("ratesToSave",ratesToSave)
   const result = await RateHistory.findOneAndUpdate(
     { date: today },
     { 
@@ -41,6 +42,6 @@ export async function saveDailyRates() {
     { upsert: true, new: true }
   );
 
-  console.log(`✅ [History Service] Snapshot guardado para ${today}`);
+  console.log(`✅ [History Service] Snapshot guardado para ${today}`, result);
   return result;
 }
