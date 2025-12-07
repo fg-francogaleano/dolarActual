@@ -72,6 +72,7 @@ export async function getDolarRates(): Promise<DolarData> {
         const precioAyer = historyRates[internalId].venta;
         // Evitamos división por cero
         if (precioAyer > 0) {
+          console.log(item.venta, precioAyer)
           variacionCalculada = ((item.venta - precioAyer) / precioAyer) * 100;
         }
       }
@@ -82,7 +83,7 @@ export async function getDolarRates(): Promise<DolarData> {
         destacado: DESTACADOS.includes(internalId),
         compra: item.compra,
         venta: item.venta,
-        variacion: variacionCalculada, // Dato calculado contra MongoDB
+        variacion: variacionCalculada, // Dato calculado contra Mongo DB
         fechaActualizacion: item.fechaActualizacion,
         nombreDisplay: item.nombre
       };
