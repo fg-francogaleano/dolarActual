@@ -3,6 +3,7 @@
 import { DolarApiResponse, Cotizacion, CotizacionesMap, DolarData } from "@/types/dolar";
 import connectDB from '@/lib/db';
 import RateHistory from '@/models/RateHistory';
+import { getArgentinaDate } from '@/lib/date-utils'; // <--- IMPORTA ESTO
 
 const API_URL = "https://dolarapi.com/v1/dolares";
 
@@ -40,7 +41,7 @@ export async function getDolarRates(): Promise<DolarData> {
     try {
       await connectDB();
       // Buscamos el último registro que NO sea el de hoy
-      const today = new Date().toISOString().split('T')[0];
+      const today = getArgentinaDate()
       
       const lastRecord = await RateHistory.findOne({ date: { $ne: today } })
         .sort({ date: -1 }) // El más reciente anterior a hoy
