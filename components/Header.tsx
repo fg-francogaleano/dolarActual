@@ -189,7 +189,7 @@ const Header: React.FC = () => {
             </Link>
 
             {/* DROPDOWN NOTICIAS */}
-            <div className="relative group border border-amber-600">
+            <div className="relative group">
               <button className={getDesktopLinkClasses(isNewsActive())}>
                 {t("nav.news")} <ChevronDown className="ml-1 h-4 w-4" />
               </button>
