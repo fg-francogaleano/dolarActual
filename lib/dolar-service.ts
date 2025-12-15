@@ -47,10 +47,8 @@ export async function getDolarRates(): Promise<DolarData> {
         .sort({ date: -1 }) // El más reciente anterior a hoy
         .lean();
       if (lastRecord) {
-        console.log(lastRecord)
         historyRates = lastRecord.rates;
       }
-      console.log("[historyRates]",historyRates)
     } catch (dbError) {
       console.warn("⚠️ No se pudo leer el historial de DB, las variaciones se mostrarán en 0.");
     }
@@ -73,7 +71,6 @@ export async function getDolarRates(): Promise<DolarData> {
         const precioAyer = historyRates[internalId].venta;
         // Evitamos división por cero
         if (precioAyer > 0) {
-          console.log(item.venta, precioAyer)
           variacionCalculada = ((item.venta - precioAyer) / precioAyer) * 100;
         }
       }

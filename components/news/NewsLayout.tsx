@@ -1,0 +1,163 @@
+"use client";
+
+import React from 'react';
+import NewsHero, { NewsItem } from './NewsHero';
+import { useNewsUrl } from '@/lib/hooks/useNewsUrl';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight, Filter } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+
+interface NewsLayoutProps {
+  initialNews: NewsItem[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+  categorySlug: string; // 'economia', 'todas', etc.
+}
+
+const MEDIOS_FILTER = ['Clarin', 'La Nacion', 'Ambito', 'Infobae', 'Cronista', 'IProfesional'];
+const SECTIONS_FILTER = ['Economia', 'Finanzas', 'Politica', 'Negocios'];
+
+export default function NewsLayout({ initialNews, pagination, categorySlug }: NewsLayoutProps) {
+  const { setPage, toggleFilter, isActive, currentPage } = useNewsUrl();
+  const isAll = categorySlug === 'todas';
+
+  // 3.1 Separación: Primeras 3 para el Grid, resto para la lista
+  const heroNews = initialNews.slice(0, 3);
+  const listNews = initialNews.slice(3);
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      
+      {/* HEADER DE SECCIÓN + FILTROS (Solo en /todas) */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white capitalize mb-4">
+          {isAll ? 'Todas las Noticias' : categorySlug}
+        </h1>
+        
+        {isAll && (
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="flex flex-col gap-4">
+              {/* Filtro Secciones */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs font-bold uppercase text-gray-500 mr-2 flex items-center"><Filter className="w-3 h-3 mr-1"/> Secciones:</span>
+                {SECTIONS_FILTER.map(sec => (
+                  <Badge 
+                    key={sec} 
+                    variant={isActive(sec) ? "default" : "outline"}
+                    className="cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900"
+                    onClick={() => toggleFilter(sec)}
+                  >
+                    {sec}
+                  </Badge>
+                ))}
+              </div>
+              {/* Filtro Medios */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs font-bold uppercase text-gray-500 mr-2 flex items-center"><Filter className="w-3 h-3 mr-1"/> Medios:</span>
+                {MEDIOS_FILTER.map(media => (
+                  <Badge 
+                    key={media} 
+                    variant={isActive(media) ? "secondary" : "outline"}
+                    className="cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
+                    onClick={() => toggleFilter(media)}
+                  >
+                    {media}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 3.1 RENDERIZADO JERARQUIZADO (GRID) */}
+      {heroNews.length > 0 ? (
+        <NewsHero 
+          news={heroNews} 
+          title="Destacado" 
+          accentColor={isAll ? "bg-purple-500" : "bg-blue-600"} 
+        />
+      ) : (
+        <div className="text-center py-20 text-gray-500">No hay noticias que coincidan con los filtros.</div>
+      )}
+
+      {/* 3.2 RESTO DE NOTICIAS (CARDS HOMOGÉNEAS) */}
+      {listNews.length > 0 && (
+        <section className="mb-12">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-6 border-l-4 border-blue-500 pl-3">
+            Más Noticias
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {listNews.map((item, idx) => (
+              <a
+                key={item._id || idx}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group dark:bg-slate-900 dark:border-slate-800 rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full"
+              >
+                <div className="aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-800">
+                  {item.image ? (
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : null}
+                </div>
+                <div className="flex-1 px-4 md:py-4 md:px-0 flex flex-col justify-between p-2">
+                    <div>
+                      {/* MEDIO + FAVICON */}
+                      <div className="flex items-center gap-2 mb-1">
+                        {item.favicon && (
+                          <img
+                            src={item.favicon}
+                            alt={item.creator}
+                            className="w-3 h-3 rounded-full"
+                          />
+                        )}
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
+                          {item.creator}
+                        </span>
+                      </div>
+
+                      <h5 className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 line-clamp-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {item.title}
+                      </h5>
+                    </div>
+                  </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* PAGINACIÓN */}
+      {pagination.totalPages > 1 && (
+        <div className="flex justify-center items-center gap-4 py-8 border-t border-slate-200 dark:border-slate-800">
+          <Button
+            variant="outline"
+            disabled={!pagination.hasPrevPage}
+            onClick={() => setPage(currentPage - 1)}
+          >
+            <ChevronLeft className="w-4 h-4 mr-2" /> Anterior
+          </Button>
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            Página {pagination.currentPage} de {pagination.totalPages}
+          </span>
+          <Button
+            variant="outline"
+            disabled={!pagination.hasNextPage}
+            onClick={() => setPage(currentPage + 1)}
+          >
+            Siguiente <ChevronRight className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}

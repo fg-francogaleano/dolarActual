@@ -99,7 +99,8 @@ export default function NewsGridVariantA({
                   <span>{mainNews.creator}</span>
                 </div>
               </div>
-
+              
+              {/* TITULO */}
               <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6 md:p-10 z-10">
                 <h4 className="text-white text-2xl md:text-4xl font-extrabold leading-tight mb-3 drop-shadow-lg group-hover:text-[#55EEF9] transition-colors">
                   {mainNews.title}
