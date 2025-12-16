@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -25,7 +25,7 @@ interface EvolutionChartProps {
   data: ChartDataPoint[];
 }
 
-// Interfaz manual para el Tooltip para evitar conflictos con los genéricos de Recharts
+// Interfaz manual para el Tooltip
 interface CustomTooltipProps {
   active?: boolean;
   payload?: {
@@ -52,7 +52,7 @@ const LINES_CONFIG = [
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl">
+      <div className="bg-white dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl z-50">
         <p className="font-bold text-slate-700 dark:text-slate-200 mb-2">{label}</p>
         {payload.map((entry) => (
           <div key={entry.name} className="flex items-center gap-2 text-sm mb-1">
@@ -86,9 +86,24 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
     );
   };
 
-  // Filtrar datos según el rango de tiempo seleccionado (slice del final del array)
-  // Asumimos que data viene ordenada cronológicamente
-  const visibleData = timeRange === 0 ? data : data.slice(-timeRange);
+  // 1. Filtrado por rango de tiempo
+  const slicedData = timeRange === 0 ? data : data.slice(-timeRange);
+
+  // 2. PROCESAMIENTO DE DATOS (FIX CRÍTICO):
+  // Convertimos explícitamente a números y filtramos nulos para evitar líneas rectas por error de tipo
+  const processedData = useMemo(() => {
+    return slicedData.map(item => {
+      const newItem: any = { ...item };
+      LINES_CONFIG.forEach(config => {
+        // Si existe el valor, forzamos la conversión a Number.
+        // Recharts necesita números puros para escalar correctamente el eje Y.
+        if (newItem[config.key] !== undefined && newItem[config.key] !== null) {
+          newItem[config.key] = Number(newItem[config.key]);
+        }
+      });
+      return newItem;
+    });
+  }, [slicedData]);
 
   return (
     <Card className="p-6 w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
@@ -101,7 +116,7 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
         {/* Selector de Rango */}
         <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 overflow-x-auto max-w-full">
           {[
-            { label: '7D', value: 7 },   // <--- NUEVA OPCIÓN
+            { label: '7D', value: 7 },
             { label: '30D', value: 30 },
             { label: '90D', value: 90 },
             { label: '1A', value: 365 },
@@ -148,10 +163,11 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
       <div className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={visibleData}
-            margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+            data={processedData}
+            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" className="dark:stroke-slate-700" />
+            
             <XAxis 
               dataKey="displayDate" 
               stroke="#94a3b8" 
@@ -159,12 +175,19 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
               tickMargin={10}
               minTickGap={30}
             />
+            
+            {/* FIX DOMINIO YAXIS: 
+               Usamos 'auto' o ['dataMin', 'dataMax'] para que el gráfico no empiece en 0.
+               Esto hace visibles las pequeñas variaciones.
+            */}
             <YAxis 
+              domain={['auto', 'auto']} 
               stroke="#94a3b8" 
               fontSize={12} 
               tickFormatter={(value) => `$${value}`}
               width={60}
             />
+            
             <Tooltip content={<CustomTooltip />} />
             
             {LINES_CONFIG.map((line) => (
@@ -179,6 +202,7 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
                   dot={false}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                   animationDuration={1000}
+                  connectNulls={true} // Conecta puntos si faltan datos intermedios
                 />
               )
             ))}
