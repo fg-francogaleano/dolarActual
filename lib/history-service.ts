@@ -92,6 +92,51 @@ export async function saveDailyRates() {
   }
 }
 
+export async function getHistoricalEvolution(days: number = 365) {
+  try {
+    await connectDB();
+    
+    // Calculamos la fecha de corte
+    const dateLimit = new Date();
+    dateLimit.setDate(dateLimit.getDate() - days);
+    const dateLimitString = dateLimit.toISOString().split('T')[0];
+
+    // Buscamos registros ordenados por fecha ascendente (antiguos primero)
+    const records = await RateHistory.find({ 
+      date: { $gte: dateLimitString } 
+    })
+    .sort({ date: 1 })
+    .lean();
+
+    // Transformamos los datos al formato que necesita Recharts:
+    // Array [ { date: '2023-01-01', blue: 100, oficial: 90, mep: 95 }, ... ]
+    const chartData = records.map((record: any) => {
+      const point: any = {
+        date: record.date, // Eje X
+        // Formatear fecha para display si se desea (DD/MM)
+        displayDate: new Date(record.date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })
+      };
+
+      // Aplanamos las tasas importantes para el gráfico
+      if (record.rates) {
+        if (record.rates.blue) point.blue = record.rates.blue.venta;
+        if (record.rates.oficial) point.oficial = record.rates.oficial.venta;
+        if (record.rates.mep) point.mep = record.rates.mep.venta;
+        if (record.rates.ccl) point.ccl = record.rates.ccl.venta;
+        if (record.rates.cripto) point.cripto = record.rates.cripto.venta;
+        // Agrega otras si deseas
+      }
+      return point;
+    });
+
+    return chartData;
+
+  } catch (error) {
+    console.error("Error obteniendo evolución histórica:", error);
+    return [];
+  }
+}
+
 // VERSION ANTIGUA
 // import connectDB from '@/lib/db';
 // import RateHistory from '@/models/RateHistory';
