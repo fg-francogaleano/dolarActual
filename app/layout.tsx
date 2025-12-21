@@ -12,8 +12,11 @@ import Footer from "@/components/Footer";
 // import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Dolaractual.com",
+  title: "DolarActual.com",
   description: "Cotizaciones del dólar en Argentina en tiempo real",
+    icons: {
+    icon: "/Logo-favicom",
+  },
 };
 
 export default function RootLayout({

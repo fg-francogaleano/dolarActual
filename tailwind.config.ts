@@ -9,38 +9,57 @@ const config: Config = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        // Tu nuevo color base "Electric Cyan"
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--primary))", // El anillo de foco usa tu color
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: '#55EEF9', // Tu color
-          hover: '#22D3EE',   // Un poco más oscuro para hovers
-          text: '#0891B2',    // Para usar como color de texto sobre blanco (legibilidad)
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
-        // Un secundario Indigo para dar profundidad
         secondary: {
-          DEFAULT: '#6366F1',
-          dark: '#4338CA',
+          DEFAULT: "hsl(var(--accent))", // Usamos accent como secundario
+          foreground: "hsl(var(--accent-foreground))",
         },
-        // Semántica "Neo"
+        destructive: {
+          DEFAULT: "hsl(var(--trend-down))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        // TUS COLORES PERSONALIZADOS PARA COTIZACIONES
         trend: {
-          up: '#34D399',    // Verde menta neon
-          down: '#F43F5E',  // Rojo rosado
-          neutral: '#FBBF24',
+          up: "hsl(var(--trend-up))",
+          down: "hsl(var(--trend-down))",
         },
-        // Fondos oscuros profundos (Dark Navy)
-        dark: {
-          bg: '#0B1120',      // Fondo principal muy oscuro
-          surface: '#1E293B', // Tarjetas
-          border: '#334155',  // Bordes sutiles
-        }
       },
-      // Sobrescribimos la fuente Montserrat si no la tienes configurada
-      fontFamily: {
-        sans: ['Montserrat', 'sans-serif'],
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
   },
-  plugins: [],
+  // plugins: [require("tailwindcss-animate")],
 };
 export default config;

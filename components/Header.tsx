@@ -22,90 +22,86 @@ const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
+  const [isQuotesOpen, setIsQuotesOpen] = useState(false);
+  const [isNewsOpen, setIsNewsOpen] = useState(false);
+
   const toggleSubmenu = (key: string) => {
     setOpenSubmenu(openSubmenu === key ? null : key);
   };
 
-  // 1. Configuración del Menú de Cotizaciones
+  // 1. Configuración del Menú de Cotizaciones (Traducido)
   const quotesMenu = {
-    label: "Cotizaciones",
+    label: t("nav.quotations"),
     mainPath: "/cotizaciones",
     sections: [
       {
-        title: "Dólares",
+        title: t("quotations.sectionDollars"),
         items: [
-          { label: "Blue", path: "/blue" },
-          { label: "Oficial", path: "/oficial" },
-          { label: "MEP", path: "/mep" },
-          { label: "CCL", path: "/ccl" },
-          { label: "Turista", path: "/turista" },
-          { label: "Mayorista", path: "/mayorista" },
-          { label: "Cripto (Dólar)", path: "/dolar-cripto" },
+          { label: t("quotations.blue"), path: "/blue" },
+          { label: t("quotations.oficial"), path: "/oficial" },
+          { label: t("quotations.mep"), path: "/mep" },
+          { label: t("quotations.ccl"), path: "/ccl" },
+          { label: t("quotations.turista"), path: "/turista" },
+          { label: t("quotations.mayorista"), path: "/mayorista" },
+          { label: t("quotations.dolarCrypto"), path: "/dolar-cripto" },
         ],
       },
       {
-        title: "Otras Divisas",
+        title: t("quotations.sectionFiat"),
         items: [
-          { label: "Euro", path: "/euro" },
-          { label: "Real", path: "/real" },
-          { label: "Peso Uruguayo", path: "/peso-uruguayo" },
-          { label: "Peso Chileno", path: "/peso-chileno" },
+          { label: t("quotations.euro"), path: "/euro" },
+          { label: t("quotations.real"), path: "/real" },
+          { label: t("quotations.uruguayo"), path: "/peso-uruguayo" },
+          { label: t("quotations.chileno"), path: "/peso-chileno" },
         ],
       },
       {
-        title: "Criptomonedas",
+        title: t("quotations.sectionCryptos"),
         items: [
-          { label: "Bitcoin", path: "/bitcoin" },
-          { label: "Ethereum", path: "/ethereum" },
-          { label: "XRP", path: "/xrp" },
-          { label: "BNB", path: "/bnb" },
-          { label: "Solana", path: "/solana" },
-          { label: "USDT", path: "/usdt" },
+          { label: t("quotations.bitcoin"), path: "/bitcoin" },
+          { label: t("quotations.ethereum"), path: "/ethereum" },
+          { label: t("quotations.xrp"), path: "/xrp" },
+          { label: t("quotations.bnb"), path: "/bnb" },
+          { label: t("quotations.solana"), path: "/solana" },
+          { label: t("quotations.usdt"), path: "/usdt" },
         ],
       },
     ],
   };
 
-  // 2. Configuración del Menú de Noticias
+  // 2. Configuración del Menú de Noticias (Traducido)
   const newsMenu = [
-    { label: "Economía", path: "/economia" },
-    { label: "Finanzas", path: "/finanzas" },
-    { label: "Política", path: "/politica" },
-    { label: "Negocios", path: "/negocios" },
-    { label: "Todas las noticias", path: "/todas" },
+    { label: t("news.economy"), path: "/economia" },
+    { label: t("news.finance"), path: "/finanzas" },
+    { label: t("news.politics"), path: "/politica" },
+    { label: t("news.business"), path: "/negocios" },
   ];
 
   // --- LÓGICA DE ESTADO ACTIVO ---
 
-  // Verifica rutas simples (Home, Blog, FAQ, etc)
   const isSimpleActive = (path: string) => {
     if (path === "/") return pathname === "/";
     return pathname.startsWith(path);
   };
 
-  // Verifica si estamos en alguna ruta de Cotizaciones
   const isQuotesActive = () => {
     if (pathname === "/cotizaciones") return true;
-    // Busca si la ruta actual coincide con alguno de los items del menú de cotizaciones
     return quotesMenu.sections.some((section) =>
       section.items.some((item) => pathname === item.path)
     );
   };
 
-  // Verifica si estamos en alguna ruta de Noticias
   const isNewsActive = () => {
     return newsMenu.some((item) => pathname === item.path);
   };
 
-  // Generador de clases CSS para Desktop
   const getDesktopLinkClasses = (isActive: boolean) =>
-    `flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+    `flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
       isActive
         ? "text-[#1976D2] dark:bg-[#1976D2] dark:text-white"
-        : "text-[#212529] dark:text-[#E2E8F0] hover:bg-gray-100 dark:hover:bg-gray-700"
+        : "text-[#212529] dark:text-[#E2E8F0] hover:text-gray-500 dark:hover:bg-gray-700"
     }`;
 
-  // Generador de clases CSS para Mobile
   const getMobileLinkClasses = (isActive: boolean) =>
     `block px-3 py-3 text-base font-medium border-b dark:border-gray-800 transition-colors ${
       isActive
@@ -117,17 +113,17 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur dark:bg-[#1A202C]/95 dark:border-[#2D3748] transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
+          {/* LOGO + NOMBRE */}
           <Link
             href="/"
-            className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+            className="flex items-center space-x-3 transition-opacity hover:opacity-80"
           >
-            <div
-              className="font-bold text-2xl text-[#0D47A1] dark:text-[#B0C4DE]"
-              style={{ fontFamily: "Montserrat, sans-serif" }}
-            >
-              Dolaractual.com
-            </div>
+            {/* Aquí implementamos el logo icono */}
+            <img
+              src="/logo1.png"
+              alt="DolarActual Logo"
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* --- DESKTOP NAVIGATION --- */}
@@ -140,27 +136,47 @@ const Header: React.FC = () => {
             </Link>
 
             {/* DROPDOWN COTIZACIONES */}
-            <div className="relative group">
-              <button className={getDesktopLinkClasses(isQuotesActive())}>
-                {t("nav.quotations")} <ChevronDown className="ml-1 h-4 w-4" />
+            <div
+              className="relative"
+              onMouseEnter={() => setIsQuotesOpen(true)}
+              onMouseLeave={() => setIsQuotesOpen(false)}
+            >
+              <button
+                className={getDesktopLinkClasses(isQuotesActive())}
+                onClick={() => setIsQuotesOpen(!isQuotesOpen)}
+              >
+                {t("nav.quotations")}{" "}
+                <ChevronDown
+                  className={`ml-1 h-4 w-4 transition-transform ${
+                    isQuotesOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
 
-              {/* Mega Menu Cotizaciones */}
-              <div className="absolute left-0 top-full mt-1 w-[600px] bg-white dark:bg-[#1A202C] border dark:border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 grid grid-cols-3 gap-4 p-5 z-50">
+              <div
+                className={`absolute left-0 top-full mt-1 w-[600px] bg-white dark:bg-[#1A202C] border dark:border-gray-700 rounded-lg shadow-xl z-50 grid grid-cols-3 gap-4 px-5 py-3 transition-all duration-200 ${
+                  isQuotesOpen
+                    ? "opacity-100 visible translate-y-0"
+                    : "opacity-0 invisible -translate-y-2"
+                }`}
+              >
                 {quotesMenu.sections.map((section) => (
-                  <div key={section.title}>
-                    <h4 className="font-bold text-xs text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide border-b pb-1 dark:border-gray-700">
+                  <div
+                    key={section.title}
+                    onClick={() => setIsQuotesOpen(!isQuotesOpen)}
+                  >
+                    <h4 className="font-bold text-xs text-gray-500 dark:text-gray-400 mb-2 tracking-wide border-b pb-1 dark:border-gray-700">
                       {section.title}
                     </h4>
-                    <ul className="space-y-1">
+                    <ul className="">
                       {section.items.map((item) => (
                         <li key={item.path}>
                           <Link
                             href={item.path}
-                            className={`block px-2 py-1.5 text-sm rounded-md transition-colors ${
+                            className={`block py-1.5 text-sm rounded-md transition-colors ${
                               pathname === item.path
-                                ? "text-[#1976D2] bg-blue-50 dark:text-[#4299E1] dark:bg-blue-900/20 font-medium"
-                                : "text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-300"
+                                ? "text-[#1976D2] dark:text-[#4299E1] dark:bg-blue-900/20 font-medium"
+                                : "text-gray-700 dark:text-gray-200 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-300"
                             }`}
                           >
                             {item.label}
@@ -170,12 +186,12 @@ const Header: React.FC = () => {
                     </ul>
                   </div>
                 ))}
-                <div className="col-span-3 mt-2 pt-2 border-t dark:border-gray-700 text-center">
+                <div className="col-span-3 border-t pt-2 mt-2 dark:border-gray-700 text-center">
                   <Link
                     href="/cotizaciones"
                     className="text-sm font-bold text-blue-600 hover:underline"
                   >
-                    Ver todas las cotizaciones →
+                    {t("quotations.viewAll")} →
                   </Link>
                 </div>
               </div>
@@ -189,28 +205,55 @@ const Header: React.FC = () => {
             </Link>
 
             {/* DROPDOWN NOTICIAS */}
-            <div className="relative group">
-              <button className={getDesktopLinkClasses(isNewsActive())}>
-                {t("nav.news")} <ChevronDown className="ml-1 h-4 w-4" />
+            <div
+              className="relative"
+              onMouseEnter={() => setIsNewsOpen(true)}
+              onMouseLeave={() => setIsNewsOpen(false)}
+            >
+              <button
+                className={getDesktopLinkClasses(isNewsActive())}
+                onClick={() => setIsNewsOpen(!isNewsOpen)}
+              >
+                {t("nav.news")}{" "}
+                <ChevronDown
+                  className={`ml-1 h-4 w-4 transition-transform ${
+                    isNewsOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
 
-              <div className="cursor-pointer absolute left-0 top-full mt-1 w-48 bg-white dark:bg-[#1A202C] border dark:border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
-                <div className="px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider border-b dark:border-gray-700 mb-1">
-                  Secciones
+              <div
+                className={`p-5 absolute left-0 top-full mt-1 w-48 bg-white dark:bg-[#1A202C] border dark:border-gray-700 rounded-lg shadow-xl z-50 px-5 py-3 transition-all duration-200 ${
+                  isNewsOpen
+                    ? "opacity-100 visible translate-y-0"
+                    : "opacity-0 invisible -translate-y-2"
+                }`}
+              >
+                <div className="py-1 text-xs font-bold text-gray-500 tracking-wider border-b dark:border-gray-700 mb-1">
+                  {t("news.sections")}
                 </div>
                 {newsMenu.map((item) => (
                   <Link
+                    onClick={() => setIsNewsOpen(!isNewsOpen)}
                     key={item.path}
                     href={item.path}
-                    className={`block px-4 py-2 text-sm transition-colors ${
+                    className={`block py-2 text-sm transition-colors ${
                       pathname === item.path
-                        ? "text-[#1976D2] bg-blue-50 dark:text-[#4299E1] dark:bg-blue-900/20 font-medium"
-                        : "text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600"
+                        ? "text-[#1976D2] dark:text-[#4299E1] dark:bg-blue-900/20 font-medium"
+                        : "text-gray-700 dark:text-gray-200 dark:hover:bg-blue-900/20 hover:text-blue-600"
                     }`}
                   >
                     {item.label}
                   </Link>
                 ))}
+                <div className="col-span-3 mt-2 pt-2 border-t dark:border-gray-700 text-center">
+                  <Link
+                    href="/cotizaciones"
+                    className="text-sm font-bold text-blue-600 hover:underline"
+                  >
+                    {t("news.all")} →
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -239,7 +282,7 @@ const Header: React.FC = () => {
           <div className="flex items-center space-x-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="cursor-pointer">
                   <Globe className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -252,15 +295,19 @@ const Header: React.FC = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="cursor-pointer">
-              <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                {theme === "light" ? (
-                  <Moon className="h-5 w-5" />
-                ) : (
-                  <Sun className="h-5 w-5" />
-                )}
-              </Button>
-            </div>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="cursor-pointer"
+            >
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
+            </Button>
 
             <Button
               variant="ghost"
@@ -310,10 +357,10 @@ const Header: React.FC = () => {
                 <div className="bg-gray-50 dark:bg-gray-900/50 pb-2">
                   {quotesMenu.sections.map((section) => (
                     <div key={section.title} className="px-4 py-2">
-                      <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                      <h5 className="text-xs font-bold text-gray-500 tracking-wider mb-2">
                         {section.title}
                       </h5>
-                      <div className="space-y-1 pl-2 border-l-2 border-gray-200 dark:border-gray-700">
+                      <div className="space-y-1 pl-2 border-gray-200 dark:border-gray-700">
                         {section.items.map((item) => (
                           <Link
                             key={item.path}
@@ -336,7 +383,7 @@ const Header: React.FC = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className="block px-4 py-3 text-sm font-bold text-blue-600 text-center bg-blue-50 dark:bg-blue-900/20 mt-2"
                   >
-                    Ver todas las cotizaciones
+                    {t("quotations.viewAll")}
                   </Link>
                 </div>
               )}
@@ -370,10 +417,10 @@ const Header: React.FC = () => {
 
               {openSubmenu === "noticias" && (
                 <div className="bg-gray-50 dark:bg-gray-900/50 pb-2">
-                  <div className="px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                    Secciones
+                  <div className="px-4 py-2 text-xs font-bold text-gray-500 tracking-wider">
+                    {t("news.sections")}
                   </div>
-                  <div className="pl-4 border-l-2 border-gray-200 dark:border-gray-700 ml-4 space-y-1">
+                  <div className="pl-4 border-gray-200 dark:border-gray-700 ml-4 space-y-1">
                     {newsMenu.map((item) => (
                       <Link
                         key={item.path}
@@ -388,6 +435,13 @@ const Header: React.FC = () => {
                         {item.label}
                       </Link>
                     ))}
+                    <Link
+                      href="/cotizaciones"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-3 text-sm font-bold text-blue-600 text-center bg-blue-50 dark:bg-blue-900/20 mt-2"
+                    >
+                      {t("news.all")}
+                    </Link>
                   </div>
                 </div>
               )}
@@ -424,182 +478,3 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-
-// VERSION MAS ANTIGUA
-// "use client";
-
-// import Link from "next/link";
-// import { usePathname } from "next/navigation";
-// import { useState } from "react";
-
-// import { Moon, Sun, Globe, Menu, X } from "lucide-react";
-
-// import { useTheme } from "@/contexts/ThemeContext";
-// import { useLanguage } from "@/contexts/LanguageContext";
-
-// import { Button } from "@/components/ui/button";
-// import {
-//   DropdownMenu,
-//   DropdownMenuTrigger,
-//   DropdownMenuContent,
-//   DropdownMenuItem
-// } from "@/components/ui/dropdown-menu";
-
-// interface NavItem {
-//   path: string;
-//   label: string;
-// }
-
-// const Header: React.FC = () => {
-//   const { theme, toggleTheme } = useTheme();
-//   const { language, changeLanguage, t } = useLanguage();
-
-//   const pathname = usePathname();
-//   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-
-//   const navItems: NavItem[] = [
-//     { path: "/", label: t("nav.home") },
-//     { path: "/cotizaciones", label: t("nav.quotations") },
-//     { path: "/historial", label: t("nav.history") },
-//     { path: "/conversor", label: t("nav.converter") },
-//     { path: "/noticias", label: t("nav.news") },
-//     { path: "/blog", label: t("nav.blog") },
-//     { path: "/faq", label: t("nav.faq") },
-//     // { path: "/contacto", label: t("nav.contact") },
-//   ];
-
-//   const isActive = (path: string): boolean => pathname === path;
-
-//   return (
-//     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur dark:bg-[#1A202C]/95 dark:border-[#2D3748] transition-colors duration-300">
-//       <div className="container mx-auto px-4">
-//         <div className="flex h-16 items-center justify-between">
-//           {/* Logo */}
-//           <Link
-//             href="/"
-//             className="flex items-center space-x-2 transition-opacity hover:opacity-80"
-//           >
-//             <div
-//               className="font-bold text-2xl text-[#0D47A1] dark:text-[#B0C4DE]"
-//               style={{ fontFamily: "Montserrat, sans-serif" }}
-//             >
-//               Dolaractual.com
-//             </div>
-//           </Link>
-
-//           {/* Desktop Navigation */}
-//           <nav className="hidden lg:flex items-center space-x-1">
-//             {navItems.map((item) => (
-//               <Link
-//                 key={item.path}
-//                 href={item.path}
-//                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-//                   isActive(item.path)
-//                     ? "bg-[#1976D2] text-white dark:bg-[#4299E1]"
-//                     : "text-[#212529] dark:text-[#E2E8F0] hover:bg-[#F9FAFB] dark:hover:bg-[#2D3748]"
-//                 }`}
-//                 style={{ fontFamily: "Montserrat, sans-serif" }}
-//               >
-//                 {item.label}
-//               </Link>
-//             ))}
-//           </nav>
-
-//           {/* Actions */}
-//           <div className="flex items-center space-x-2">
-//             {/* Language Selector */}
-//             <DropdownMenu>
-//               <DropdownMenuTrigger asChild>
-//                 <Button
-//                   variant="ghost"
-//                   size="icon"
-//                   className="hover:bg-[#F9FAFB] dark:hover:bg-[#2D3748]"
-//                 >
-//                   <Globe className="h-5 w-5" />
-//                   <span className="sr-only">Cambiar idioma</span>
-//                 </Button>
-//               </DropdownMenuTrigger>
-
-//               <DropdownMenuContent align="end">
-//                 <DropdownMenuItem
-//                   onClick={() => changeLanguage("es")}
-//                   className={
-//                     language === "es"
-//                       ? "bg-[#F9FAFB] dark:bg-[#2D3748]"
-//                       : undefined
-//                   }
-//                 >
-//                   Español
-//                 </DropdownMenuItem>
-
-//                 <DropdownMenuItem
-//                   onClick={() => changeLanguage("en")}
-//                   className={
-//                     language === "en"
-//                       ? "bg-[#F9FAFB] dark:bg-[#2D3748]"
-//                       : undefined
-//                   }
-//                 >
-//                   English
-//                 </DropdownMenuItem>
-//               </DropdownMenuContent>
-//             </DropdownMenu>
-
-//             {/* Theme Toggle */}
-//             <Button
-//               variant="ghost"
-//               size="icon"
-//               onClick={toggleTheme}
-//               className="hover:bg-[#F9FAFB] dark:hover:bg-[#2D3748] transition-colors"
-//             >
-//               {theme === "light" ? (
-//                 <Moon className="h-5 w-5" />
-//               ) : (
-//                 <Sun className="h-5 w-5" />
-//               )}
-//               <span className="sr-only">Cambiar tema</span>
-//             </Button>
-
-//             {/* Mobile Menu Button */}
-//             <Button
-//               variant="ghost"
-//               size="icon"
-//               className="lg:hidden hover:bg-[#F9FAFB] dark:hover:bg-[#2D3748]"
-//               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-//             >
-//               {mobileMenuOpen ? (
-//                 <X className="h-5 w-5" />
-//               ) : (
-//                 <Menu className="h-5 w-5" />
-//               )}
-//               <span className="sr-only">Menú</span>
-//             </Button>
-//           </div>
-//         </div>
-
-//         {/* Mobile Navigation */}
-//         {mobileMenuOpen && (
-//           <nav className="lg:hidden py-4 border-t dark:border-[#2D3748]">
-//             {navItems.map((item) => (
-//               <Link
-//                 key={item.path}
-//                 href={item.path}
-//                 onClick={() => setMobileMenuOpen(false)}
-//                 className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-//                   isActive(item.path)
-//                     ? "bg-[#1976D2] text-white dark:bg-[#4299E1]"
-//                     : "text-[#212529] dark:text-[#E2E8F0] hover:bg-[#F9FAFB] dark:hover:bg-[#2D3748]"
-//                 }`}
-//                 style={{ fontFamily: "Montserrat, sans-serif" }}
-//               >
-//                 {item.label}
-//               </Link>
-//             ))}
-//           </nav>
-//         )}
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Header;
