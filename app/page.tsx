@@ -110,7 +110,7 @@ export default function HomePage() {
       try {
         const data = await getDolarRates();
         if (data.array.length > 0) {
-          console.log(data)
+          // console.log(data)
           setCotizaciones(data.object);
         }
       } catch (error) {
@@ -125,7 +125,7 @@ export default function HomePage() {
   const { blue, mep, ccl, cripto, turista, oficial } = cotizaciones;
 
   return (
-    <main className="w-full bg-slate-50 dark:bg-[#0B1120] transition-colors duration-300">
+    <div className="w-full bg-slate-50 dark:bg-[#0B1120] transition-colors duration-300">
       {/* SECCIÓN COTIZACIONES */}
       <section className="py-16 container mx-auto px-4">
         <div className="flex items-center justify-between mb-10">
@@ -135,7 +135,6 @@ export default function HomePage() {
           >
             {t("home.featured")}
           </h2>
-          {loading && <Loader2 className="animate-spin text-[#55EEF9]" />}
         </div>
 
         <div className="sm:block">
@@ -166,49 +165,47 @@ export default function HomePage() {
       {/* SECCIÓN NOTICIAS */}
       <section className="py-16 px-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120]">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-10">
               {t("home.latestNews")}
             </h2>
-            <Link
+            {/* <Link
               href="/noticias"
               className="hidden md:inline-block px-6 py-2 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:border-[#55EEF9] dark:hover:border-[#55EEF9] transition-colors"
             >
               Ver todas las noticias
-            </Link>
-          </div>
+            </Link> */}
 
           {/* 1. SECCIÓN DÓLAR (DINÁMICA DEL DÍA) */}
           <NewsGridVariantD
-            title="Mercado Cambiario & Divisas"
+            title={t("news.exchangeMarketCurrencies")}
             category="dólar" // Pasamos la query generada dinámicamente
             accentColor="bg-[#55EEF9]"
           />
 
           {/* 2. SECCIÓN ECONOMÍA (Variante A - 3 Cards) */}
           <NewsGridVariantA
-            title="Economía"
+             title={t("news.economy")}
             category="economia"
             accentColor="bg-emerald-500"
           />
 
           {/* 3. SECCIÓN FINANZAS (Variante B - 4 Cards) */}
           <NewsGridVariantB
-            title="Finanzas"
+            title={t("news.finance")}
             category="finanzas"
             accentColor="bg-purple-500"
           />
 
           {/* 4. SECCIÓN POLITICA (Variante C - 5 Cards) */}
           <NewsGridVariantC
-            title="Política"
+            title={t("news.politics")}
             category="politica"
             accentColor="bg-orange-500"
           />
 
           {/* 5. SECCIÓN NEGOCIOS (Variante E - 7 Cards) */}
           <NewsGridVariantE
-            title="Negocios"
+            title={t("news.business")}
             category="negocios"
             accentColor="bg-orange-500"
           />
@@ -223,7 +220,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 

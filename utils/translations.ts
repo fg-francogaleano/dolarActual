@@ -26,7 +26,7 @@ export const translations = {
       ccl: "Dólar CCL",
       turista: "Dólar Turista",
       mayorista: "Dólar Mayorista",
-      dolarCrypto: "Dólar Cripto", // Diferenciamos del genérico
+      cripto: "Dólar Cripto", // Diferenciamos del genérico
       
       // Otras Monedas
       euro: "Euro",
@@ -52,7 +52,7 @@ export const translations = {
       sectionDollars: "Dólares",
       sectionFiat: "Otras Divisas",
       sectionCryptos: "Criptomonedas",
-      viewAll: "Ver todas las cotizaciones",
+      viewAll: "Todas las cotizaciones",
     },
     converter: {
       title: "Conversor de Divisas",
@@ -66,6 +66,7 @@ export const translations = {
     news: {
       title: "Noticias",
       // Categorías
+      exchangeMarketCurrencies:"Mercado Cambiario & Divisas",
       economy: "Economía",
       finance: "Finanzas",
       politics: "Política",
@@ -120,7 +121,7 @@ export const translations = {
       ccl: "CCL Dollar",
       turista: "Tourist Dollar",
       mayorista: "Wholesale Dollar",
-      dolarCrypto: " Crypto Dollar",
+      cripto: " Crypto Dollar",
       
       // Other Currencies
       euro: "Euro",
@@ -146,7 +147,7 @@ export const translations = {
       sectionDollars: "Dollars",
       sectionFiat: "Other Currencies",
       sectionCryptos: "Cryptocurrencies",
-      viewAll: "View all quotes",
+      viewAll: "All quotes",
     },
     converter: {
       title: "Currency Converter",
@@ -160,6 +161,7 @@ export const translations = {
     news: {
       title: "News",
       // Categories
+      exchangeMarketCurrencies:"Exchange Market & Currencies",
       economy: "Economy",
       finance: "Finance",
       politics: "Politics",

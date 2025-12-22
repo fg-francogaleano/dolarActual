@@ -47,25 +47,87 @@ export const formatDate = (dateString: string): string => {
   }).format(date);
 };
 
-export const formatDateShort = (dateString: string): string => {
+export const formatDateShort = (
+  dateString: string, 
+  isMobile: boolean = false,
+  language: "es" | "en" = "es"
+): string => {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) return "-";
 
-  // Día
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+
+  // Diccionario de textos
+  const t = {
+    es: {
+      nowMobile: "Recién",
+      nowDesktop: "Actualizado recién",
+      agoMinMobile: (m: number) => `Hace ${m} min`,
+      agoMinDesktop: (m: number) => `Actualizado hace ${m} minuto${m !== 1 ? "s" : ""}`,
+      agoHourMobile: (h: number) => `Hace ${h} h`,
+      agoHourDesktop: (h: number) => `Actualizado hace ${h} hora${h !== 1 ? "s" : ""}`,
+      dateDesktopPrefix: "Actualizado el ",
+      at: " a las "
+    },
+    en: {
+      nowMobile: "Just now",
+      nowDesktop: "Updated just now",
+      agoMinMobile: (m: number) => `${m} min ago`,
+      agoMinDesktop: (m: number) => `Updated ${m} minute${m !== 1 ? "s" : ""} ago`,
+      agoHourMobile: (h: number) => `${h}h ago`,
+      agoHourDesktop: (h: number) => `Updated ${h} hour${h !== 1 ? "s" : ""} ago`,
+      dateDesktopPrefix: "Updated on ",
+      at: " at "
+    }
+  };
+
+  const texts = t[language];
+
+  // --- RANGO: 0 a 59 segundos ---
+  if (seconds < 60) {
+    return isMobile ? texts.nowMobile : texts.nowDesktop;
+  }
+
+  // --- RANGO: 1 a 59 minutos ---
+  if (minutes < 60) {
+    if (isMobile) {
+      return texts.agoMinMobile(minutes);
+    } else {
+      return texts.agoMinDesktop(minutes);
+    }
+  }
+
+  // --- RANGO: 1 a 23 horas ---
+  if (hours < 24) {
+    if (isMobile) {
+      return texts.agoHourMobile(hours);
+    } else {
+      return texts.agoHourDesktop(hours);
+    }
+  }
+
+  // --- RANGO: >= 24 horas (Fecha completa) ---
   const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+  const hh = date.getHours().toString().padStart(2, "0");
+  const mm = date.getMinutes().toString().padStart(2, "0");
 
-  // Mes abreviado
-  let month = new Intl.DateTimeFormat("es-AR", {
-    month: "short",
-  })
-    .format(date)
-    .replace(".", "");
+  if (isMobile) {
+    // Formato corto móvil: 16/12 20:57 (Igual para ambos idiomas, universal)
+    return `${day}/${month} ${hh}:${mm}`;
+  } else {
+    // Formato largo desktop
+    return `${texts.dateDesktopPrefix}${day}/${month}/${year}${texts.at}${hh}:${mm}`;
+  }
+};
 
-  month = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
-
-  // Hora HH:mm
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-
-  return `${day} ${month} - ${hours}:${minutes} hs`;
+export const getArgentinaDate = (): string => {
+  const now = new Date();
+  return now.toLocaleDateString('en-CA', { timeZone: 'America/Argentina/Buenos_Aires' });
 };

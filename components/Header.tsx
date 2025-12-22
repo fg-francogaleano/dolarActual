@@ -381,7 +381,7 @@ const Header: React.FC = () => {
                   <Link
                     href="/cotizaciones"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block px-4 py-3 text-sm font-bold text-blue-600 text-center bg-blue-50 dark:bg-blue-900/20 mt-2"
+                    className="block px-4 py-3 text-sm font-bold text-blue-600 text-center dark:bg-blue-900/20 mt-2"
                   >
                     {t("quotations.viewAll")}
                   </Link>
@@ -438,7 +438,7 @@ const Header: React.FC = () => {
                     <Link
                       href="/cotizaciones"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block px-4 py-3 text-sm font-bold text-blue-600 text-center bg-blue-50 dark:bg-blue-900/20 mt-2"
+                      className="block px-4 py-3 text-sm font-bold text-blue-600 text-center dark:bg-blue-900/20 mt-2"
                     >
                       {t("news.all")}
                     </Link>
