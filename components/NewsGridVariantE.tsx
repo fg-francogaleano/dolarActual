@@ -10,24 +10,30 @@ interface NewsItem {
   description: string;
   creator: string;
   image: string | null;
-  favicon: string; // Nuevo campo
+  favicon: string; 
+  category?: string;
+  source?: string;
 }
 
 interface NewsGridVariantEProps {
   title: string;
   category: string;
   accentColor?: string;
+  preloadedNews?: NewsItem[]; // <--- NUEVA PROP OPCIONAL
 }
 
 export default function NewsGridVariantE({
   title,
   category,
   accentColor = "bg-red-600",
+  preloadedNews, // Recibimos data inyectada
 }: NewsGridVariantEProps) {
-  const [news, setNews] = useState<NewsItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [news, setNews] = useState<NewsItem[]>(preloadedNews || []);
+  const [loading, setLoading] = useState(!preloadedNews);
 
   useEffect(() => {
+    if (preloadedNews && preloadedNews.length > 0) return;
+
     const fetchNews = async () => {
       try {
         setLoading(true);
@@ -45,7 +51,7 @@ export default function NewsGridVariantE({
     };
 
     fetchNews();
-  }, [category]);
+  }, [category, preloadedNews]);
 
   if (!loading && news.length === 0) return null;
 

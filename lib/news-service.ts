@@ -82,3 +82,138 @@ export async function getNewsPaginated({ page = 1, limit = 40, section, searchPa
     }
   };
 }
+
+export async function getRecentNewsPool(limit: number = 100) {
+  try {
+    await connectDB();
+    
+    // Obtenemos las últimas 100 (o el límite que sea) ordenadas por fecha
+    // .lean() es crucial para rendimiento
+    const news = await News.find({})
+      .sort({ pubDate: -1 })
+      .limit(limit)
+      .lean();
+
+    // Serializamos para evitar problemas de Next.js con objetos Date/ObjectId
+    return JSON.parse(JSON.stringify(news));
+  } catch (error) {
+    console.error("Error obteniendo pool de noticias:", error);
+    return [];
+  }
+}
+
+export async function getDollarNews(limit: number = 4) {
+  await connectDB();
+
+  // 1. DEFINICIÓN TEMPORAL: "Hoy" (Start of Day Argentina aprox)
+  // Calculamos el inicio del día para filtrar noticias viejas (ayer)
+  const now = new Date();
+  // Ajuste manual a zona horaria aprox Argentina (UTC-3) para determinar el inicio del día
+  // Si son las 01:00 UTC (22:00 Arg ayer), startOfDay debe ser ayer.
+  const argOffset = 3 * 60 * 60 * 1000; 
+  const startOfDay = new Date(now.getTime() - argOffset);
+  startOfDay.setUTCHours(0, 0, 0, 0); // Inicio del día actual
+
+  // 2. REGEX DE PRIORIDAD (Case Insensitive)
+  
+  // P1: Titulares "Hard" (Empiezan con Dólar hoy / Precio...)
+  // Regex anclada al inicio (^) o frases exactas muy fuertes
+  const p1_regex = /^(dolar hoy|dólar hoy|precio del d|cotizaci.n del d|dolar blue|dólar blue)/i;
+  // Refuerzo P1: Frases de "Minuto a minuto" o "En vivo"
+  const p1_live_regex = /(minuto a minuto|en vivo|al instante)/i;
+
+  // P2: Variantes específicas (MEP, CCL, Tarjeta, Oficial)
+  const p2_regex = /d.lar (ccl|mep|tarjeta|oficial|turista|mayorista)/i;
+
+  // P3: Contexto financiero (Brecha, suba, baja, city) PERO debe mencionar dolar
+  const p3_regex = /(brecha|sub. el d|baj. el d|la city|bcra|reservas)/i;
+
+  // EXCLUSIONES (Blacklist)
+  // Fundamental para eliminar ruido (Euro, Real, Noticias generales)
+  const exclusion_regex = /(euro|real |yen|libra|uruguayo|chileno|petr.leo|soja|granos|merval|wall street|acciones|bonos|plazo fijo|tasas)/i;
+
+  try {
+    const news = await News.aggregate([
+      {
+        $match: {
+          // 1. FILTRO DURO DE FECHA: Solo noticias desde el inicio del día
+          pubDate: { $gte: startOfDay },
+          // 2. FILTRO DURO DE CONTENIDO: Debe mencionar "dolar" o "dólar" obligatoriamente
+          // y NO debe contener palabras prohibidas.
+          $and: [
+            { 
+              $or: [
+                { title: { $regex: /dolar|dólar/i } }, // Debe decir dolar
+                { searchableText: { $regex: /dolar|dólar/i } } 
+              ]
+            },
+            { title: { $not: exclusion_regex } } // No debe ser de otras monedas
+          ]
+        }
+      },
+      {
+        $addFields: {
+          // CALCULO DE PRIORIDAD (Score: 1 es mejor, 3 es peor)
+          priorityScore: {
+            $switch: {
+              branches: [
+                // PRIORIDAD 1: Titulares exactos o En Vivo
+                { 
+                  case: { 
+                    $or: [
+                      { $regexMatch: { input: "$title", regex: p1_regex } },
+                      { $regexMatch: { input: "$title", regex: p1_live_regex } }
+                    ]
+                  }, 
+                  then: 1 
+                },
+                // PRIORIDAD 2: Variantes Técnicas (MEP, CCL, etc)
+                { 
+                  case: { $regexMatch: { input: "$title", regex: p2_regex } }, 
+                  then: 2 
+                },
+                // PRIORIDAD 3: Contexto / Indirectas (siempre que mencionen dólar por el $match inicial)
+                { 
+                  case: { $regexMatch: { input: "$title", regex: p3_regex } }, 
+                  then: 3 
+                }
+              ],
+              default: 4 // Resto de noticias que mencionan dólar pero no encajan en patrones fuertes
+            }
+          }
+        }
+      },
+      // FILTRO FINAL DE CALIDAD
+      // Solo aceptamos prioridades 1, 2 y 3. Descartamos el resto (4) para evitar ruido.
+      {
+        $match: { priorityScore: { $lt: 4 } }
+      },
+      // DEDUPLICACIÓN POR LINK
+      {
+        $group: {
+          _id: "$link",
+          doc: { $first: "$$ROOT" }
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$doc" }
+      },
+      // ORDENAMIENTO DETERMINISTA
+      {
+        $sort: {
+          priorityScore: 1, // Primero las P1, luego P2...
+          pubDate: -1       // Dentro de la misma prioridad, la más nueva primero
+        }
+      },
+      { $limit: limit }
+    ]);
+
+    // Serialización para Next.js
+    return JSON.parse(JSON.stringify(news));
+
+  } catch (error) {
+    console.error("Error crítico en getDollarNews:", error);
+    // Fallback silencioso: array vacío para no romper la UI
+    return [];
+  }
+}

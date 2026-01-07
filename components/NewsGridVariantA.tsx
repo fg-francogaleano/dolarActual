@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ImageOff } from "lucide-react";
 
+// Asegúrate de que esta interfaz coincida con la que usas en el distribuidor
 interface NewsItem {
   title: string;
   link: string;
@@ -11,23 +12,32 @@ interface NewsItem {
   creator: string;
   image: string | null;
   favicon: string;
+  category?: string; 
+  source?: string;
 }
 
 interface NewsGridVariantAProps {
   title: string;
-  category: string;
+  category: string; // Se mantiene por si se usa el fetch interno
   accentColor?: string;
+  preloadedNews?: NewsItem[]; // <--- NUEVA PROP OPCIONAL
 }
 
 export default function NewsGridVariantA({
   title,
   category,
   accentColor = "bg-blue-600",
+  preloadedNews, // Recibimos la data ya filtrada
 }: NewsGridVariantAProps) {
-  const [news, setNews] = useState<NewsItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  // Si viene preloadedNews, inicializamos el estado con eso
+  const [news, setNews] = useState<NewsItem[]>(preloadedNews || []);
+  const [loading, setLoading] = useState(!preloadedNews); // Si hay data, no cargamos
 
   useEffect(() => {
+    // Si ya tenemos noticias inyectadas desde el padre, NO hacemos fetch
+    if (preloadedNews && preloadedNews.length > 0) return;
+
     const fetchNews = async () => {
       try {
         setLoading(true);
@@ -45,7 +55,7 @@ export default function NewsGridVariantA({
     };
 
     fetchNews();
-  }, [category]);
+  }, [category, preloadedNews]); // Dependencia clave
 
   if (!loading && news.length === 0) return null;
 
@@ -88,7 +98,7 @@ export default function NewsGridVariantA({
 
               {/* MEDIO DIGITAL + FAVICON */}
               <div className="absolute top-4 left-4 z-20">
-                <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg border border-white/20 flex items-center gap-2">
+                <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-lg border border-white/20 flex items-center gap-2">
                   {mainNews.favicon && (
                     <img
                       src={mainNews.favicon}
@@ -145,7 +155,7 @@ export default function NewsGridVariantA({
                             className="w-3 h-3 rounded-full"
                           />
                         )}
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
+                        <span className="text-[10px] font-bold tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
                           {item.creator}
                         </span>
                       </div>
