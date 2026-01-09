@@ -12,6 +12,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import { Card } from '@/components/ui/card';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // --- DEFINICIONES DE TIPOS ---
 
@@ -38,13 +39,13 @@ interface CustomTooltipProps {
   label?: string;
 }
 
-// Configuración de líneas y colores
+// Configuración de líneas y colores (Sin nombres harcodeados)
 const LINES_CONFIG = [
-  { key: 'blue', color: '#3b82f6', name: 'Dólar Blue' },     // Blue-500
-  { key: 'oficial', color: '#10b981', name: 'Dólar Oficial' }, // Emerald-500
-  { key: 'mep', color: '#f59e0b', name: 'Dólar MEP' },       // Amber-500
-  { key: 'ccl', color: '#8b5cf6', name: 'Contado con Liqui' }, // Violet-500
-  { key: 'cripto', color: '#ec4899', name: 'Dólar Cripto' },   // Pink-500
+  { key: 'blue', color: '#3b82f6' },     // Blue-500
+  { key: 'oficial', color: '#10b981' }, // Emerald-500
+  { key: 'mep', color: '#f59e0b' },       // Amber-500
+  { key: 'ccl', color: '#8b5cf6' }, // Violet-500
+  { key: 'cripto', color: '#ec4899' },   // Pink-500
 ];
 
 // --- COMPONENTES ---
@@ -75,6 +76,8 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 };
 
 export default function EvolutionChart({ data }: EvolutionChartProps) {
+  const { t } = useLanguage();
+  
   // Estado para filtrar qué líneas se ven
   const [activeLines, setActiveLines] = useState<string[]>(['blue', 'oficial', 'mep', 'ccl', 'cripto']);
   const [timeRange, setTimeRange] = useState<number>(30); // Días a mostrar por defecto
@@ -86,17 +89,17 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
     );
   };
 
+  // Helper para obtener nombre traducido
+  const getLineName = (key: string) => t(`quotations.${key}`);
+
   // 1. Filtrado por rango de tiempo
   const slicedData = timeRange === 0 ? data : data.slice(-timeRange);
 
-  // 2. PROCESAMIENTO DE DATOS (FIX CRÍTICO):
-  // Convertimos explícitamente a números y filtramos nulos para evitar líneas rectas por error de tipo
+  // 2. Procesamiento de Datos
   const processedData = useMemo(() => {
     return slicedData.map(item => {
       const newItem: any = { ...item };
       LINES_CONFIG.forEach(config => {
-        // Si existe el valor, forzamos la conversión a Number.
-        // Recharts necesita números puros para escalar correctamente el eje Y.
         if (newItem[config.key] !== undefined && newItem[config.key] !== null) {
           newItem[config.key] = Number(newItem[config.key]);
         }
@@ -109,8 +112,12 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
     <Card className="p-6 w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-800 dark:text-white">Evolución Histórica</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Comparativa de cotizaciones en el tiempo</p>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-white">
+            {t("history.chartTitle")}
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            {t("history.chartSubtitle")}
+          </p>
         </div>
 
         {/* Selector de Rango */}
@@ -120,7 +127,7 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
             { label: '30D', value: 30 },
             { label: '90D', value: 90 },
             { label: '1A', value: 365 },
-            { label: 'Todo', value: 0 },
+            { label: t("history.rangeAll"), value: 0 },
           ].map((range) => (
             <button
               key={range.label}
@@ -155,7 +162,7 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
             }}
           >
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: line.color }} />
-            {line.name}
+            {getLineName(line.key)}
           </button>
         ))}
       </div>
@@ -176,10 +183,6 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
               minTickGap={30}
             />
             
-            {/* FIX DOMINIO YAXIS: 
-               Usamos 'auto' o ['dataMin', 'dataMax'] para que el gráfico no empiece en 0.
-               Esto hace visibles las pequeñas variaciones.
-            */}
             <YAxis 
               domain={['auto', 'auto']} 
               stroke="#94a3b8" 
@@ -196,13 +199,13 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
                   key={line.key}
                   type="monotone"
                   dataKey={line.key}
-                  name={line.name}
+                  name={getLineName(line.key)} // Nombre traducido para el tooltip
                   stroke={line.color}
                   strokeWidth={2}
                   dot={false}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                   animationDuration={1000}
-                  connectNulls={true} // Conecta puntos si faltan datos intermedios
+                  connectNulls={true}
                 />
               )
             ))}
