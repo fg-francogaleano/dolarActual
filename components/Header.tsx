@@ -43,7 +43,7 @@ const Header: React.FC = () => {
           { label: t("quotations.ccl"), path: "/ccl" },
           { label: t("quotations.turista"), path: "/turista" },
           { label: t("quotations.mayorista"), path: "/mayorista" },
-          { label: t("quotations.dolarCrypto"), path: "/dolar-cripto" },
+          { label: t("quotations.cripto"), path: "/dolar-cripto" },
         ],
       },
       {
