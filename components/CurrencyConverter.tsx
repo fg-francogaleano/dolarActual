@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { ArrowRightLeft, DollarSign, Coins, Globe, RefreshCcw } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { ArrowRightLeft, RefreshCcw } from 'lucide-react';
 import { StandardRate, ConverterData } from '@/lib/converter-service';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CurrencyConverterProps {
   initialData: ConverterData;
 }
 
-// Definimos "ARS" (Peso Argentino) manualmente ya que es la base
 const ARS_CURRENCY: StandardRate = {
   id: 'ars',
   name: 'Peso Argentino',
@@ -23,21 +22,19 @@ const ARS_CURRENCY: StandardRate = {
 };
 
 export default function CurrencyConverter({ initialData }: CurrencyConverterProps) {
+  const { t } = useLanguage();
+  
   // --- ESTADOS ---
-  const [amount, setAmount] = useState<string>("1000"); // String para input controlado
+  const [amount, setAmount] = useState<string>("1000");
   
   // Origen y Destino
-  // Guardamos el ID de la moneda seleccionada ('ars', 'usd', 'btc', 'eur')
   const [sourceId, setSourceId] = useState<string>('usd'); 
   const [targetId, setTargetId] = useState<string>('ars');
 
-  // Estado especial para el tipo de dólar (si se selecciona Dólar)
-  // Por defecto 'blue'
+  // Estado especial para el tipo de dólar
   const [selectedDolarType, setSelectedDolarType] = useState<string>('blue');
 
   // --- LÓGICA DE DATOS ---
-
-  // Combinamos todas las monedas extranjeras/cripto en una lista para buscar
   const allForeignRates = useMemo(() => {
     return [
       ...initialData.dolars,
@@ -46,46 +43,46 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
     ];
   }, [initialData]);
 
-  // Función para obtener la tasa de cambio real de una moneda
   const getRateValue = (id: string, useBuyPrice: boolean = false): number => {
     if (id === 'ars') return 1;
 
-    // Si es Dólar, buscamos ESPECÍFICAMENTE el tipo seleccionado (Blue, MEP, etc)
     if (id === 'usd') {
       const rate = initialData.dolars.find(d => d.id === selectedDolarType);
       return rate ? (useBuyPrice ? rate.buy : rate.sell) : 0;
     }
 
-    // Si es otra, buscamos en la lista general
     const rate = allForeignRates.find(r => r.id === id);
     return rate ? (useBuyPrice ? rate.buy : rate.sell) : 0;
   };
 
-  // --- CÁLCULO DE CONVERSIÓN ---
+  // --- CÁLCULO ---
   const result = useMemo(() => {
     const val = parseFloat(amount);
     if (isNaN(val) || val < 0) return 0;
 
-    const sourceRate = getRateValue(sourceId, true);  // Si tengo dólares, el banco me los "compra" (Precio Compra)
-    const targetRate = getRateValue(targetId, false); // Si quiero dólares, el banco me los "vende" (Precio Venta)
+    const sourceRate = getRateValue(sourceId, true);
+    const targetRate = getRateValue(targetId, false);
 
     if (targetRate === 0) return 0;
 
-    // Fórmula: (Cantidad * TasaOrigen) / TasaDestino
-    // Ejemplo: 100 USD (Blue) a ARS -> (100 * 1200) / 1 = 120,000 ARS
-    // Ejemplo: 100,000 ARS a USD (Blue) -> (100000 * 1) / 1200 = 83.33 USD
     return (val * sourceRate) / targetRate;
-
   }, [amount, sourceId, targetId, selectedDolarType]);
 
-  // --- HANDLERS ---
   const handleSwap = () => {
     setSourceId(targetId);
     setTargetId(sourceId);
   };
 
-  // Determinar si hay que mostrar el selector de Dólar
   const showDolarSelector = sourceId === 'usd' || targetId === 'usd';
+
+  // Helper para traducir nombres de moneda
+  const getCurrencyName = (item: StandardRate) => {
+    if (item.id === 'ars') return t("converter.ars");
+    // Intentamos traducir usando la clave quotations.{id}
+    const key = `quotations.${item.id}`;
+    const translated = t(key);
+    return translated === key ? item.name : translated;
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -95,10 +92,10 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
         <div className="bg-slate-50 dark:bg-slate-900/50 p-6 border-b border-slate-100 dark:border-slate-800">
           <h2 className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <RefreshCcw className="w-5 h-5 text-blue-600" />
-            Conversor Universal
+            {t("converter.title")}
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Calculá cotizaciones en tiempo real para Dólar, Divisas y Cripto.
+            {t("home.quickConverter")}
           </p>
         </div>
 
@@ -109,7 +106,9 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
             
             {/* INPUT ORIGEN */}
             <div className="flex-1 w-full space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">Tengo</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+                {t("converter.have")}
+              </label>
               <div className="flex gap-2">
                 <Input
                   type="number"
@@ -122,11 +121,13 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
                   value={sourceId} 
                   onChange={setSourceId} 
                   options={{ ars: ARS_CURRENCY, ...initialData }} 
+                  t={t}
+                  getCurrencyName={getCurrencyName}
                 />
               </div>
             </div>
 
-            {/* BOTÓN SWAP (CENTRADO) */}
+            {/* BOTÓN SWAP */}
             <div className="md:pt-6">
               <Button 
                 onClick={handleSwap}
@@ -140,7 +141,9 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
 
             {/* INPUT DESTINO */}
             <div className="flex-1 w-full space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">Quiero</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+                {t("converter.want")}
+              </label>
               <div className="flex gap-2">
                 <div className="flex-1 h-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md flex items-center px-4 text-lg font-bold text-slate-700 dark:text-slate-200 truncate">
                   {result.toLocaleString('es-AR', { maximumFractionDigits: 4 })}
@@ -149,17 +152,19 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
                   value={targetId} 
                   onChange={setTargetId} 
                   options={{ ars: ARS_CURRENCY, ...initialData }} 
+                  t={t}
+                  getCurrencyName={getCurrencyName}
                 />
               </div>
             </div>
           </div>
 
-          {/* SELECTOR DE TIPO DE DÓLAR (CONDICIONAL) */}
+          {/* SELECTOR DE TIPO DE DÓLAR */}
           {showDolarSelector && (
             <div className="animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-4 rounded-xl">
                 <label className="block text-xs font-bold text-blue-600 dark:text-blue-400 mb-3 uppercase tracking-wider">
-                  Seleccioná la cotización del Dólar
+                  {t("converter.selectDollarType")}
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {initialData.dolars.map((dolar) => (
@@ -172,14 +177,15 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
                           : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-400'
                       }`}
                     >
-                      {dolar.name.replace("Dólar ", "")}
+                      {/* Traducimos los nombres de los botones también */}
+                      {getCurrencyName(dolar).replace(/Dólar |Dollar /i, "")}
                     </button>
                   ))}
                 </div>
-                {/* Info de la cotización seleccionada */}
+                
                 <div className="mt-3 text-xs text-blue-800 dark:text-blue-300 flex gap-4">
-                   <span>Compra: <b>${initialData.dolars.find(d => d.id === selectedDolarType)?.buy}</b></span>
-                   <span>Venta: <b>${initialData.dolars.find(d => d.id === selectedDolarType)?.sell}</b></span>
+                   <span>{t("quotations.buy")}: <b>${initialData.dolars.find(d => d.id === selectedDolarType)?.buy}</b></span>
+                   <span>{t("quotations.sell")}: <b>${initialData.dolars.find(d => d.id === selectedDolarType)?.sell}</b></span>
                 </div>
               </div>
             </div>
@@ -195,11 +201,15 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
 const CurrencySelect = ({ 
   value, 
   onChange, 
-  options 
+  options,
+  t,
+  getCurrencyName
 }: { 
   value: string; 
   onChange: (val: string) => void;
   options: { ars: StandardRate } & ConverterData;
+  t: (key: string) => string;
+  getCurrencyName: (item: StandardRate) => string;
 }) => {
   return (
     <div className="relative w-[140px] md:w-[180px]">
@@ -208,18 +218,18 @@ const CurrencySelect = ({
         onChange={(e) => onChange(e.target.value)}
         className="w-full h-12 appearance-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-md pl-3 pr-8 focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium cursor-pointer"
       >
-        <option value="ars">🇦🇷 Peso Arg</option>
-        <option value="usd">🇺🇸 Dólar (USD)</option>
+        <option value="ars">🇦🇷 {t("converter.ars")}</option>
+        <option value="usd">🇺🇸 {t("converter.usd")}</option>
         
-        <optgroup label="Otras Divisas">
+        <optgroup label={t("quotations.sectionFiat")}>
           {options.fiat.map(f => (
-            <option key={f.id} value={f.id}>{f.name}</option>
+            <option key={f.id} value={f.id}>{getCurrencyName(f)}</option>
           ))}
         </optgroup>
         
-        <optgroup label="Criptomonedas">
+        <optgroup label={t("quotations.sectionCryptos")}>
           {options.cryptos.map(c => (
-            <option key={c.id} value={c.id}>{c.name}</option>
+            <option key={c.id} value={c.id}>{getCurrencyName(c)}</option>
           ))}
         </optgroup>
       </select>
