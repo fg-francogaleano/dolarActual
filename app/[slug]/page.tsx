@@ -12,7 +12,7 @@ interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-const NEWS_SECTIONS = ['economia', 'finanzas', 'politica', 'negocios', 'todas'];
+const NEWS_SECTIONS = ['economia', 'finanzas', 'politica', 'negocios', 'noticias'];
 
 // Generar Metadata dinámica
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

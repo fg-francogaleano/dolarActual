@@ -39,7 +39,7 @@ export default function NewsLayout({
   const { setPage, toggleFilter, isActive, currentPage } = useNewsUrl();
   const { t } = useLanguage();
 
-  const isAll = categorySlug === "todas";
+  const isAll = categorySlug === "noticias";
 
   // Helper para obtener el título traducido de la sección actual
   const getSectionTitle = (slug: string) => {

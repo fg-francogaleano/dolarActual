@@ -29,7 +29,6 @@ const Header: React.FC = () => {
     setOpenSubmenu(openSubmenu === key ? null : key);
   };
 
-  // 1. Configuración del Menú de Cotizaciones (Traducido)
   const quotesMenu = {
     label: t("nav.quotations"),
     mainPath: "/cotizaciones",
@@ -37,46 +36,45 @@ const Header: React.FC = () => {
       {
         title: t("quotations.sectionDollars"),
         items: [
-          { label: t("quotations.blue"), path: "/blue" },
-          { label: t("quotations.oficial"), path: "/oficial" },
-          { label: t("quotations.mep"), path: "/mep" },
-          { label: t("quotations.ccl"), path: "/ccl" },
-          { label: t("quotations.turista"), path: "/turista" },
-          { label: t("quotations.mayorista"), path: "/mayorista" },
-          { label: t("quotations.cripto"), path: "/dolar-cripto" },
-        ],
+          { label: t("quotations.blue"), path: "/cotizaciones/dolar-blue" },
+          { label: t("quotations.oficial"), path: "/cotizaciones/dolar-oficial" },
+          { label: t("quotations.mep"), path: "/cotizaciones/dolar-mep" },
+          { label: t("quotations.ccl"), path: "/cotizaciones/dolar-ccl" },
+          { label: t("quotations.turista"), path: "/cotizaciones/dolar-turista" },
+          { label: t("quotations.mayorista"), path: "/cotizaciones/dolar-mayorista" },
+          { label: t("quotations.cripto"), path: "/cotizaciones/dolar-cripto" },
+        ]
       },
       {
         title: t("quotations.sectionFiat"),
         items: [
-          { label: t("quotations.euro"), path: "/euro" },
-          { label: t("quotations.real"), path: "/real" },
-          { label: t("quotations.uruguayo"), path: "/peso-uruguayo" },
-          { label: t("quotations.chileno"), path: "/peso-chileno" },
-        ],
+          { label: t("quotations.euro"), path: "/cotizaciones/euro" },
+          { label: t("quotations.real"), path: "/cotizaciones/real" },
+          { label: t("quotations.uruguayo"), path: "/cotizaciones/peso-uruguayo" },
+          { label: t("quotations.chileno"), path: "/cotizaciones/peso-chileno" },
+        ]
       },
       {
         title: t("quotations.sectionCryptos"),
         items: [
-          { label: t("quotations.bitcoin"), path: "/bitcoin" },
-          { label: t("quotations.ethereum"), path: "/ethereum" },
-          { label: t("quotations.xrp"), path: "/xrp" },
-          { label: t("quotations.bnb"), path: "/bnb" },
-          { label: t("quotations.solana"), path: "/solana" },
-          { label: t("quotations.usdt"), path: "/usdt" },
-        ],
-      },
-    ],
+          { label: t("quotations.bitcoin"), path: "/cotizaciones/bitcoin" },
+          { label: t("quotations.ethereum"), path: "/cotizaciones/ethereum" },
+          { label: t("quotations.xrp"), path: "/cotizaciones/xrp" },
+          { label: t("quotations.bnb"), path: "/cotizaciones/bnb" },
+          { label: t("quotations.solana"), path: "/cotizaciones/solana" },
+          { label: t("quotations.usdt"), path: "/cotizaciones/usdt" },
+        ]
+      }
+    ]
   };
 
-  // 2. Configuración del Menú de Noticias (Traducido)
+  // 2. Rutas de Noticias Actualizadas (/noticias/categoria)
   const newsMenu = [
-    { label: t("news.economy"), path: "/economia" },
-    { label: t("news.finance"), path: "/finanzas" },
-    { label: t("news.politics"), path: "/politica" },
-    { label: t("news.business"), path: "/negocios" },
+    { label: t("news.economy"), path: "/noticias/economia" },
+    { label: t("news.finance"), path: "/noticias/finanzas" },
+    { label: t("news.politics"), path: "/noticias/politica" },
+    { label: t("news.business"), path: "/noticias/negocios" },
   ];
-
   // --- LÓGICA DE ESTADO ACTIVO ---
 
   const isSimpleActive = (path: string) => {
@@ -248,7 +246,7 @@ const Header: React.FC = () => {
                 ))}
                 <div className="col-span-3 mt-2 pt-2 border-t dark:border-gray-700 text-center">
                   <Link
-                    href="/cotizaciones"
+                    href="/noticias"
                     className="text-sm font-bold text-blue-600 hover:underline"
                   >
                     {t("news.all")} →

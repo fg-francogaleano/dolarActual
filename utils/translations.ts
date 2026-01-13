@@ -14,7 +14,7 @@ export const translations = {
       converter: "Conversor",
       news: "Noticias",
       blog: "Blog",
-      faq: "Definiciones & FAQ",
+      faq: "FAQ",
       contact: "Contacto",
     },
     home: {
@@ -202,7 +202,7 @@ export const translations = {
       converter: "Converter",
       news: "News",
       blog: "Blog",
-      faq: "Definitions & FAQ",
+      faq: "FAQ",
       contact: "Contact",
     },
     home: {

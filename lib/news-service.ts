@@ -16,7 +16,7 @@ export async function getNewsPaginated({ page = 1, limit = 40, section, searchPa
 
   // 1. Lógica de Sección Principal
   // Si la sección es específica (no "todas"), forzamos ese filtro base
-  const isAll = section === 'todas';
+  const isAll = section === 'noticias';
   
   if (!isAll && section) {
     query.category = section.toLowerCase();
