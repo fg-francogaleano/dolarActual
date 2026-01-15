@@ -9,6 +9,7 @@ import NewsGridVariantC from "@/components/NewsGridVariantC";
 import NewsGridVariantD from "@/components/NewsGridViariantD";
 import NewsGridVariantE from "@/components/NewsGridVariantE";
 import { Cotizacion } from "@/types/dolar";
+import { JsonLd } from "@/components/JsonLd";
 
 // Definimos las props que recibirá del servidor
 interface HomeContentProps {
@@ -33,8 +34,39 @@ export default function HomeContent({ cotizaciones, newsData }: HomeContentProps
   const { t } = useLanguage();
   const { blue, mep, ccl, cripto, turista, oficial } = cotizaciones;
 console.log(newsData.mercado)
+
+ // Datos Estructurados para SEO (Schema.org)
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cotizaciones del Dólar en Argentina",
+    "description": "Valores actualizados del Dólar Blue, Oficial, MEP, CCL y Cripto.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        blue, oficial, mep, ccl, cripto, turista
+      ].filter(Boolean).map((cot, index) => ({
+        "@type": "ExchangeRateSpecification",
+        "position": index + 1,
+        "currency": "ARS",
+        "currentExchangeRate": {
+          "@type": "UnitPriceSpecification",
+          "price": cot?.venta,
+          "priceCurrency": "ARS",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": "1",
+            "unitCode": "USD"
+          }
+        },
+        "name": `Dólar ${cot?.id.charAt(0).toUpperCase()}${cot?.id.slice(1)}`
+      }))
+    }
+  };
   return (
     <div className="w-full bg-slate-50 dark:bg-[#0B1120] transition-colors duration-300">
+
+            <JsonLd data={structuredData} />
       
       {/* SECCIÓN COTIZACIONES */}
       <section className="py-16 container mx-auto px-4">
@@ -125,3 +157,4 @@ console.log(newsData.mercado)
     </div>
   );
 }
+
