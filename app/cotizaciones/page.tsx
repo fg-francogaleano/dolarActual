@@ -64,7 +64,6 @@ export default function CotizacionesPage() {
       <section className="mb-12">
         <h2
           className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
         >
           {t("quotations.subtitleDolar")}
         </h2>
@@ -83,9 +82,7 @@ export default function CotizacionesPage() {
       {/* OTRAS MONEDAS */}
       <section className="mb-12">
         <h2
-          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
-        >
+          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"        >
            {t("quotations.subtitleOtrasMonedas")}
         </h2>
         {loading && otras.length === 0 ? (
@@ -107,9 +104,7 @@ export default function CotizacionesPage() {
       {/* CRIPTOMONEDAS */}
       <section>
         <h2
-          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
-        >
+          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"        >
           {t("quotations.subtitleCriptomonedas")}
         </h2>
 
@@ -124,22 +119,19 @@ export default function CotizacionesPage() {
               >
                 <CardHeader className="pb-3">
                   <CardTitle
-                    className="text-lg text-[#0D47A1] dark:text-[#B0C4DE]"
-                    style={{ fontFamily: "Montserrat, sans-serif" }}
-                  >
+                    className="text-lg text-[#0D47A1] dark:text-[#B0C4DE]"                  >
                     {cripto.simbolo}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p
-                    className="text-2xl font-bold text-[#212529] dark:text-[#E2E8F0] mb-2"
-                    style={{ fontFamily: "Roboto Mono, monospace" }}
+                    className="font-mono text-2xl font-bold text-[#212529] dark:text-[#E2E8F0] mb-2"
                   >
                     ${formatNumber(cripto.precio)}
                   </p>
-                  <div className="flex items-center space-x-1 text-sm font-semibold text-gray-500 dark:text-gray-400">
+                  <div className="font-mono flex items-center space-x-1 text-sm font-semibold text-gray-500 dark:text-gray-400">
                     <TrendingUp className="h-4 w-4 text-slate-400" />
-                    <span style={{ fontFamily: "Roboto Mono, monospace" }}>
+                    <span>
                        En vivo
                     </span>
                   </div>

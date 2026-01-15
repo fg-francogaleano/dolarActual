@@ -46,7 +46,6 @@ const { titulo, descripcion, fuente, fecha, categoria, url, imagen } = noticias;
           </Badge>
           <span
             className="text-xs text-[#212529] dark:text-[#E2E8F0] opacity-75"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
           >
             {fuente}
           </span>
@@ -54,7 +53,6 @@ const { titulo, descripcion, fuente, fecha, categoria, url, imagen } = noticias;
 
         <CardTitle
           className={`${destacada ? "text-2xl" : "text-lg"} text-[#0D47A1] dark:text-[#B0C4DE] line-clamp-2`}
-          style={{ fontFamily: "Montserrat, sans-serif" }}
         >
           {titulo}
         </CardTitle>
@@ -65,7 +63,6 @@ const { titulo, descripcion, fuente, fecha, categoria, url, imagen } = noticias;
           className={`text-[#212529] dark:text-[#E2E8F0] mb-4 ${
             destacada ? "line-clamp-4" : "line-clamp-2"
           }`}
-          style={{ fontFamily: "Montserrat, sans-serif" }}
         >
           {descripcion}
         </p>
@@ -73,7 +70,7 @@ const { titulo, descripcion, fuente, fecha, categoria, url, imagen } = noticias;
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 text-xs text-[#212529] dark:text-[#E2E8F0] opacity-75">
             <Clock className="h-3 w-3" />
-            <span style={{ fontFamily: "Montserrat, sans-serif" }}>
+            <span>
               {formatDateShort(fecha)}
             </span>
           </div>

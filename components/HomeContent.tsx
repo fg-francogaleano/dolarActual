@@ -39,7 +39,7 @@ console.log(newsData.mercado)
       {/* SECCIÓN COTIZACIONES */}
       <section className="py-16 container mx-auto px-4">
         <div className="flex items-center justify-between mb-10">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white" style={{ fontFamily: "Montserrat, sans-serif" }}>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
             {t("home.featured")}
           </h2>
         </div>

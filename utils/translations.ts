@@ -185,6 +185,11 @@ export const translations = {
       description: "Tu fuente confiable para cotizaciones del dólar en Argentina",
       rights: "Todos los derechos reservados",
       disclaimer: "Las cotizaciones son referenciales y pueden variar según el mercado",
+      sections:"Secciones",
+      resources:"Recursos",
+      legal:"Legal",
+      terms:"Términos de Uso",
+      privacy:"Política de Privacidad"
     },
   },
   en: {
@@ -373,6 +378,11 @@ export const translations = {
       description: "Your reliable source for dollar exchange rates in Argentina",
       rights: "All rights reserved",
       disclaimer: "Rates are referential and may vary according to the market",
+      sections:"Sections",
+      resources:"Resources",
+      legal:"Legal",
+      terms:"Terms of Use",
+      privacy:"Privacy Policy"
     },
   },
 } as const;

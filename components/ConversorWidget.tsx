@@ -79,7 +79,6 @@ export default function ConversorWidget({
       <CardHeader>
         <CardTitle
           className="text-xl text-[#0D47A1] dark:text-[#B0C4DE]"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
         >
           {t("converter.title")}
         </CardTitle>
