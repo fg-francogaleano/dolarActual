@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://dolaractual.com'; // Cambia esto por tu dominio real en producción
+  const baseUrl = 'https://dolar-actual.vercel.app'; // Cambia esto por tu dominio real en producción
 
   return {
     rules: {
