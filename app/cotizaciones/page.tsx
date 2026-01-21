@@ -55,7 +55,7 @@ export default function CotizacionesPage() {
     <main className="w-full py-12 px-6 max-w-6xl mx-auto">
       <div className="flex justify-center items-center mb-6 relative">
         <h1 className="text-4xl font-bold text-white text-center">
-          {t("quotations.title")}
+          {t("quotations.title")}hola
         </h1>
         {loading && <Loader2 className="absolute right-0 animate-spin text-white h-8 w-8" />}
       </div>

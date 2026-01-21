@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getQuoteBySlug, getAllQuotesNormalized } from "@/lib/quote-utils";
 import QuoteDetail from "@/components/QuoteDetail";
 import { Metadata } from "next";
+import QuoteDetailContent from "@/components/QuoteDetailContent";
 
 interface PageProps {
   params: Promise<{
@@ -39,7 +40,7 @@ export default async function QuotePage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-[#111]">
-      <QuoteDetail 
+      <QuoteDetailContent 
         featured={data.featured} 
         related={data.related} 
       />

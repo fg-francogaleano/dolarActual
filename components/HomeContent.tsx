@@ -31,7 +31,10 @@ interface HomeContentProps {
   };
 }
 
-export default function HomeContent({ cotizaciones, newsData }: HomeContentProps) {
+export default function HomeContent({
+  cotizaciones,
+  newsData,
+}: HomeContentProps) {
   const { t, language } = useLanguage();
   const { blue, mep, ccl, cripto, turista, oficial } = cotizaciones;
 
@@ -42,14 +45,14 @@ export default function HomeContent({ cotizaciones, newsData }: HomeContentProps
   // --- ESTRATEGIA H1 DINÁMICO (SEO CTR) ---
   // Si tenemos el dato del Blue, lo usamos en el título principal.
   // Esto responde directamente a la intención de búsqueda del usuario.
-  const mainTitle = blue 
-    ? language === 'es' 
-      ? `Dólar Blue Hoy: $${formatNumber(blue.venta)}` 
-      : `Blue Dollar Today: $${formatNumber(blue.venta)}`
+  const mainTitle = blue
+    ? language === "es"
+      ? "Dólar Hoy, precio del dolar"
+      : "Blue Dollar Today"
     : t("home.featured"); // Fallback
 
   const subTitle = blue
-    ? language === 'es'
+    ? language === "es"
       ? "Cotización en vivo minuto a minuto"
       : "Live exchange rate updated by the minute"
     : t("home.subtitle");
@@ -58,32 +61,34 @@ export default function HomeContent({ cotizaciones, newsData }: HomeContentProps
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Cotizaciones del Dólar en Argentina",
-    "description": "Valores actualizados del Dólar Blue, Oficial, MEP, CCL y Cripto.",
-    "mainEntity": {
+    name: "Cotizaciones del Dólar en Argentina",
+    description:
+      "Valores actualizados del Dólar Blue, Oficial, MEP, CCL y Cripto.",
+    mainEntity: {
       "@type": "ItemList",
-      "itemListElement": [blue, oficial, mep, ccl, cripto, turista].filter(Boolean).map((cot, index) => ({
-        "@type": "ExchangeRateSpecification",
-        "position": index + 1,
-        "currency": "ARS",
-        "currentExchangeRate": {
-          "@type": "UnitPriceSpecification",
-          "price": cot?.venta,
-          "priceCurrency": "ARS",
-          "referenceQuantity": {
-            "@type": "QuantitativeValue",
-            "value": "1",
-            "unitCode": "USD"
-          }
-        },
-        "name": `Dólar ${cot?.id.charAt(0).toUpperCase()}${cot?.id.slice(1)}`
-      }))
-    }
+      itemListElement: [blue, oficial, mep, ccl, cripto, turista]
+        .filter(Boolean)
+        .map((cot, index) => ({
+          "@type": "ExchangeRateSpecification",
+          position: index + 1,
+          currency: "ARS",
+          currentExchangeRate: {
+            "@type": "UnitPriceSpecification",
+            price: cot?.venta,
+            priceCurrency: "ARS",
+            referenceQuantity: {
+              "@type": "QuantitativeValue",
+              value: "1",
+              unitCode: "USD",
+            },
+          },
+          name: `Dólar ${cot?.id.charAt(0).toUpperCase()}${cot?.id.slice(1)}`,
+        })),
+    },
   };
 
   return (
     <div className="w-full bg-background transition-colors duration-300">
-      
       <JsonLd data={structuredData} />
 
       {/* SECCIÓN COTIZACIONES */}
@@ -91,16 +96,12 @@ export default function HomeContent({ cotizaciones, newsData }: HomeContentProps
         <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             {/* H1 OPTIMIZADO PARA CTR */}
-            <h1 className="text-3xl md:text-5xl font-extrabold text-brand-700 dark:text-brand-400 tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-3xl font-semibold text-foreground tracking-tight leading-tight">
               {mainTitle}
             </h1>
-            <p className="text-muted-foreground mt-2 text-lg font-medium">
+            <p className="text-muted-foreground text-md">
               {subTitle}
             </p>
-          </div>
-          
-          <div className="text-sm text-muted-foreground font-mono bg-brand-50 dark:bg-brand-900/30 px-3 py-1 rounded-full border border-brand-100 dark:border-brand-800">
-            ARS / USD
           </div>
         </header>
 
@@ -108,58 +109,58 @@ export default function HomeContent({ cotizaciones, newsData }: HomeContentProps
           {!hasData ? (
             <SkeletonCotizaciones />
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-              
-              {/* Card Principal (Blue) */}
-              <div className="h-full">
-                {blue && (
-                  <Link href={getQuotePath("blue")} className="block h-full transition-transform hover:scale-[1.01]">
-                    <CotizacionCard cotizacion={blue} />
-                  </Link>
-                )}
-              </div>
+            <>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+                {/* Card Principal (Blue) */}
+                <div className="">
+                  {blue && (
+                    <div className="block h-full transition-transform">
+                      <CotizacionCard cotizacion={blue} destacada={true} />
+                    </div>
+                  )}
+                </div>
 
-              {/* Grid Secundario */}
-              <div className="flex flex-col gap-4">
+                <div className="block lg:hidden">
+                  {oficial && (
+                    <div className="block">
+                      <CotizacionCard cotizacion={oficial} destacada={true} />
+                    </div>
+                  )}
+                </div>
+
+                {/* Grid Secundario */}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {mep && (
-                    <Link href={getQuotePath("mep")} className="block transition-transform hover:scale-[1.02]">
+                    <Link href={getQuotePath("mep")} className="block">
                       <CotizacionCard cotizacion={mep} />
                     </Link>
                   )}
                   {ccl && (
-                    <Link href={getQuotePath("ccl")} className="block transition-transform hover:scale-[1.02]">
+                    <Link href={getQuotePath("ccl")} className="block">
                       <CotizacionCard cotizacion={ccl} />
                     </Link>
                   )}
                   {cripto && (
-                    <Link href={getQuotePath("cripto")} className="block transition-transform hover:scale-[1.02]">
+                    <Link href={getQuotePath("cripto")} className="block">
                       <CotizacionCard cotizacion={cripto} />
                     </Link>
                   )}
                   {turista && (
-                    <Link href={getQuotePath("turista")} className="block transition-transform hover:scale-[1.02]">
+                    <Link href={getQuotePath("turista")} className="block">
                       <CotizacionCard cotizacion={turista} />
                     </Link>
                   )}
                 </div>
-                
-                <div className="hidden md:block">
-                  {oficial && (
-                    <Link href={getQuotePath("oficial")} className="block transition-transform hover:scale-[1.01]">
-                      <CotizacionCard cotizacion={oficial} />
-                    </Link>
-                  )}
-                </div>
-                <div className="block md:hidden">
-                   {oficial && (
-                    <Link href={getQuotePath("oficial")} className="block transition-transform hover:scale-[1.01]">
-                      <CotizacionCard cotizacion={oficial} />
-                    </Link>
-                   )}
-                </div>
               </div>
-            </div>
+              <div className="hidden lg:block mt-4">
+                {oficial && (
+                  <div className="block">
+                    <CotizacionCard cotizacion={oficial} destacada={true} />
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
       </section>
@@ -202,25 +203,23 @@ export default function HomeContent({ cotizaciones, newsData }: HomeContentProps
               />
             </div>
 
-    
-              <div id="politica">
-                <NewsGridVariantC
-                  title={t("news.politics")}
-                  category="politica"
-                  accentColor="bg-orange-500"
-                  preloadedNews={newsData.politica}
-                />
-              </div>
+            <div id="politica">
+              <NewsGridVariantC
+                title={t("news.politics")}
+                category="politica"
+                accentColor="bg-orange-500"
+                preloadedNews={newsData.politica}
+              />
+            </div>
 
-              <div id="negocios">
-                <NewsGridVariantE
-                  title={t("news.business")}
-                  category="negocios"
-                  accentColor="bg-red-500"
-                  preloadedNews={newsData.negocios}
-                />
-              </div>
-            
+            <div id="negocios">
+              <NewsGridVariantE
+                title={t("news.business")}
+                category="negocios"
+                accentColor="bg-red-500"
+                preloadedNews={newsData.negocios}
+              />
+            </div>
           </div>
 
           <div className="mt-16 text-center">
