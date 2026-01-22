@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 export default async function QuotePage({ params }: PageProps) {
   const { slug } = await params;
   const data = await getQuoteBySlug(slug);
-
+console.log(data)
   if (!data) {
     notFound();
   }

@@ -166,7 +166,7 @@ export default function HomeContent({
       </section>
 
       {/* SECCIÓN NOTICIAS */}
-      <section className="py-16 px-4 border-t border-border bg-card">
+      <section className="py-16 px-4 border-t border-border">
         <div className="max-w-6xl mx-auto">
           <header className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground">

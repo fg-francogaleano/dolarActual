@@ -57,7 +57,7 @@ export default function NewsGridVariantD({
 
   return (
     <section className="mb-16">
-      <h3 className="text-xl font-semibold text-[#0D47A1] dark:text-[#55EEF9] mb-6 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+      <h3 className="text-xl font-semibold text-primary mb-6 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         <span
           className={`w-1.5 h-6 rounded-full inline-block ${accentColor}`}
         ></span>
@@ -68,7 +68,7 @@ export default function NewsGridVariantD({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="flex flex-col gap-3">
-              <div className="w-full h-40 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse" />
+              <div className="w-full h-40 bg-card rounded-xl animate-pulse" />
               <div className="h-4 w-3/4 bg-slate-200 dark:bg-slate-800 rounded animate-pulse" />
             </div>
           ))}
@@ -81,9 +81,9 @@ export default function NewsGridVariantD({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden dark:border-slate-800 transition-transform duration-300 hover:-translate-y-1 h-full"
+                className="group flex flex-col rounded-md overflow-hidden transition-transform duration-300 hover:-translate-y-1 h-full"
               >
-                <div className="relative w-full h-40 overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                <div className="relative w-full h-40 overflow-hidden rounded-md">
                   {item.image ? (
                     <img
                       src={item.image}
@@ -107,15 +107,15 @@ export default function NewsGridVariantD({
                       <img
                         src={item.favicon}
                         alt={item.creator}
-                        className="w-3 h-3 rounded-full"
+                        className="w-4 h-4 rounded-full"
                       />
                     )}
-                    <span className="text-[10px] font-bold tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
+                    <span className="text-[10px] tracking-wider text-foreground">
                       {item.creator}
                     </span>
                   </div>
 
-                  <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200 line-clamp-2 mb-2 leading-relaxed group-hover:text-[#0891B2] dark:group-hover:text-[#55EEF9] transition-colors">
+                  <h5 className="text-sm font-medium text-foreground line-clamp-2 mb-2 leading-relaxed group-hover:text-accent transition-colors">
                     {item.title}
                   </h5>
                 </div>

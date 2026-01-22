@@ -34,13 +34,12 @@ export default function CotizacionesPage() {
         const [dolarData, otrasData, cryptoData] = await Promise.all([
           getDolarRates(),
           getOtherCurrencies(),
-          getCryptoRates()
+          getCryptoRates(),
         ]);
 
         setDolares(dolarData.array);
         setOtras(otrasData);
         setCriptos(cryptoData);
-
       } catch (error) {
         console.error("Error cargando cotizaciones:", error);
       } finally {
@@ -54,24 +53,24 @@ export default function CotizacionesPage() {
   return (
     <main className="w-full py-12 px-6 max-w-6xl mx-auto">
       <div className="flex justify-center items-center mb-6 relative">
-        <h1 className="text-4xl font-bold text-white text-center">
-          {t("quotations.title")}hola
+        <h1 className="text-4xl font-bold text-foreground text-start">
+          {t("quotations.title")}
         </h1>
-        {loading && <Loader2 className="absolute right-0 animate-spin text-white h-8 w-8" />}
+        {loading && (
+          <Loader2 className="absolute right-0 animate-spin text-white h-8 w-8" />
+        )}
       </div>
 
       {/* COTIZACIONES DEL DOLAR */}
-      <section className="mb-12">
-        <h2
-          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"
-        >
-          {t("quotations.subtitleDolar")}
+      <section className="">
+        <h2 className="text-2xl font-medium text-foreground mb-6 pl-2 border-l-4 border-primary">
+          {t("quotations.sectionDollars")}
         </h2>
-        
+
         {loading && dolares.length === 0 ? (
           <SkeletonGrid />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {dolares.map((cot) => (
               <CotizacionCard key={cot.id} cotizacion={cot} />
             ))}
@@ -81,9 +80,8 @@ export default function CotizacionesPage() {
 
       {/* OTRAS MONEDAS */}
       <section className="mb-12">
-        <h2
-          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"        >
-           {t("quotations.subtitleOtrasMonedas")}
+        <h2 className="text-2xl font-medium text-foreground mb-6 pl-2 border-l-4 border-primary">
+          {t("quotations.sectionCryptos")}
         </h2>
         {loading && otras.length === 0 ? (
           <SkeletonGrid />
@@ -103,8 +101,7 @@ export default function CotizacionesPage() {
 
       {/* CRIPTOMONEDAS */}
       <section>
-        <h2
-          className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6"        >
+        <h2 className="text-2xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6">
           {t("quotations.subtitleCriptomonedas")}
         </h2>
 
@@ -118,22 +115,17 @@ export default function CotizacionesPage() {
                 className="border-[#F9FAFB] dark:border-[#2D3748] transition-all hover:shadow-lg bg-white dark:bg-slate-900"
               >
                 <CardHeader className="pb-3">
-                  <CardTitle
-                    className="text-lg text-[#0D47A1] dark:text-[#B0C4DE]"                  >
+                  <CardTitle className="text-lg text-[#0D47A1] dark:text-[#B0C4DE]">
                     {cripto.simbolo}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p
-                    className="font-mono text-2xl font-bold text-[#212529] dark:text-[#E2E8F0] mb-2"
-                  >
+                  <p className="font-mono text-2xl font-bold text-[#212529] dark:text-[#E2E8F0] mb-2">
                     ${formatNumber(cripto.precio)}
                   </p>
                   <div className="font-mono flex items-center space-x-1 text-sm font-semibold text-gray-500 dark:text-gray-400">
                     <TrendingUp className="h-4 w-4 text-slate-400" />
-                    <span>
-                       En vivo
-                    </span>
+                    <span>En vivo</span>
                   </div>
                 </CardContent>
               </Card>
@@ -158,7 +150,10 @@ function SkeletonGrid({ count = 2 }: { count?: number }) {
   return (
     <div className={`grid grid-cols-1 md:grid-cols-${count} gap-6`}>
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="h-32 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse" />
+        <div
+          key={i}
+          className="h-32 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse"
+        />
       ))}
     </div>
   );
