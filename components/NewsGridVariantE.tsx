@@ -10,7 +10,7 @@ interface NewsItem {
   description: string;
   creator: string;
   image: string | null;
-  favicon: string; 
+  favicon: string;
   category?: string;
   source?: string;
 }
@@ -61,7 +61,7 @@ export default function NewsGridVariantE({
 
   return (
     <section className="w-full mb-16">
-      <h3 className="text-xl font-semibold text-[#0D47A1] dark:text-[#55EEF9] mb-6 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+      <h3 className="text-xl font-semibold text-primary mb-6 flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         <span
           className={`w-1.5 h-6 rounded-full inline-block ${accentColor}`}
         ></span>
@@ -78,7 +78,7 @@ export default function NewsGridVariantE({
               href={mainNews.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="lg:col-span-2 group relative h-[400px] lg:h-full rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800"
+              className="lg:col-span-2 group relative h-[400px] lg:h-full rounded-xl overflow-hidden"
             >
               <div className="absolute inset-0 bg-slate-200 dark:bg-slate-700">
                 {mainNews.image ? (
@@ -95,20 +95,21 @@ export default function NewsGridVariantE({
 
               {/* MEDIO + FAVICON */}
               <div className="absolute top-4 left-4 z-20">
-                <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-lg border border-white/20 flex items-center gap-2">
+                <div className="text-white px-3 py-1.5 rounded-full text-xs tracking-widest flex items-center gap-2">
                   {mainNews.favicon && (
                     <img
                       src={mainNews.favicon}
                       alt={mainNews.creator}
-                      className="w-4 h-4 rounded-full bg-white"
+                      className="w-4 h-4 rounded-full"
                     />
                   )}
                   <span>{mainNews.creator}</span>
                 </div>
               </div>
 
+              {/* TITULO */}
               <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6 md:p-10 z-10">
-                <h4 className="text-white text-2xl md:text-4xl font-extrabold leading-tight mb-3 drop-shadow-lg group-hover:text-[#55EEF9] transition-colors">
+                <h4 className="text-[#e5e7eb] text-2xl md:text-4xl font-bold leading-tight mb-3 drop-shadow-lg group-hover:text-accent transition-colors">
                   {mainNews.title}
                 </h4>
               </div>
@@ -123,9 +124,9 @@ export default function NewsGridVariantE({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col flex-1 bg-white dark:bg-slate-900 rounded-xl overflow-hidden dark:border-slate-800 hover:-translate-y-1 transition-all duration-300"
+                className="group flex flex-col flex-1 rounded-xl overflow-hidden hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="relative w-full h-1/2 overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <div className="relative w-full h-1/2 overflow-hidden">
                   {item.image ? (
                     <img
                       src={item.image}
@@ -145,14 +146,14 @@ export default function NewsGridVariantE({
                         <img
                           src={item.favicon}
                           alt={item.creator}
-                          className="w-3 h-3 rounded-full"
+                          className="w-4 h-4 rounded-full"
                         />
                       )}
-                      <span className="text-[10px] font-bold tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
+                      <span className="text-[10px] font-medium tracking-wider text-foreground">
                         {item.creator}
                       </span>
                     </div>
-                    <h5 className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 line-clamp-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h5 className="text-sm md:text-base font-medium text-foreground line-clamp-3 group-hover:text-accent transition-colors">
                       {item.title}
                     </h5>
                   </div>
@@ -169,7 +170,7 @@ export default function NewsGridVariantE({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-1 items-center bg-transparent border-b border-slate-200 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg p-2 transition-colors"
+                className="group flex flex-1 items-center last:border-0 rounded-lg p-2 transition-colors"
               >
                 <div className="flex-1 pr-3">
                   {/* MEDIO + FAVICON */}
@@ -178,19 +179,19 @@ export default function NewsGridVariantE({
                       <img
                         src={item.favicon}
                         alt={item.creator}
-                        className="w-3 h-3 rounded-full"
+                        className="w-4 h-4 rounded-full"
                       />
                     )}
-                    <span className="text-[10px] font-bold tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
+                    <span className="text-[10px] tracking-wider text-foreground">
                       {item.creator}
                     </span>
                   </div>
-                  <h5 className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 line-clamp-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h5 className="text-sm md:text-base font-medium text-foreground line-clamp-3 group-hover:text-accent transition-colors">
                     {item.title}
                   </h5>
                 </div>
 
-                <div className="relative w-20 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0">
+                <div className="relative w-20 h-16 rounded-lg overflow-hidden shrink-0">
                   {item.image ? (
                     <img
                       src={item.image}

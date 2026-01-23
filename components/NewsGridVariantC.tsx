@@ -151,7 +151,7 @@ export default function NewsGridVariantC({
                       <img
                         src={item.favicon}
                         alt={item.creator}
-                        className="w-5 h-5 rounded-full"
+                        className="w-4 h-4 rounded-full"
                       />
                     )}
                     <span className="text-[10px] tracking-wider text-foreground">

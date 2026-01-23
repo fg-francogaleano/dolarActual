@@ -76,50 +76,50 @@ export default function NewsGridVariantD({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {news.map((item, idx) => (
-              <a
-                key={`${item.link}-${idx}`}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col rounded-md overflow-hidden transition-transform duration-300 hover:-translate-y-1 h-full"
-              >
-                <div className="relative w-full h-40 overflow-hidden rounded-md">
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      onError={(e) =>
-                        ((e.target as HTMLImageElement).style.display = "none")
-                      }
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-slate-300">
-                      <ImageOff className="h-8 w-8" />
-                    </div>
-                  )}
-                </div>
-
-                <div className="py-4 flex flex-col grow">
-                  {/* MEDIO + FAVICON */}
-                  <div className="flex items-center gap-2 mb-1">
-                    {item.favicon && (
-                      <img
-                        src={item.favicon}
-                        alt={item.creator}
-                        className="w-4 h-4 rounded-full"
-                      />
-                    )}
-                    <span className="text-[10px] tracking-wider text-foreground">
-                      {item.creator}
-                    </span>
+            <a
+              key={`${item.link}-${idx}`}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col rounded-md overflow-hidden transition-transform duration-300 hover:-translate-y-1 h-full"
+            >
+              <div className="relative w-full h-40 overflow-hidden rounded-md">
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    onError={(e) =>
+                      ((e.target as HTMLImageElement).style.display = "none")
+                    }
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-slate-300">
+                    <ImageOff className="h-8 w-8" />
                   </div>
+                )}
+              </div>
 
-                  <h5 className="text-sm font-medium text-foreground line-clamp-2 mb-2 leading-relaxed group-hover:text-accent transition-colors">
-                    {item.title}
-                  </h5>
+              <div className="py-4 flex flex-col grow">
+                {/* MEDIO + FAVICON */}
+                <div className="flex items-center gap-2 mb-1">
+                  {item.favicon && (
+                    <img
+                      src={item.favicon}
+                      alt={item.creator}
+                      className="w-4 h-4 rounded-full"
+                    />
+                  )}
+                  <span className="text-[10px] tracking-wider text-foreground">
+                    {item.creator}
+                  </span>
                 </div>
-              </a>
+                {/* TITULO */}
+                <h5 className="mt-2 text-sm font-medium text-foreground line-clamp-2 mb-2 leading-relaxed group-hover:text-accent transition-colors">
+                  {item.title}
+                </h5>
+              </div>
+            </a>
           ))}
         </div>
       )}

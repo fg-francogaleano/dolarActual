@@ -108,7 +108,7 @@ const Header: React.FC = () => {
     }`;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur dark:bg-[#1A202C]/95 dark:border-[#2D3748] transition-colors duration-300">
+    <header className="sticky top-0 z-50 w-full border-b bg-background transition-colors duration-300 shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           
@@ -140,7 +140,7 @@ const Header: React.FC = () => {
               </button>
               
               <div 
-                className={`absolute left-0 top-full mt-1 w-[600px] bg-white dark:bg-[#1A202C] border dark:border-gray-700 rounded-lg shadow-xl z-50 grid grid-cols-3 gap-4 p-5 transition-all duration-200 ${
+                className={`absolute left-0 top-full mt-1 w-[600px] bg-card border dark:border-gray-700 rounded-lg shadow-xl z-50 grid grid-cols-3 gap-4 p-5 transition-all duration-200 ${
                   isQuotesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
                 }`}
               >
