@@ -401,27 +401,36 @@ const Header: React.FC = () => {
               </button>
 
               {openSubmenu === "noticias" && (
-                <div className="pb-2">
-                  <div className="px-5 py-2 font-medium text-foreground">
-                    {t("news.sections")}
+                <>
+                  <div className="pb-2">
+                    <div className="px-5 py-2 font-medium text-foreground">
+                      {t("news.sections")}
+                    </div>
+                    <div className="pl-2 space-y-1">
+                      {newsMenu.map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`block px-5 py-2 text-sm rounded-md ${
+                            pathname === item.path
+                              ? "text-primary"
+                              : "text-foreground hover:text-accent"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                  <div className="pl-2 space-y-1">
-                    {newsMenu.map((item) => (
-                      <Link
-                        key={item.path}
-                        href={item.path}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-5 py-2 text-sm rounded-md ${
-                          pathname === item.path
-                            ? "text-primary"
-                            : "text-foreground hover:text-accent"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+                  <Link
+                    href="/noticias"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-4 py-3 text-sm font-medium text-primary text-center md:mt-2 "
+                  >
+                    {t("news.all")}
+                  </Link>
+                </>
               )}
             </div>
             {/* CONVERSOR */}
