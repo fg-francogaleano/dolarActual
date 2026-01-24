@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Usamos brand-600 como color principal
-        default: "bg-brand-600 text-white hover:bg-brand-700 dark:bg-brand-600 dark:hover:bg-brand-500",
+        default: "cursor-pointer text-foreground hover:text-accent",
         destructive:
           "bg-sentiment-negative text-white hover:bg-red-700 dark:hover:bg-red-700",
         outline:
