@@ -108,7 +108,7 @@ const Header: React.FC = () => {
   };
 
   const getDesktopLinkClasses = (isActive: boolean) =>
-    `flex items-center px-3 py-2 rounded-md font-medium transition-colors cursor-pointer ${
+    `flex items-center px-3 py-2 rounded-md font-medium transition-colors cursor-pointer hover:text-accent ${
       isActive ? "text-primary" : "text-foreground"
     }`;
 
