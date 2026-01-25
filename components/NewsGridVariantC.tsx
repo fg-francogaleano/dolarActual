@@ -79,7 +79,7 @@ export default function NewsGridVariantC({
               rel="noopener noreferrer"
               className="group flex flex-col h-full bg-foreground overflow-hidden transition-all duration-300"
             >
-              <div className="relative w-full h-[350px] lg:h-[60%] overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+              <div className="relative w-full h-[350px] lg:h-[60%] overflow-hidden rounded-xl">
                 {mainNews.image ? (
                   <img
                     src={mainNews.image}
