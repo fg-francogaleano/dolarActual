@@ -77,7 +77,7 @@ export default function NewsGridVariantC({
               href={mainNews.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col h-full bg-foreground overflow-hidden transition-all duration-300"
+              className="group flex flex-col h-full overflow-hidden transition-all duration-300"
             >
               <div className="relative w-full h-[350px] lg:h-[60%] overflow-hidden rounded-xl">
                 {mainNews.image ? (
@@ -111,7 +111,7 @@ export default function NewsGridVariantC({
                   </span>
                 </div>
 
-                <h4 className="text-foreground text-2xl md:text-4xl font-extrabold leading-tight mb-3 drop-shadow-lg max-w-4xl group-hover:text-accent transition-colors">
+                <h4 className="text-foreground text-2xl md:text-4xl font-bold leading-tight mb-3 drop-shadow-lg max-w-4xl group-hover:text-accent transition-colors">
                   {mainNews.title}
                 </h4>
                 <p className="text-foreground text-sm mb-4 line-clamp-3 leading-relaxed grow">
