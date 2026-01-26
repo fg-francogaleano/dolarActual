@@ -24,7 +24,7 @@ export default function CotizacionCard({
   destacada = false,
 }: CotizacionCardProps) {
   const { t, language } = useLanguage();
-
+console.log(cotizacion)
   const { id, compra, venta, variacion, fechaActualizacion, nombre } =
     cotizacion;
 

@@ -72,16 +72,16 @@ export default function CotizacionesPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {dolares.map((cot) => (
-              <CotizacionCard key={cot.id} cotizacion={cot} />
+                <CotizacionCard key={cot.id} cotizacion={cot} />
             ))}
           </div>
         )}
       </section>
 
       {/* OTRAS MONEDAS */}
-      <section className="mb-12">
+      <section className="mt-16">
         <h2 className="text-2xl font-medium text-foreground mb-6 pl-2 border-l-4 border-primary">
-          {t("quotations.sectionCryptos")}
+          {t("quotations.sectionFiat")}
         </h2>
         {loading && otras.length === 0 ? (
           <SkeletonGrid />

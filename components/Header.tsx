@@ -18,6 +18,7 @@ const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { language, changeLanguage, t } = useLanguage();
   const pathname = usePathname();
+  console.log(language)
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -284,12 +285,13 @@ const Header: React.FC = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => changeLanguage("es")}>
-                  Español
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => changeLanguage("en")}>
+                {language === "es" ?
+                (                <DropdownMenuItem onClick={() => changeLanguage("en")}>
                   English
-                </DropdownMenuItem>
+                </DropdownMenuItem>) :( <DropdownMenuItem onClick={() => changeLanguage("es")}>
+                  Español
+                </DropdownMenuItem>) }
+               
               </DropdownMenuContent>
             </DropdownMenu>
 
