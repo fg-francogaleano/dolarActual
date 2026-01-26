@@ -41,11 +41,11 @@ interface CustomTooltipProps {
 
 // Configuración de líneas y colores (Sin nombres harcodeados)
 const LINES_CONFIG = [
-  { key: 'blue', color: '#3b82f6' },     // Blue-500
+  { key: 'blue', color: '#0d47a1' },     // Blue-500
   { key: 'oficial', color: '#10b981' }, // Emerald-500
-  { key: 'mep', color: '#f59e0b' },       // Amber-500
-  { key: 'ccl', color: '#8b5cf6' }, // Violet-500
-  { key: 'cripto', color: '#ec4899' },   // Pink-500
+  { key: 'mep', color: '#7c3aed' },       // Amber-500
+  { key: 'ccl', color: '#ec4899' }, // Violet-500
+  { key: 'cripto', color: '#14b8a6' },   // Pink-500
 ];
 
 // --- COMPONENTES ---
@@ -53,18 +53,18 @@ const LINES_CONFIG = [
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white dark:bg-slate-800 p-4 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl z-50">
-        <p className="font-bold text-slate-700 dark:text-slate-200 mb-2">{label}</p>
+      <div className="bg-card p-4 border border-border rounded-lg shadow-xl z-50">
+        <p className="font-medium text-foreground mb-2">{label}</p>
         {payload.map((entry) => (
           <div key={entry.name} className="flex items-center gap-2 text-sm mb-1">
             <span 
               className="w-3 h-3 rounded-full" 
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-slate-500 dark:text-slate-400 font-medium">
-              {entry.name}:
+            <span className="text-muted-foreground font-medium">
+              {entry.name}
             </span>
-            <span className="font-bold text-slate-800 dark:text-white">
+            <span className="font-medium text-foreground">
               ${Number(entry.value).toLocaleString('es-AR', { minimumFractionDigits: 2 })}
             </span>
           </div>
@@ -80,7 +80,7 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
   
   // Estado para filtrar qué líneas se ven
   const [activeLines, setActiveLines] = useState<string[]>(['blue', 'oficial', 'mep', 'ccl', 'cripto']);
-  const [timeRange, setTimeRange] = useState<number>(30); // Días a mostrar por defecto
+  const [timeRange, setTimeRange] = useState<number>(7); // Días a mostrar por defecto
 
   // Función para togglear líneas
   const toggleLine = (key: string) => {
@@ -109,19 +109,19 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
   }, [slicedData]);
 
   return (
-    <Card className="p-6 w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm">
+    <Card className="p-6 w-full bg-card border border-border shadow-sm">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-800 dark:text-white">
+          <h2 className="text-lg font-medium text-foreground">
             {t("history.chartTitle")}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-muted-foreground">
             {t("history.chartSubtitle")}
           </p>
         </div>
 
         {/* Selector de Rango */}
-        <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 overflow-x-auto max-w-full">
+        <div className="flex rounded-lg p-1 overflow-x-auto max-w-full">
           {[
             { label: '7D', value: 7 },
             { label: '30D', value: 30 },
@@ -132,10 +132,10 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
             <button
               key={range.label}
               onClick={() => setTimeRange(range.value)}
-              className={`px-3 py-1 text-xs font-semibold rounded-md transition-all whitespace-nowrap ${
+              className={`px-3 py-1 text-xs cursor-pointer rounded-md transition-all whitespace-nowrap ${
                 timeRange === range.value
-                  ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+                  ? 'font-semibold text-primary shadow-sm'
+                  : 'text-muted-foreground hover:text-accent'
               }`}
             >
               {range.label}
@@ -150,7 +150,7 @@ export default function EvolutionChart({ data }: EvolutionChartProps) {
           <button
             key={line.key}
             onClick={() => toggleLine(line.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
               activeLines.includes(line.key)
                 ? 'bg-opacity-10 border-opacity-50'
                 : 'opacity-50 grayscale border-transparent'
