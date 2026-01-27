@@ -77,23 +77,23 @@ export default function NewsLayout({
     <div className="container mx-auto px-4 py-8">
       {/* HEADER DE SECCIÓN + FILTROS (Solo en /todas) */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white capitalize mb-4">
+        <h1 className="text-4xl font-medium text-foreground capitalize mb-4">
           {getSectionTitle(categorySlug)}
         </h1>
 
         {isAll && (
-          <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="p-4 rounded-xl border border-border shadow-sm">
             <div className="flex flex-col gap-4">
               {/* Filtro Secciones */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold uppercase text-gray-500 mr-2 flex items-center">
+                <span className="text-xs font-bold uppercase text-muted-foreground mr-2 flex items-center">
                   <Filter className="w-3 h-3 mr-1" /> {t("news.sections")}:
                 </span>
                 {SECTION_SLUGS.map((secSlug) => (
                   <Badge
                     key={secSlug}
                     variant={isActive(secSlug) ? "default" : "outline"}
-                    className="cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900"
+                    className="cursor-pointer hover:bg-accent"
                     onClick={() => toggleFilter(secSlug)}
                   >
                     {getFilterLabel(secSlug)}
@@ -102,7 +102,7 @@ export default function NewsLayout({
               </div>
               {/* Filtro Medios */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold uppercase text-gray-500 mr-2 flex items-center">
+                <span className="text-xs font-bold uppercase text-muted-foreground mr-2 flex items-center">
                   <Filter className="w-3 h-3 mr-1" /> {t("news.media")}
                 </span>
                 {MEDIOS_FILTER.map((media) => (
@@ -137,7 +137,7 @@ export default function NewsLayout({
       {/* 3.2 RESTO DE NOTICIAS (CARDS HOMOGÉNEAS) */}
       {listNews.length > 0 && (
         <section className="mb-12">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-6 border-l-4 border-blue-500 pl-3">
+          <h3 className="text-xl font-medium text-foreground mb-6 border-l-4 border-primary pl-3">
             {t("news.moreNews")}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -147,9 +147,9 @@ export default function NewsLayout({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group dark:bg-slate-900 dark:border-slate-800 rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full"
+                className="group rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full"
               >
-                <div className="aspect-video relative overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <div className="aspect-video relative overflow-hidden rounded-xl">
                   {item.image ? (
                     <img
                       src={item.image}
@@ -166,15 +166,15 @@ export default function NewsLayout({
                         <img
                           src={item.favicon}
                           alt={item.creator}
-                          className="w-3 h-3 rounded-full"
+                          className="w-4 h-4 rounded-full"
                         />
                       )}
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D47A1] dark:text-[#55EEF9]">
+                      <span className="text-[10px] tracking-wider text-foreground">
                         {item.creator}
                       </span>
                     </div>
 
-                    <h5 className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 line-clamp-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h5 className="mt-3 text-sm md:text-base font-medium text-foreground line-clamp-3 group-hover:text-accent transition-colors">
                       {item.title}
                     </h5>
                   </div>
@@ -187,7 +187,7 @@ export default function NewsLayout({
 
       {/* PAGINACIÓN */}
       {pagination.totalPages > 1 && (
-        <div className="flex justify-center items-center gap-4 py-8 border-t border-slate-200 dark:border-slate-800">
+        <div className="flex justify-center items-center gap-4 py-8 border-t border-border">
           <Button
             variant="outline"
             disabled={!pagination.hasPrevPage}
@@ -196,7 +196,7 @@ export default function NewsLayout({
             <ChevronLeft className="w-4 h-4 mr-2" />
             {t("common.prev")}
           </Button>
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+          <span className="text-sm font-medium text-muted-foreground">
             {t("common.pageOf")
               .replace("{current}", pagination.currentPage.toString())
               .replace("{total}", pagination.totalPages.toString())}

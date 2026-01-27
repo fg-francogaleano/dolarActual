@@ -24,7 +24,7 @@ export default async function AllNewsPage({ searchParams }: PageProps) {
   });
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-[#111]">
+    <main className="min-h-screen bg-background">
       <NewsLayout 
         initialNews={news}
         pagination={pagination}
