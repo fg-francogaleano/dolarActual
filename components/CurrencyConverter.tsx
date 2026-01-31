@@ -37,7 +37,7 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
   const [amount, setAmount] = useState<string>("1000");
   const [sourceId, setSourceId] = useState<string>('usd'); 
   const [targetId, setTargetId] = useState<string>('ars');
-  const [selectedDolarType, setSelectedDolarType] = useState<string>('blue');
+  const [selectedDolarType, setSelectedDolarType] = useState<string>('oficial');
 
   // --- LÓGICA DE DATOS (Mantenida igual) ---
   const allForeignRates = useMemo(() => {
@@ -72,7 +72,7 @@ export default function CurrencyConverter({ initialData }: CurrencyConverterProp
     setTargetId(sourceId);
   };
 
-  const showDolarSelector = sourceId === 'usd' || targetId === 'usd';
+  const showDolarSelector = (sourceId === 'usd' && targetId === 'ars') || targetId === 'usd';
 
   // --- RENDERIZADO ---
 
