@@ -43,7 +43,7 @@ export default function FAQDetailPage({ params }: { params: Promise<{ slug: stri
   const details: DetailSection[] = Array.isArray(rawDetails) ? rawDetails : [];
 
   return (
-    <div className="min-h-screen py-10 bg-white dark:bg-[#1A202C]">
+    <div className="min-h-screen py-10 bg-background">
       <div className="container mx-auto px-4 max-w-3xl">
         
         {/* <Link href="/faq" className="inline-flex items-center text-sm text-gray-500 hover:text-[#1976D2] mb-8 transition-colors">
@@ -56,7 +56,7 @@ export default function FAQDetailPage({ params }: { params: Promise<{ slug: stri
             {title}
           </h1>
           
-          <div className="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed pl-4">
+          <div className="text-xl text-text mb-10 leading-relaxed pl-4">
             {desc}
           </div>
 
