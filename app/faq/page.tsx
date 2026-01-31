@@ -12,13 +12,13 @@ const FAQ: FC = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen py-12 bg-white dark:bg-[#1A202C]">
+    <div className="min-h-screen py-12 bg-background">
       <div className="container mx-auto px-4">
         
         <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-4">
             <Book className="inline mr-3 h-10 w-10" />
-            {t("faq.title")}
+            {t("faq.title")}hols
           </h1>
 
           <p className="text-lg text-[#212529] dark:text-[#E2E8F0] opacity-90 max-w-2xl mx-auto">

@@ -138,7 +138,7 @@ export const mockBlogPosts: BlogPost[] = [
   {
     id: 3,
     titulo: "Consejos para freelancers: cómo cobrar del exterior",
-    contenido: "Los freelancers pueden ingresar hasta 12.000 USD anuales sin pesificar a través del régimen de Monotributo Tech. Para montos mayores o fuera de este régimen, se utilizan plataformas cripto (USDT) o cuentas en el exterior, aunque esto requiere asesoramiento contable para evitar problemas con AFIP.",
+    contenido: "Los freelancers pueden ingresar hasta 12.000 USD anuales sin pesificar a través del régimen de Monotributo Tech. Para montos mayores o fuera de este régimen, se utilizan plataformas cripto (USDT) o cuentas en el exterior, aunque esto requiere asesoramiento contable para evitar problemas con ARCA.",
   },
   {
     id: 4,

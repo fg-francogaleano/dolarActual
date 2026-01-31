@@ -115,7 +115,7 @@ export const translations = {
         },
         3: {
           title: "Consejos para freelancers: cómo cobrar del exterior",
-          content: "Los freelancers pueden ingresar hasta 12.000 USD anuales sin pesificar a través del régimen de Monotributo Tech. Para montos mayores o fuera de este régimen, se utilizan plataformas cripto (USDT) o cuentas en el exterior, aunque esto requiere asesoramiento contable para evitar problemas con AFIP."
+          content: "Los freelancers pueden ingresar hasta 12.000 USD anuales sin pesificar a través del régimen de Monotributo Tech. Para montos mayores o fuera de este régimen, se utilizan plataformas cripto (USDT) o cuentas en el exterior, aunque esto requiere asesoramiento contable para evitar problemas con ARCA."
         },
         4: {
           title: "¿Por qué hay tantos dólares en Argentina?",
@@ -308,7 +308,7 @@ export const translations = {
         },
         3: {
           title: "Tips for Freelancers: How to get paid from abroad",
-          content: "Freelancers can bring in up to 12,000 USD annually without converting to pesos through the Tech Monotributo regime. For larger amounts or outside this regime, crypto platforms (USDT) or foreign accounts are used, although this requires accounting advice to avoid issues with AFIP."
+          content: "Freelancers can bring in up to 12,000 USD annually without converting to pesos through the Tech Monotributo regime. For larger amounts or outside this regime, crypto platforms (USDT) or foreign accounts are used, although this requires accounting advice to avoid issues with ARCA."
         },
         4: {
           title: "Why are there so many dollars in Argentina?",

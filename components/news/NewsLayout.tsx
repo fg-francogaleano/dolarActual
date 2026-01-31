@@ -74,10 +74,10 @@ export default function NewsLayout({
   const listNews = initialNews.slice(3);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-10">
       {/* HEADER DE SECCIÓN + FILTROS (Solo en /todas) */}
       <div className="mb-8">
-        <h1 className="text-4xl font-medium text-foreground capitalize mb-4">
+        <h1 className="text-4xl font-medium text-primary text-center mb-4">
           {getSectionTitle(categorySlug)}
         </h1>
 
@@ -137,7 +137,7 @@ export default function NewsLayout({
       {/* 3.2 RESTO DE NOTICIAS (CARDS HOMOGÉNEAS) */}
       {listNews.length > 0 && (
         <section className="mb-12">
-          <h3 className="text-xl font-medium text-foreground mb-6 border-l-4 border-primary pl-3">
+          <h3 className="text-xl font-medium text-text-strong mb-6 border-l-4 border-primary pl-3">
             {t("news.moreNews")}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

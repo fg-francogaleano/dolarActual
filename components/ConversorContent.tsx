@@ -15,7 +15,7 @@ export default function ConversorContent({ initialData }: ConversorContentProps)
   return (
     <div className="w-full bg-background py-10 min-h-screen">
       <div className="text-center mb-8">
-        <h1 className="text-2xl md:text-3xl font-medium text-text-strong mb-4">
+        <h1 className="text-2xl md:text-3xl font-medium text-primary mb-4">
           {t("converter.title")}
         </h1>
         <p className="text-text max-w-2xl mx-auto px-3 leading-relaxed">

@@ -11,36 +11,33 @@ const Blog: FC = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen py-12 bg-white dark:bg-[#1A202C] transition-colors duration-300">
+    <div className="min-h-screen py-10 bg-background transition-colors duration-300">
       <div className="container mx-auto px-4">
         
         <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-4">
-            <BookOpen className="inline mr-3 h-10 w-10" />
+          <h1 className="text-2xl md:text-3xl font-medium text-primary mb-4">
             {t("blog.title")}
           </h1>
 
-          <p className="text-lg text-[#212529] dark:text-[#E2E8F0] opacity-90">
+          <p className="text-text max-w-2xl mx-auto px-3 leading-relaxed">
             {t("blog.subtitle")}
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <Card className="border-[#F9FAFB] dark:border-[#2D3748] mb-8 shadow-sm">
+          <Card className="bg-card border-border mb-8 shadow-sm">
             <CardContent className="pt-6">
               <Accordion type="single" collapsible className="w-full">
                 {mockBlogPosts.map((post) => (
                   <AccordionItem key={post.id} value={`item-${post.id}`}>
-                    <AccordionTrigger className="text-left hover:no-underline hover:bg-slate-50 dark:hover:bg-slate-800/50 px-4 rounded-md transition-colors">
-                      <span className="text-lg font-semibold text-[#0D47A1] dark:text-[#B0C4DE]">
-                        {/* Título del blog desde traducciones: blog.posts.1.title */}
+                    <AccordionTrigger className="text-left hover:no-underline px-4 rounded-md transition-colors cursor-pointer">
+                      <span className="text-lg text-text-strong">
                         {t(`blog.posts.${post.id}.title`)}
                       </span>
                     </AccordionTrigger>
 
                     <AccordionContent className="px-4 pt-2 pb-4">
-                      <p className="text-[#212529] dark:text-[#E2E8F0] leading-relaxed text-base">
-                        {/* Contenido del blog desde traducciones */}
+                      <p className="text-text leading-relaxed text-base">
                         {t(`blog.posts.${post.id}.content`)}
                       </p>
                     </AccordionContent>

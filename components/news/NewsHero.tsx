@@ -33,9 +33,9 @@ export default function NewsHero({
 
   return (
     <section className="w-full mb-12">
-      <h3 className="text-xl font-semibold text-primary mb-6 flex items-center gap-2 border-b border-border pb-2">
+      <h3 className="text-xl font-medium text-text-strong mb-6 flex items-center gap-2 border-b border-border pb-2">
         <span
-          className={`w-1.5 h-6 rounded-full inline-block ${accentColor}`}
+          className="w-1.5 h-6 inline-block border-l-4 border-primary"
         ></span>
         {title}
       </h3>
