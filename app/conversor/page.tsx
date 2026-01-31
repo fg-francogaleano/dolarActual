@@ -14,10 +14,8 @@ export default async function ConversorPage() {
   const ratesData = await getAllRatesForConverter();
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-[#111] py-12 md:py-20">
-      <div className="container mx-auto px-4">
+    <main>
         <ConversorContent initialData={ratesData} />
-      </div>
     </main>
   );
 }
