@@ -114,7 +114,7 @@ const Header: React.FC = () => {
     }`;
 
   const getMobileLinkClasses = (isActive: boolean) =>
-    `block px-3 py-3 text-base font-semibold border-b dark:border-gray-800 transition-colors ${
+    `block px-3 py-3 text-base font-semibold border-b border-border transition-colors ${
       isActive ? "text-primary" : "text-foreground"
     }`;
 
@@ -335,7 +335,7 @@ const Header: React.FC = () => {
                 className={`w-full flex items-center justify-between px-3 py-3 text-base font-semibold transition-colors ${
                   isQuotesActive()
                     ? "text-primary"
-                    : "text-gray-800 dark:text-gray-100"
+                    : "text-foreground"
                 }`}
               >
                 {t("nav.quotations")}
