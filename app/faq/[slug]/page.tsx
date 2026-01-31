@@ -43,30 +43,30 @@ export default function FAQDetailPage({ params }: { params: Promise<{ slug: stri
   const details: DetailSection[] = Array.isArray(rawDetails) ? rawDetails : [];
 
   return (
-    <div className="min-h-screen py-16 bg-white dark:bg-[#1A202C]">
+    <div className="min-h-screen py-10 bg-white dark:bg-[#1A202C]">
       <div className="container mx-auto px-4 max-w-3xl">
         
-        <Link href="/faq" className="inline-flex items-center text-sm text-gray-500 hover:text-[#1976D2] mb-8 transition-colors">
+        {/* <Link href="/faq" className="inline-flex items-center text-sm text-gray-500 hover:text-[#1976D2] mb-8 transition-colors">
           <ArrowLeft className="h-4 w-4 mr-1" />
           {t("common.back")}
-        </Link>
+        </Link> */}
 
         <article className="prose dark:prose-invert lg:prose-xl">
-          <h1 className="text-4xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-6">
+          <h1 className="text-2xl md:text-3xl font-medium text-text-strong pl-2 mb-6 border-l-4 border-primary">
             {title}
           </h1>
           
-          <div className="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed border-l-4 border-[#1976D2] pl-4">
+          <div className="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed pl-4">
             {desc}
           </div>
 
           <div className="space-y-10">
             {details.map((seccion, idx) => (
               <div key={idx}>
-                <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
+                <h2 className="text-2xl font-medium text-text-strong mb-3">
                   {seccion.title}
                 </h2>
-                <p className="text-gray-700 dark:text-gray-300 leading-7">
+                <p className="text-text max-w-2xl mx-auto px-3 leading-relaxed">
                   {seccion.text}
                 </p>
               </div>

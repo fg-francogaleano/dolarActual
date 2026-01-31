@@ -225,7 +225,7 @@ export default function HomeContent({
           <div className="mt-16 text-center">
             <Link
               href="/noticias"
-              className="inline-flex items-center justify-center px-8 py-3 border border-border text-foreground rounded-full hover:bg-accent hover:text-brand-600 transition-all font-medium shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center px-8 py-3 border border-border text-foreground rounded-full hover:bg-accent hover:text-primary transition-all font-medium shadow-sm hover:shadow-md"
             >
               {t("news.readMore")}
             </Link>

@@ -12,39 +12,36 @@ const FAQ: FC = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen py-12 bg-background">
+    <div className="min-h-screen py-10 bg-background">
       <div className="container mx-auto px-4">
         
         <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#0D47A1] dark:text-[#B0C4DE] mb-4">
-            <Book className="inline mr-3 h-10 w-10" />
-            {t("faq.title")}hols
+          <h1 className="text-3xl md:text-4xl font-medium text-primary mb-4">
+            {t("faq.title")}
           </h1>
 
-          <p className="text-lg text-[#212529] dark:text-[#E2E8F0] opacity-90 max-w-2xl mx-auto">
+          <p className="text-text leading-relaxed text-base">
             {t("faq.subtitle")}
           </p>
         </div>
 
         <div className="max-w-5xl mx-auto grid gap-6 md:grid-cols-2">
           {mockDollarTypes.map((item) => (
-            <Card key={item.id} className="border-[#F9FAFB] dark:border-[#2D3748] hover:shadow-lg transition-shadow">
+            <Card key={item.id} className="border-border bg-card hover:shadow-lg transition-shadow">
               <CardHeader>
-                <CardTitle className="text-xl text-[#0D47A1] dark:text-[#B0C4DE]">
-                  {/* Título desde traducciones: faq.definitions.mep.title */}
+                <CardTitle className="text-xl text-text-strong">
                   {t(`faq.definitions.${item.id}.title`)}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-[#212529] dark:text-[#E2E8F0] leading-relaxed mb-6 opacity-80">
+                <p className="text-text leading-relaxed mb-6 opacity-80">
                   {/* Descripción corta desde traducciones */}
                   {t(`faq.definitions.${item.id}.shortDesc`)}
                 </p>
                 
-                <Link href={`/faq/${item.slug}`}>
-                  <Button variant="outline" className="w-full sm:w-auto border-[#1976D2] text-[#1976D2] hover:bg-[#1976D2] hover:text-white dark:border-[#B0C4DE] dark:text-[#B0C4DE] dark:hover:bg-[#B0C4DE] dark:hover:text-[#1A202C]">
+                <Link href={`/faq/${item.slug}`} >
+                  <Button variant="secondary" className="w-full sm:w-auto cursor-pointer rounded-full shadow-sm hover:shadow-md">
                     {t("common.readMore")}
-                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
