@@ -33,13 +33,12 @@ export async function generateStaticParams() {
 export default async function QuotePage({ params }: PageProps) {
   const { slug } = await params;
   const data = await getQuoteBySlug(slug);
-console.log(data)
   if (!data) {
     notFound();
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-[#111]">
+    <main className="min-h-screen bg-background">
       <QuoteDetailContent 
         featured={data.featured} 
         related={data.related} 

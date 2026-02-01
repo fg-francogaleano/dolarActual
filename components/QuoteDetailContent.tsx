@@ -23,7 +23,7 @@ export default function QuoteDetailContent({
   related,
 }: QuoteDetailContentProps) {
   const { t, language } = useLanguage();
-
+// console.log(related)
   const isPositive = (featured.variacion || 0) > 0;
   const isNegative = (featured.variacion || 0) < 0;
 
