@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const section = searchParams.get('section') || 'todas';
     const page = Number(searchParams.get('page')) || 1;
-    const limit = Number(searchParams.get('limit')) || 40;
+    const limit = Number(searchParams.get('limit')) || 39;
 
     // Pasamos searchParams directamente para que procese los filtros (clarin, etc)
     const result = await getNewsPaginated({ 

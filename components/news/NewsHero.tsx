@@ -110,7 +110,7 @@ export default function NewsHero({
                   )}
                 </div>
 
-                <div className="flex-1 flex flex-col justify-center">
+                <div className="flex-1 flex flex-col justify-center ml-3 md:ml-0">
                   {/* MEDIO + FAVICON */}
                   <div className="flex items-center gap-2 mb-1">
                     {item.favicon && (
@@ -125,7 +125,7 @@ export default function NewsHero({
                     </span>
                   </div>
 
-                  <h5 className="text-xs md:text-sm font-medium text-foreground line-clamp-3 md:line-clamp-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h5 className="mt-2 text-xs md:text-sm font-medium text-foreground line-clamp-3 md:line-clamp-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {item.title}
                   </h5>
                 </div>

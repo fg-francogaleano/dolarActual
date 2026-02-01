@@ -14,7 +14,7 @@ interface PageProps {
 export default async function AllNewsPage({ searchParams }: PageProps) {
   const resolvedSearchParams = await searchParams;
   const page = Number(resolvedSearchParams.page) || 1;
-  const limit = 40;
+  const limit = 39;
 
   const { news, pagination } = await getNewsPaginated({
     page,

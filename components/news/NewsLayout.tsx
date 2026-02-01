@@ -192,6 +192,7 @@ export default function NewsLayout({
             variant="outline"
             disabled={!pagination.hasPrevPage}
             onClick={() => setPage(currentPage - 1)}
+            className="cursor-pointer hover:text-accent hover:bg-none"
           >
             <ChevronLeft className="w-4 h-4 mr-2" />
             {t("common.prev")}
@@ -205,6 +206,7 @@ export default function NewsLayout({
             variant="outline"
             disabled={!pagination.hasNextPage}
             onClick={() => setPage(currentPage + 1)}
+            className="cursor-pointer hover:text-accent hover:bg-none"
           >
             {t("common.next")} <ChevronRight className="w-4 h-4 ml-2" />
           </Button>

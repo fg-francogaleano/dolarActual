@@ -50,7 +50,7 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
   
   if (quoteData) {
     return (
-      <main className="min-h-screen bg-gray-50 dark:bg-[#111]">
+      <main className="min-h-screen bg-background">
         <QuoteDetail 
           featured={quoteData.featured} 
           related={quoteData.related} 
@@ -65,7 +65,7 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
   if (NEWS_SECTIONS.includes(slug)) {
     // Obtenemos los datos PAGINADOS desde el backend (Server Side Fetching)
     const page = Number(resolvedSearchParams.page) || 1;
-    const limit = 40; // Requisito 3.2
+    const limit = 39; // Requisito 3.2
 
     const { news, pagination } = await getNewsPaginated({
       page,
@@ -75,7 +75,7 @@ export default async function DynamicPage({ params, searchParams }: PageProps) {
     });
 
     return (
-      <main className="min-h-screen bg-gray-50 dark:bg-[#111]">
+      <main className="min-h-screen bg-background">
         <NewsLayout 
           initialNews={news}
           pagination={pagination}

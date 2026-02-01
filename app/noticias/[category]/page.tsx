@@ -32,7 +32,7 @@ export default async function NewsCategoryPage({ params, searchParams }: PagePro
   }
 
   const page = Number(resolvedSearchParams.page) || 1;
-  const limit = 40;
+  const limit = 39;
 
   const { news, pagination } = await getNewsPaginated({
     page,
@@ -42,7 +42,7 @@ export default async function NewsCategoryPage({ params, searchParams }: PagePro
   });
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-[#111]">
+    <main className="min-h-screen bg-background">
       <NewsLayout 
         initialNews={news}
         pagination={pagination}
