@@ -127,9 +127,9 @@ const Header: React.FC = () => {
             className="flex items-center space-x-3 transition-opacity hover:opacity-80"
           >
             <img
-              src="/logo1.png"
+              src="/logo6.png"
               alt="DolarActual Logo"
-              className="h-10 w-auto"
+              className="h-10 md:h-14 w-auto"
             />
           </Link>
 
