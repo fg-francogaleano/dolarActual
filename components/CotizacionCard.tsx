@@ -77,14 +77,14 @@ console.log(cotizacion)
         </CardHeader>
 
         <CardContent className="">
-          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-8 gap-1 mt-1">
+          <div className="grid grid-cols-2 sm:grid-cols-2 sm:gap-8 gap-1 mt-1">
             {/* COMPRA */}
             {compra !== undefined && compra > 0 && (
               <div className="flex flex-col p-6">
                 <span className="text-lg text-muted-foreground mb-1">
                   {t("quotations.buy")}
                 </span>
-                <span className="sm:text-5xl text-4xl text-foreground font-medium tracking-tight">
+                <span className="sm:text-5xl text-2xl text-foreground font-medium tracking-tight">
                   $
                   {compra.toLocaleString("es-AR", {
                     minimumFractionDigits: 2,
@@ -98,7 +98,7 @@ console.log(cotizacion)
               <span className="text-lg text-muted-foreground mb-1">
                 {t("quotations.sell")}
               </span>
-              <span className="sm:text-5xl text-4xl font-medium text-foreground tracking-tight">
+              <span className="sm:text-5xl text-2xl font-medium text-foreground tracking-tight">
                 $
                 {venta.toLocaleString("es-AR", {
                   minimumFractionDigits: 2,
@@ -106,7 +106,6 @@ console.log(cotizacion)
               </span>
             </div>
 
-            {/* Fecha */}
             {/* ACTUALIZACION */}
             <p className="text-muted-foreground text-sm flex">
               {/* Renderizado condicional para Mobile/Desktop usando clases CSS */}

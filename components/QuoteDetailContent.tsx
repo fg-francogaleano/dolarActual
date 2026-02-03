@@ -57,10 +57,10 @@ export default function QuoteDetailContent({
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       {/* 1. CARD DESTACADA (Hero Section) */}
       <div className="bg-card rounded-xl shadow-xl p-8 mb-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div className="flex md:flex-row justify-between items-start md:items-center mb-4">
           <div>
             {/* TITULO COTIZACION */}
-            <h1 className="text-4xl md:text-5xl font-medium text-primary">
+            <h1 className="text-2xl sm:text-3xl font-medium text-primary">
               {getTranslatedName(featured).toLocaleUpperCase()}
             </h1>
           </div>
@@ -75,26 +75,26 @@ export default function QuoteDetailContent({
             }`}
           >
             {isPositive ? (
-              <TrendingUp className="w-6 h-6 mr-2" />
+              <TrendingUp className="w-6 h-6 mr-1" />
             ) : isNegative ? (
-              <TrendingDown className="w-6 h-6 mr-2" />
+              <TrendingDown className="w-6 h-6 mr-1" />
             ) : (
-              <Minus className="w-6 h-6 mr-2" />
+              <Minus className="w-6 h-6 mr-1" />
             )}
-            <span className="text-2xl font-medium">
+            <span className="text-xl md:text-2xl">
               {featured.variacion?.toFixed(2)}%
             </span>
           </div>
         </div>
         {/* COMPRA/VENTA */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 sm:gap-8 gap-1 mt-1">
           {/* COMPRA */}
           {featured.compra !== undefined && featured.compra > 0 && (
             <div className="flex flex-col p-6">
               <span className="text-lg text-muted-foreground mb-1">
                 {t("quotations.buy")}
               </span>
-              <span className="text-5xl text-foreground font-medium tracking-tight">
+              <span className="sm:text-5xl text-2xl text-foreground font-medium tracking-tight">
                 $
                 {featured.compra.toLocaleString("es-AR", {
                   minimumFractionDigits: 2,
@@ -108,7 +108,7 @@ export default function QuoteDetailContent({
             <span className="text-lg text-muted-foreground mb-1">
               {t("quotations.sell")}
             </span>
-            <span className="text-5xl font-medium text-foreground tracking-tight">
+            <span className="sm:text-5xl text-2xl font-medium text-foreground tracking-tight">
               $
               {featured.venta.toLocaleString("es-AR", {
                 minimumFractionDigits: 2,
