@@ -66,52 +66,39 @@
   --card: #ffffff;
   --card-foreground: #111827;
 
-  --primary: #0d47a1;
+  /* Primary system */
+  --primary: #0e707d;
   --primary-foreground: #ffffff;
 
-  --secondary: #e3f2fd;
-  --secondary-foreground: #0d47a1;
+  --secondary: #e6f6f8;
+  --secondary-foreground: #0e707d;
 
-  --accent: #1976d2;
+  --accent: #1fa4b3;
   --accent-foreground: #ffffff;
 
-  --muted: #f3f4f6;
-  --muted-foreground: #9fa2a5;
-
-  --success: #3cd474;
+  /* States */
+  --success: #16a34a;
   --success-foreground: #ecfdf5;
 
-  --danger: #b91c1c;
+  --danger: #dc2626;
   --danger-foreground: #fef2f2;
 
-  /* escala de grises */
-  --gray-50:  #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
 
-  /* textos semánticos */
-  --text-strong: var(--gray-900); /* títulos */
-  --text: var(--gray-800);        /* párrafos */
-  --text-muted: var(--gray-500);  /* ayudas */
-  --text-subtle: var(--gray-300); /* labels secundarias */
-
+  /* UI */
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #0d47a1;
+  --ring: #0e707d;
 
-  --chart-1: #0d47a1;
-  --chart-2: #0284c7;
-  --chart-3: #7c3aed;
-  --chart-4: #f59e0b;
-  --chart-5: #14b8a6;
+  /* Charts */
+  --chart-1: #0e707d; /* principal */
+  --chart-2: #1fa4b3; /* positivo */
+  --chart-3: #dc2626; /* negativo */
+  --chart-4: #f59e0b; /* warning */
+  --chart-5: #14b8a6; /* info */
 }
+
 
 /* =========================
    Dark Theme
@@ -122,14 +109,13 @@
 
   --card: #171717;
   --card-foreground: #e5e7eb;
+  --primary: #0e707d;
+  --primary-foreground: #e6f6f8;
 
-  --primary: #0d47a1;
-  --primary-foreground: #020617;
+  --secondary: #0b3f46;
+  --secondary-foreground: #e6f6f8;
 
-  --secondary: #0f172a;
-  --secondary-foreground: #90caf9;
-
-  --accent: #42a5f5;
+  --accent: #2ec4d6;
   --accent-foreground: #020617;
 
   --muted: #0f172a;
@@ -141,32 +127,17 @@
   --danger: #ef4444;
   --danger-foreground: #450a0a;
 
-   --gray-50:  #020617;
-  --gray-100: #020617;
-  --gray-200: #020617;
-  --gray-300: #1e293b;
-  --gray-400: #475569;
-  --gray-500: #64748b;
-  --gray-600: #94a3b8;
-  --gray-700: #cbd5f5;
-  --gray-800: #e5e7eb;
-  --gray-900: #f8fafc;
-
-  --text-strong: var(--gray-900);
-  --text: var(--gray-700);
-  --text-muted: var(--gray-500);
-  --text-subtle: var(--gray-400);
-
   --border: #1e293b;
   --input: #1e293b;
-  --ring: #90caf9;
+  --ring: #2ec4d6;
 
-  --chart-1: #90caf9;
-  --chart-2: #38bdf8;
-  --chart-3: #a78bfa;
+  --chart-1: #0e707d;
+  --chart-2: #2ec4d6;
+  --chart-3: #ef4444;
   --chart-4: #fbbf24;
   --chart-5: #2dd4bf;
 }
+
 
 /* .dark {
   --background: 0 0% 5%;

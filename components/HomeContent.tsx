@@ -169,7 +169,7 @@ export default function HomeContent({
       <section className="py-16 px-4 border-t border-border">
         <div className="max-w-6xl mx-auto">
           <header className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground">
+            <h2 className="text-3xl font-medium text-primary">
               {t("home.latestNews")}
             </h2>
             <div className="w-20 h-1 bg-brand-500 mx-auto mt-4 rounded-full" />

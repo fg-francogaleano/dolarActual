@@ -74,11 +74,11 @@ const Header: React.FC = () => {
       {
         title: t("quotations.sectionCryptos"),
         items: [
-          { label: t("quotations.bitcoin"), path: "/cotizaciones/bitcoin" },
-          { label: t("quotations.ethereum"), path: "/cotizaciones/ethereum" },
+          { label: t("quotations.btc"), path: "/cotizaciones/bitcoin" },
+          { label: t("quotations.eth"), path: "/cotizaciones/ethereum" },
           { label: t("quotations.xrp"), path: "/cotizaciones/xrp" },
           { label: t("quotations.bnb"), path: "/cotizaciones/bnb" },
-          { label: t("quotations.solana"), path: "/cotizaciones/solana" },
+          { label: t("quotations.sol"), path: "/cotizaciones/solana" },
           { label: t("quotations.usdt"), path: "/cotizaciones/usdt" },
         ],
       },
@@ -127,7 +127,7 @@ const Header: React.FC = () => {
             className="flex items-center space-x-3 transition-opacity hover:opacity-80"
           >
             <img
-              src="/logo6.png"
+              src="/logo.png"
               alt="DolarActual Logo"
               className="h-10 md:h-14 w-auto"
             />
@@ -164,7 +164,7 @@ const Header: React.FC = () => {
               >
                 {quotesMenu.sections.map((section) => (
                   <div key={section.title}>
-                    <h4 className="font-medium text-xs text-foreground mb-2 uppercase tracking-wide border-b pb-2">
+                    <h4 className="font-medium text-xs text-text-strong mb-2 uppercase tracking-wide border-b pb-2">
                       {section.title}
                     </h4>
                     <ul className="space-y-1">

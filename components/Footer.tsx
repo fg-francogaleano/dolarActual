@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
           {/* Columna 1: Branding */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <img src="/logo1.png" alt="Logo" className="h-8 w-auto" />
+              <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t("footer.description")}
@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Columna 2: Enlaces Rápidos */}
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="font-semibold text-foreground mb-4">{t("footer.sections")}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
@@ -53,8 +53,8 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Columna 2: Recursos */}
-          <div>
+          {/* Columna 3: Recursos */}
+          <div className="text-center md:text-left">
             <h3 className="font-semibold text-foreground mb-4">{t("footer.resources")}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Columna 4: Legal */}
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="font-semibold text-foreground mb-4">{t("footer.legal")}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
@@ -110,9 +110,9 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-border mt-12 pt-8 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {currentYear} Dolaractual.com. {t("footer.rights")}.
+            &copy; {currentYear} Dolaractual.com.ar - {t("footer.rights")}.
           </p>
-          <p className="mt-2 text-xs opacity-70">{t("footer.disclaimer")}</p>
+          {/* <p className="mt-2 text-xs opacity-70">{t("footer.disclaimer")}</p> */}
         </div>
       </div>
     </footer>

@@ -140,7 +140,7 @@ export default function QuoteDetailContent({
             <div className="bg-card p-5 rounded-lg hover:shadow-lg border hover:border-accent transition-all duration-400 h-full flex flex-col justify-between">
               <div className="flex justify-between items-start mb-3">
                 {/* TITULO COTIZACION */}
-                <h3 className="font-medium text-lg text-primary dark:text-gray-100 group-hover:text-accent transition-colors">
+                <h3 className="font-medium text-lg text-primary group-hover:text-accent transition-colors">
                   {getTranslatedName(item).toLocaleUpperCase()}
                 </h3>
                 {/* VARIACION */}
