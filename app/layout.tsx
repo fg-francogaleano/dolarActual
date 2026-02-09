@@ -25,10 +25,11 @@ const robotoMono = Roboto_Mono({
 // 2. Metadatos Base (SEO)
 export const metadata: Metadata = {
   title: {
-    template: '%s | DolarActual', // Template dinámico para títulos
-    default: 'DolarActual - Cotizaciones del Dólar en Vivo',
+    template: "%s | DolarActual", // Template dinámico para títulos
+    default: "DolarActual - Cotizaciones del Dólar en Vivo",
   },
-  description: "Cotizaciones del dólar oficial, blue, MEP y cripto en Argentina en tiempo real. Noticias financieras y conversores de moneda.",
+  description:
+    "Cotizaciones del dólar oficial, blue, MEP y cripto en Argentina en tiempo real. Noticias financieras y conversores de moneda.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -41,18 +42,26 @@ export default function RootLayout({
 }>) {
   return (
     // 'suppressHydrationWarning' es necesario para el ThemeProvider
-    <html lang="es" suppressHydrationWarning className={`${montserrat.variable} ${robotoMono.variable}`}>
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`${montserrat.variable} ${robotoMono.variable}`}
+    >
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        />
+      </head>
       <body className="font-sans antialiased bg-background text-foreground min-h-screen flex flex-col">
         <ThemeProvider>
           <LanguageProvider>
             {/* Header siempre visible */}
             <Header />
-            
+
             {/* Contenido principal flexible */}
-            <main className="flex-1 w-full">
-              {children}
-            </main>
-            
+            <main className="flex-1 w-full">{children}</main>
+
             {/* Footer siempre al final */}
             <Footer />
           </LanguageProvider>
