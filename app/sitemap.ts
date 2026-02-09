@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllQuotesNormalized } from '@/lib/quote-utils'
 
-const BASE_URL = 'https://dolar-actual.vercel.app/'
+const BASE_URL = 'https://dolaractual.com.ar'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 1. Obtener rutas dinámicas de cotizaciones

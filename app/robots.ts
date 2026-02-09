@@ -1,13 +1,13 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://dolar-actual.vercel.app'; // Cambia esto por tu dominio real en producción
+  const baseUrl = 'https://dolaractual.com.ar'; 
 
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/admin/'], // Bloqueamos rutas de API internas o admin si existieran
+      disallow: ['/api/', '/admin/'], 
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   };
