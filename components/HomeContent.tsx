@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CotizacionCard from "@/components/CotizacionCard";
@@ -12,6 +13,8 @@ import { Cotizacion } from "@/types/dolar";
 import { SkeletonCotizaciones } from "@/components/SkeletonCotizaciones";
 import { JsonLd } from "@/components/JsonLd";
 import { formatNumber } from "@/utils/formatters";
+import { useLiveQuotes } from "@/lib/hooks/useLiveQuotes";
+import { UnifiedQuote } from "@/lib/quote-utils";
 
 interface HomeContentProps {
   cotizaciones: {
@@ -32,24 +35,76 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({
-  cotizaciones,
+  cotizaciones: initialCotizaciones, // Renombramos prop para usarla como semilla
   newsData,
 }: HomeContentProps) {
   const { t, language } = useLanguage();
-  const { blue, mep, ccl, cripto, turista, oficial } = cotizaciones;
 
+  // 1. Convertir el objeto inicial a array para pasarlo a SWR como fallback
+  //    CORRECCIÓN: Mapeamos explícitamente para cumplir con UnifiedQuote
+  const initialArray = useMemo(() => {
+    return Object.values(initialCotizaciones)
+      .filter((c): c is Cotizacion => !!c) // Filtramos nulos y aseguramos tipo
+      .map((c) => ({
+        ...c,
+        // Agregamos las propiedades faltantes para UnifiedQuote
+        category: "dolar" as const, // Asumimos 'dolar' por defecto para la home inicial
+        slug: `dolar-${c.id}`, // Generamos el slug
+        nombre: c.id, // Aseguramos nombre
+      }));
+  }, [initialCotizaciones]);
+
+  // 2. Activar Hook de Datos en Vivo (30 segundos)
+  const { quotes } = useLiveQuotes({
+    initialData: initialArray,
+    refreshInterval: 30000,
+  });
+
+  // 3. Reconstruir el objeto de cotizaciones desde los datos "vivos"
+  // Esto asegura que la UI siempre muestre lo último que trajo SWR
+  const liveData = useMemo(() => {
+    const map: Record<string, UnifiedQuote> = {};
+    quotes.forEach((q) => {
+      map[q.id] = q;
+    });
+
+    // Helper para convertir UnifiedQuote de vuelta a Cotizacion (compatible con UI)
+    const toCotizacion = (
+      q: UnifiedQuote | undefined,
+      fallback?: Cotizacion,
+    ): Cotizacion | undefined => {
+      if (!q) return fallback;
+      return {
+        id: q.id,
+        compra: q.compra || 0, // Aseguramos número
+        venta: q.venta,
+        variacion: q.variacion || 0, // Aseguramos número
+        fechaActualizacion: q.fechaActualizacion,
+        destacado: fallback?.destacado || false, // Mantenemos propiedad original si existe
+      };
+    };
+
+    return {
+      blue: toCotizacion(map["blue"], initialCotizaciones.blue),
+      oficial: toCotizacion(map["oficial"], initialCotizaciones.oficial),
+      mep: toCotizacion(map["mep"], initialCotizaciones.mep),
+      ccl: toCotizacion(map["ccl"], initialCotizaciones.ccl),
+      turista: toCotizacion(map["turista"], initialCotizaciones.turista),
+      cripto: toCotizacion(map["cripto"], initialCotizaciones.cripto),
+    };
+  }, [quotes, initialCotizaciones]);
+
+  // Usamos liveData en lugar de props directas
+  const { blue, mep, ccl, cripto, turista, oficial } = liveData;
   const hasData = blue && oficial;
 
   const getQuotePath = (id: string) => `/cotizaciones/dolar-${id}`;
 
-  // --- ESTRATEGIA H1 DINÁMICO (SEO CTR) ---
-  // Si tenemos el dato del Blue, lo usamos en el título principal.
-  // Esto responde directamente a la intención de búsqueda del usuario.
   const mainTitle = blue
     ? language === "es"
-      ? "Dólar Hoy, precio del dolar"
-      : "Blue Dollar Today"
-    : t("home.featured"); // Fallback
+      ? `Dólar Blue Hoy: $${formatNumber(blue.venta)}`
+      : `Blue Dollar Today: $${formatNumber(blue.venta)}`
+    : t("home.featured");
 
   const subTitle = blue
     ? language === "es"
@@ -57,7 +112,6 @@ export default function HomeContent({
       : "Live exchange rate updated by the minute"
     : t("home.subtitle");
 
-  // Schema Markup
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -96,12 +150,19 @@ export default function HomeContent({
         <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             {/* H1 OPTIMIZADO PARA CTR */}
-            <h1 className="text-3xl md:text-3xl font-semibold text-foreground tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-3xl flex font-semibold text-foreground tracking-tight leading-tight">
               {mainTitle}
             </h1>
-            <p className="text-muted-foreground text-md">
-              {subTitle}
-            </p>
+            <div className="flex items-center gap-2 mt-2">
+              {/* Indicador visual de 'En Vivo' */}
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-success"></span>
+              </span>
+              <p className="text-muted-foreground text-lg font-medium">
+                {subTitle}
+              </p>
+            </div>
           </div>
         </header>
 
