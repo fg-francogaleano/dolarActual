@@ -1,17 +1,15 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI!;
 
 if (!MONGODB_URI) {
-  throw new Error(
-    'Por favor define la variable MONGODB_URI en tu archivo .env.local'
-  );
+  throw new Error('Please define the MONGODB_URI environment variable inside .env');
 }
 
 /**
- * Global es usado aquí para mantener una conexión cacheada a través de las recargas
- * en caliente (hot reloads) en desarrollo. Esto previene que se creen conexiones
- * múltiples.
+ * Global is used here to maintain a cached connection across hot reloads
+ * in development. This prevents connections growing exponentially
+ * during API Route usage.
  */
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -36,9 +34,15 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      // Límite crucial para entornos serverless (Vercel)
+      // M0 soporta 500 conexiones. Si Vercel lanza 50 lambdas, 
+      // 50 * 10 = 500. Estamos en el límite seguro.
+      maxPoolSize: 10, 
+      serverSelectionTimeoutMS: 10000, 
+      socketTimeoutMS: 45000, 
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
   }
