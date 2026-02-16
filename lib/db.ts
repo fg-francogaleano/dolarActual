@@ -37,7 +37,7 @@ async function connectDB() {
       // Límite crucial para entornos serverless (Vercel)
       // M0 soporta 500 conexiones. Si Vercel lanza 50 lambdas, 
       // 50 * 10 = 500. Estamos en el límite seguro.
-      maxPoolSize: 10, 
+      maxPoolSize: 2, 
       serverSelectionTimeoutMS: 10000, 
       socketTimeoutMS: 45000, 
     };
