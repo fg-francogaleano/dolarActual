@@ -77,7 +77,7 @@ export default function NewsGridVariantC({
               href={mainNews.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col h-full overflow-hidden transition-all duration-300"
+              className="group flex flex-col h-full overflow-hidden transition-all duration-300 border-b sm:border-none"
             >
               <div className="relative w-full h-[350px] lg:h-[60%] overflow-hidden rounded-xl">
                 {mainNews.image ? (
@@ -129,7 +129,7 @@ export default function NewsGridVariantC({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col overflow-hidden hover:-translate-y-1 transition-transform duration-300"
+                className={`group flex flex-col overflow-hidden hover:-translate-y-1 transition-transform duration-300 py-2 sm:py-0 ${idx !== secondaryNews.length -1 ? "border-b sm:border-none" : ""}`}
               >
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                   {item.image ? (

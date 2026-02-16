@@ -62,9 +62,7 @@ export default function NewsGridVariantE({
   return (
     <section className="w-full mb-16">
       <h3 className="text-xl text-text-strong font-medium mb-6 flex items-center gap-2 border-b border-border pb-2">
-        <span
-          className="w-1 h-6 inline-block bg-primary"
-        ></span>
+        <span className="w-1 h-6 inline-block bg-primary"></span>
         {title}
       </h3>
 
@@ -117,45 +115,53 @@ export default function NewsGridVariantE({
           )}
 
           {/* COLUMNA 2 (MEDIANAS) */}
-          <div className="lg:col-span-1 flex flex-col gap-6 h-full">
+          <div className="lg:col-span-1 flex flex-col gap-6 lg:gap-0 lg:h-full">
             {middleNews.map((item, idx) => (
               <a
                 key={`${item.link}-${idx}`}
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col flex-1 rounded-xl overflow-hidden hover:-translate-y-1 transition-all duration-300"
+                className="border-t sm:border-none pt-6 group flex flex-col lg:flex-1 overflow-hidden hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="relative w-full h-1/2 overflow-hidden">
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-xl"
-                      onError={(e) =>
-                        ((e.target as HTMLImageElement).style.display = "none")
-                      }
-                    />
-                  ) : null}
-                </div>
-                <div className="flex-1 px-4 md:py-4 md:px-0 flex flex-col justify-between p-2">
-                  <div>
-                    {/* MEDIO + FAVICON */}
-                    <div className="flex items-center gap-2 mb-1">
-                      {item.favicon && (
-                        <img
-                          src={item.favicon}
-                          alt={item.creator}
-                          className="w-4 h-4 rounded-full"
-                        />
-                      )}
-                      <span className="text-[10px] font-medium tracking-wider text-foreground">
-                        {item.creator}
-                      </span>
+                <div className="h-auto">
+                  {/* IMAGEN */}
+                  <div className="relative w-full aspect-video lg:h-1/2 overflow-hidden">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-xl"
+                        onError={(e) =>
+                          ((e.target as HTMLImageElement).style.display =
+                            "none")
+                        }
+                      />
+                    ) : null}
+                  </div>
+
+                  {/* CONTENIDO */}
+                  <div className="flex-1 py-4 flex flex-col justify-between">
+                    <div>
+                      {/* MEDIO + FAVICON */}
+                      <div className="flex items-center gap-2 mb-2">
+                        {item.favicon && (
+                          <img
+                            src={item.favicon}
+                            alt={item.creator}
+                            className="w-4 h-4 rounded-full"
+                          />
+                        )}
+                        <span className="text-[10px] font-medium tracking-wider text-foreground">
+                          {item.creator}
+                        </span>
+                      </div>
+
+                      {/* TITULO */}
+                      <h5 className="text-sm md:text-base font-medium text-foreground line-clamp-3 group-hover:text-accent transition-colors">
+                        {item.title}
+                      </h5>
                     </div>
-                    <h5 className="text-sm md:text-base font-medium text-foreground line-clamp-3 group-hover:text-accent transition-colors">
-                      {item.title}
-                    </h5>
                   </div>
                 </div>
               </a>
@@ -170,7 +176,7 @@ export default function NewsGridVariantE({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-1 items-center last:border-0 rounded-lg p-2 transition-colors"
+                className="group flex flex-1 items-center last:border-0 py-4 transition-colors border-t sm:border-none"
               >
                 <div className="flex-1 pr-3">
                   {/* MEDIO + FAVICON */}

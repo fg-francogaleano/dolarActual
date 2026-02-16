@@ -80,7 +80,7 @@ export default function NewsGridVariantB({
               href={mainNews.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative w-full h-[350px] md:h-[450px] rounded-xl overflow-hidden shadow-lg block"
+              className="border-b pb-2 sm:border-none sm:pb-0 group relative w-full h-[350px] md:h-[450px] rounded-xl overflow-hidden shadow-lg block" 
             >
               <div className="absolute inset-0 bg-slate-200 dark:bg-slate-700">
                 {mainNews.image ? (
@@ -97,7 +97,7 @@ export default function NewsGridVariantB({
 
               {/* MEDIO + FAVICON */}
               <div className="absolute top-4 left-4 z-20">
-                <div className="text-white px-3 py-1.5 text-xs tracking-widest shadow-lg flex items-center gap-2">
+                <div className="text-white px-3 py-1.5 text-xs tracking-widest flex items-center gap-2">
                   {mainNews.favicon && (
                     <img
                       src={mainNews.favicon}
@@ -118,14 +118,14 @@ export default function NewsGridVariantB({
           )}
 
           {/* FILA INFERIOR */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 sm:gap-4">
             {secondaryNews.map((item, idx) => (
               <a
                 key={`${item.link}-${idx}`}
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col bg-transparent rounded-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300"
+                className={`group flex flex-col bg-transparent overflow-hidden hover:-translate-y-1 transition-transform duration-300 pt-5 sm:pt-5 border-t sm:border-none`}
               >
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-card">
                   {item.image ? (
@@ -160,7 +160,7 @@ export default function NewsGridVariantB({
                       </span>
                     </div>
 
-                    <h5 className="text-sm md:text-base font-medium text-foreground line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h5 className="text-sm md:text-base font-medium text-foreground line-clamp-2 group-hover:text-accent transition-colors">
                       {item.title}
                     </h5>
                   </div>

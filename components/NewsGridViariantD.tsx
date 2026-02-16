@@ -81,9 +81,9 @@ export default function NewsGridVariantD({
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col rounded-md overflow-hidden transition-transform duration-300 hover:-translate-y-1 h-full"
+              className={`group flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1 h-full ${idx !== news.length -1 ? "border-b sm:border-none":"" }`}
             >
-              <div className="relative w-full h-40 overflow-hidden rounded-md">
+              <div className="relative w-full h-40 overflow-hidden rounded-md ">
                 {item.image ? (
                   <img
                     src={item.image}
