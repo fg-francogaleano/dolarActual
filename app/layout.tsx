@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 // 1. Configuración de Fuentes Optimizadas
 // Next.js descargará estas fuentes y las servirá desde el mismo dominio (Self-hosted)
@@ -67,6 +68,7 @@ export default function RootLayout({
           </LanguageProvider>
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
     </html>
   );
 }
