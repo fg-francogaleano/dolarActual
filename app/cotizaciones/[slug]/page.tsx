@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (data.featured.category === "dolar")
     return {
       title: `Dólar ${data.featured.nombre} hoy`,
-      description: `Revisá el precio actual del ${data.featured.nombre}. Compra: $${data.featured.compra || "-"} - Venta: $${data.featured.venta}.`,
+      description: `Revisá el precio actual del dólar ${data.featured.nombre}. Compra: $${data.featured.compra || "-"} - Venta: $${data.featured.venta}.`,
     };
 
   return {
