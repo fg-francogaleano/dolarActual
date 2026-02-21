@@ -13,15 +13,24 @@ interface PageProps {
 // ISR para las páginas de detalle
 export const revalidate = 60;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  
+
   const data = await getQuoteBySlug(slug);
+  console.log(data, "hola");
   if (!data) return { title: "Cotización no encontrada" };
 
+  if (data.featured.category === "dolar")
+    return {
+      title: `Dólar ${data.featured.nombre} hoy`,
+      description: `Revisá el precio actual del ${data.featured.nombre}. Compra: $${data.featured.compra || "-"} - Venta: $${data.featured.venta}.`,
+    };
+
   return {
-    title: `Cotización ${data.featured.nombre} hoy | Dolaractual.com`,
-    description: `Revisá el precio actual del ${data.featured.nombre}. Compra: $${data.featured.compra || '-'} - Venta: $${data.featured.venta}.`
+    title: `${data.featured.nombre} hoy`,
+    description: `Revisá el precio actual del ${data.featured.nombre}. Compra: $${data.featured.compra || "-"} - Venta: $${data.featured.venta}.`,
   };
 }
 
@@ -42,10 +51,7 @@ export default async function QuotePage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-background">
-      <QuoteDetailContent 
-        featured={data.featured} 
-        related={data.related} 
-      />
+      <QuoteDetailContent featured={data.featured} related={data.related} />
     </main>
   );
 }

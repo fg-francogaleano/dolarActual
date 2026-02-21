@@ -26,7 +26,6 @@ export default function CotizacionCard({
   const { t, language } = useLanguage();
   const { id, compra, venta, variacion, fechaActualizacion, nombre } =
     cotizacion;
-console.log(cotizacion)
   const isPositive = variacion > 0;
   const isNegative = variacion < 0;
   // const isNeutral = variacion === 0; // Usado implícitamente

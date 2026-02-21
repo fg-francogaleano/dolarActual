@@ -15,7 +15,6 @@ export default async function HomePage() {
   ]);
 
   const cotizaciones = dolarData.object || {};
-  console.log(dolarData)
 
   const dollarDistributor = new NewsDistributor(dollarNewsRaw);
   const dollarNewsFiltered = dollarDistributor.getSelection("all", 4);
