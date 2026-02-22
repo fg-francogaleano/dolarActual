@@ -129,7 +129,7 @@ const Header: React.FC = () => {
           aria-label="Ir al inicio - Dólar Actual"
         >
           <Image
-            src="/logo1.svg" // <-- CAMBIO PRINCIPAL: Apuntamos al archivo SVG
+            src="/logo.svg" // <-- CAMBIO PRINCIPAL: Apuntamos al archivo SVG
             alt="Dólar Actual Logo"
             width={320} // Ajusta el ancho base según las proporciones de tu SVG
             height={90} // Ajusta el alto base
