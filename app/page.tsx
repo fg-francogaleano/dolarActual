@@ -33,7 +33,7 @@ export default async function HomePage() {
     <HomeContent 
       cotizaciones={cotizaciones}
       newsData={{
-        mercado: dollarNewsFiltered,
+        mercado: mercadoNews,
         economia: economiaNews,
         finanzas: finanzasNews,
         politica: politicaNews,

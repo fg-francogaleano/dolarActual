@@ -67,7 +67,8 @@
   --card-foreground: #111827;
 
   /* Primary system */
-  --primary: #0e707d;
+  /* --primary: #0e707d; */
+  --primary: #113e4f;
   --primary-foreground: #ffffff;
 
   --secondary: #e6f6f8;

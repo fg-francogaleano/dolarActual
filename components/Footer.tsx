@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
@@ -14,7 +15,21 @@ const Footer: React.FC = () => {
           {/* Columna 1: Branding */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+              <Link
+                href="/"
+                className="flex items-center gap-2 hover:opacity-90 transition-opacity"
+                aria-label="Ir al inicio - Dólar Actual"
+              >
+                <Image
+                  src="/logo.svg" // <-- CAMBIO PRINCIPAL: Apuntamos al archivo SVG
+                  alt="Dólar Actual Logo"
+                  width={160} // Ajusta el ancho base según las proporciones de tu SVG
+                  height={45} // Ajusta el alto base
+                  priority // Muy importante para el SEO: fuerza la carga inmediata del logo
+                  className="w-auto h-8 md:h-10" // Tamaños responsive con Tailwind
+                  // Nota: Si tu SVG es oscuro y tienes modo noche, puedes añadir 'dark:invert' para que se vuelva blanco
+                />
+              </Link>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t("footer.description")}
