@@ -69,9 +69,11 @@
   /* =========================
      Primary Scale (BASE = 900)
   ========================= */
-  --primary-900: #356066; /* base real */
-  --primary-800: #356066;
-  --primary-700: #3f7379;
+  /* --primary-900: #2b4e54; */
+  --primary-900: #356066;
+  --primary-800: #3f7379;
+  --primary-700: #4a858b;
+  --primary-400: #56979e;
 
   --primary: var(--primary-900);
   --primary-foreground: #ffffff;
@@ -81,7 +83,7 @@
   --secondary-foreground: #1c3438;
 
   /* Accent (ligeramente más vivo que 800) */
-  --accent: #3f7379;
+  --accent: var(--primary-700);
   --accent-foreground: #ffffff;
 
   /* States */
@@ -106,7 +108,6 @@
   --chart-4: #f59e0b;
   --chart-5: #0ea5a4;
 }
-
 
 /* =========================
    Dark Theme
@@ -145,7 +146,6 @@
   --chart-4: #fbbf24;
   --chart-5: #2dd4bf;
 }
-
 
 /* .dark {
   --background: 0 0% 5%;
