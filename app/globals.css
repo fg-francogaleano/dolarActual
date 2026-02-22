@@ -60,44 +60,51 @@
 }
 
 :root {
-  --background: #f9fafb;
-  --foreground: #111827;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 
   --card: #ffffff;
-  --card-foreground: #111827;
+  --card-foreground: #0f172a;
 
-  /* Primary system */
-  /* --primary: #0e707d; */
-  --primary: #113e4f;
+  /* =========================
+     Primary Scale (BASE = 900)
+  ========================= */
+  --primary-900: #356066; /* base real */
+  --primary-800: #356066;
+  --primary-700: #3f7379;
+
+  --primary: var(--primary-900);
   --primary-foreground: #ffffff;
 
-  --secondary: #e6f6f8;
-  --secondary-foreground: #0e707d;
+  /* Secondary (derivado suave del primary) */
+  --secondary: #e6eff1;
+  --secondary-foreground: #1c3438;
 
-  --accent: #1fa4b3;
+  /* Accent (ligeramente más vivo que 800) */
+  --accent: #3f7379;
   --accent-foreground: #ffffff;
 
   /* States */
-  --success: #16a34a;
+  --success: #15803d;
   --success-foreground: #ecfdf5;
 
   --danger: #dc2626;
   --danger-foreground: #fef2f2;
 
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
 
   /* UI */
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #0e707d;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #2b4e54;
 
   /* Charts */
-  --chart-1: #0e707d; /* principal */
-  --chart-2: #1fa4b3; /* positivo */
-  --chart-3: #dc2626; /* negativo */
-  --chart-4: #f59e0b; /* warning */
-  --chart-5: #14b8a6; /* info */
+  --chart-1: #2b4e54;
+  --chart-2: #3f7379;
+  --chart-3: #dc2626;
+  --chart-4: #f59e0b;
+  --chart-5: #0ea5a4;
 }
 
 

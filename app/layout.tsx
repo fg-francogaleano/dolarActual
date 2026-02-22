@@ -57,13 +57,10 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-background text-foreground min-h-screen flex flex-col">
         <ThemeProvider>
           <LanguageProvider>
-            {/* Header siempre visible */}
             <Header />
 
-            {/* Contenido principal flexible */}
             <main className="flex-1 w-full">{children}</main>
 
-            {/* Footer siempre al final */}
             <Footer />
           </LanguageProvider>
         </ThemeProvider>

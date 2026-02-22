@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
                 aria-label="Ir al inicio - Dólar Actual"
               >
                 <Image
-                  src="/logo.svg" // <-- CAMBIO PRINCIPAL: Apuntamos al archivo SVG
+                  src="/logo1.svg" //
                   alt="Dólar Actual Logo"
                   width={160} // Ajusta el ancho base según las proporciones de tu SVG
                   height={45} // Ajusta el alto base
