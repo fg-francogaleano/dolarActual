@@ -33,7 +33,7 @@ export default function LegalContent({ type }: LegalContentProps) {
 
         <article className="">
           <header className="mb-10 text-center">
-            <h1 className="text-2xl md:text-3xl font-medium text-primary mb-4">
+            <h1 className="text-2xl md:text-3xl font-medium text-primary mb-4 h-13">
               {title}
             </h1>
             <p className="text-lg text-text leading-relaxed">

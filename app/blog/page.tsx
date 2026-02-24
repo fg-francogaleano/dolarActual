@@ -15,7 +15,7 @@ const Blog: FC = () => {
       <div className="container mx-auto px-4">
         
         <div className="mb-12 text-center">
-          <h1 className="text-2xl md:text-3xl font-medium text-primary mb-4">
+          <h1 className="text-2xl md:text-3xl font-medium text-primary mb-4 h-14">
             {t("blog.title")}
           </h1>
 

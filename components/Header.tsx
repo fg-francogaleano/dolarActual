@@ -129,13 +129,12 @@ const Header: React.FC = () => {
           aria-label="Ir al inicio - Dólar Actual"
         >
           <Image
-            src="/logo.svg" // <-- CAMBIO PRINCIPAL: Apuntamos al archivo SVG
+            src="/logo.svg" 
             alt="Dólar Actual Logo"
-            width={320} // Ajusta el ancho base según las proporciones de tu SVG
-            height={90} // Ajusta el alto base
-            priority // Muy importante para el SEO: fuerza la carga inmediata del logo
+            width={320} 
+            height={90} 
+            priority 
             // className="w-auto h-8 md:h-10" // Tamaños responsive con Tailwind
-            // Nota: Si tu SVG es oscuro y tienes modo noche, puedes añadir 'dark:invert' para que se vuelva blanco
           />
         </Link>
 

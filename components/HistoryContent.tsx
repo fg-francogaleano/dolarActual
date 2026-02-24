@@ -16,7 +16,7 @@ export default function HistoryContent({ chartData }: HistoryContentProps) {
       <div className="container mx-auto px-4">
         
         <div className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-medium text-primary mb-4">
+          <h1 className="text-3xl md:text-4xl font-medium text-primary mb-4 h-13">
             {t("history.title")}
           </h1>
           <p className="text-foreground max-w-2xl mx-auto">

@@ -150,7 +150,7 @@ export default function HomeContent({
         <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             {/* H1 OPTIMIZADO PARA CTR */}
-            <h1 className="text-3xl md:text-3xl flex font-semibold text-foreground tracking-tight leading-tight">
+            <h1 className="leading-none text-3xl md:text-3xl font-semibold text-foreground tracking-tight">
               {mainTitle}
             </h1>
             <div className="flex items-center gap-2 mt-2">
@@ -237,14 +237,14 @@ export default function HomeContent({
           </header>
 
           <div className="space-y-16">
-            <div id="mercado">
+            {/* <div id="mercado">
               <NewsGridVariantD
                 title={t("news.market")}
                 category="economia"
                 accentColor="bg-cyan-400"
                 preloadedNews={newsData.mercado}
               />
-            </div>
+            </div> */}
 
             <div id="economia">
               <NewsGridVariantA
