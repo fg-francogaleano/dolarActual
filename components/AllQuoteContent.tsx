@@ -52,7 +52,7 @@ export default function AllQuoteContent({ initialQuotes }: AllQuoteContentProps)
 
       <div className="mb-8 ">
         <div className="flex items-center gap-3 text-center">
-          <h1 className="text-3xl md:text-4xl font-medium  text-primary mb-4 h-13">
+          <h1 className="text-3xl md:text-4xl font-medium text-primary mb-4 h-13">
             {t("quotations.title")}
           </h1>
           {isLoading && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
