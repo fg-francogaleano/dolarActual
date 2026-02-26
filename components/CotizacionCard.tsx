@@ -5,6 +5,7 @@ import { TrendingUp, TrendingDown, Minus, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatNumber, formatDateShort } from "@/utils/formatters";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useEffect, useState } from "react";
 
 export interface CotizacionCardProps {
   cotizacion: {
@@ -26,6 +27,25 @@ export default function CotizacionCard({
   const { t, language } = useLanguage();
   const { id, compra, venta, variacion, fechaActualizacion, nombre } =
     cotizacion;
+
+  // 1. Estado para hidratación segura
+  const [isMounted, setIsMounted] = useState(false);
+  // 2. Estado de "latido" para forzar el recálculo del tiempo
+  const [, setTick] = useState(0);
+
+  useEffect(() => {
+    setIsMounted(true); // Confirma que estamos en el cliente
+
+    // Configura un intervalo que fuerza un re-render del componente cada 30 segundos.
+    // Esto asegura que la función formatTimeAgo() se evalúe de nuevo,
+    // resolviendo el problema de las pestañas inactivas.
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const isPositive = variacion > 0;
   const isNegative = variacion < 0;
   // const isNeutral = variacion === 0; // Usado implícitamente
@@ -37,6 +57,11 @@ export default function CotizacionCard({
   // Helper para traducir la etiqueta de categoría (usado solo en versión destacada por ahora o si se requiere)
   // En este diseño simplificado asumimos que el "chip" de categoría se maneja externamente o no es crítico dentro de la card pequeña.
   // Pero si quisieras mostrarlo, podrías agregarlo aquí.
+
+    // Cálculo de la fecha en tiempo real (seguro contra Hydration)
+  const fechaRelativa = isMounted 
+    ? formatDateShort(cotizacion.fechaActualizacion) 
+    : t("Actualizando"); // Muestra esto en el milisegundo de SSR para evitar saltos de UI
 
   // --- RENDERIZADO DESTACADO (HERO STYLE) ---
   if (destacada) {
@@ -110,7 +135,7 @@ export default function CotizacionCard({
               {/* Renderizado condicional para Mobile/Desktop usando clases CSS */}
               {<Clock className="w-4 h-4 self-center" />}
               <span className="hidden md:inline ml-2">
-                {formatDateShort(fechaActualizacion, false, language)}
+                {fechaRelativa}
               </span>
               <span className="md:hidden ml-2">
                 {formatDateShort(fechaActualizacion, true, language)}

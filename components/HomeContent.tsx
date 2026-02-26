@@ -237,14 +237,14 @@ export default function HomeContent({
           </header>
 
           <div className="space-y-16">
-            {/* <div id="mercado">
+            <div id="mercado">
               <NewsGridVariantD
                 title={t("news.market")}
                 category="economia"
                 accentColor="bg-cyan-400"
                 preloadedNews={newsData.mercado}
               />
-            </div> */}
+            </div>
 
             <div id="economia">
               <NewsGridVariantA
