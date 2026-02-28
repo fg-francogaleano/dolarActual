@@ -14,7 +14,7 @@ interface AllQuoteContentProps {
 
 export default function AllQuoteContent({ initialQuotes }: AllQuoteContentProps) {
   const { t } = useLanguage();
-
+console.log(initialQuotes, "AllQuoteContent")
   // Usamos el hook para mantener los datos vivos.
   // initialQuotes asegura que el SEO funcione y la carga sea instantánea.
   // A los 30 segundos (o al volver a la pestaña), SWR actualizará 'quotes'.

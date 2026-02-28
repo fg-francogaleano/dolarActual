@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, TrendingDown, Minus, Clock } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Clock, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatNumber, formatDateShort } from "@/utils/formatters";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -58,10 +58,15 @@ export default function CotizacionCard({
   // En este diseño simplificado asumimos que el "chip" de categoría se maneja externamente o no es crítico dentro de la card pequeña.
   // Pero si quisieras mostrarlo, podrías agregarlo aquí.
 
-    // Cálculo de la fecha en tiempo real (seguro contra Hydration)
-  const fechaRelativa = isMounted 
-    ? formatDateShort(cotizacion.fechaActualizacion) 
-    : t("Actualizando"); // Muestra esto en el milisegundo de SSR para evitar saltos de UI
+  // Cálculo de la fecha en tiempo real (seguro contra Hydration)
+  const fechaRelativa = (ismobile: boolean) => {
+    const aux = isMounted ? (
+      formatDateShort(cotizacion.fechaActualizacion, ismobile)
+    ) : (
+      <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+    ); // Muestra esto en el milisegundo de SSR para evitar saltos de UI
+    return aux;
+  };
 
   // --- RENDERIZADO DESTACADO (HERO STYLE) ---
   if (destacada) {
@@ -134,12 +139,8 @@ export default function CotizacionCard({
             <p className="text-muted-foreground text-sm flex">
               {/* Renderizado condicional para Mobile/Desktop usando clases CSS */}
               {<Clock className="w-4 h-4 self-center" />}
-              <span className="hidden md:inline ml-2">
-                {fechaRelativa}
-              </span>
-              <span className="md:hidden ml-2">
-                {formatDateShort(fechaActualizacion, true, language)}
-              </span>
+              <span className="hidden md:inline ml-2">{fechaRelativa(false)}</span>
+              <span className="md:hidden ml-2">{fechaRelativa(true)} </span>
             </p>
           </div>
         </CardContent>

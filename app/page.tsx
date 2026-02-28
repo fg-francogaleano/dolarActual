@@ -4,6 +4,7 @@ import { NewsDistributor } from "@/lib/news-distributor";
 import HomeContent from "@/components/HomeContent"; 
 import { getDollarNews } from "@/lib/news-service"; 
 
+
 export const revalidate = 60;
 
 export default async function HomePage() {

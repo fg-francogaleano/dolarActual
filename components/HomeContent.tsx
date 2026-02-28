@@ -55,7 +55,7 @@ export default function HomeContent({
   }, [initialCotizaciones]);
 
   // 2. Activar Hook de Datos en Vivo (30 segundos)
-  const { quotes } = useLiveQuotes({
+  const { quotes, isLoading } = useLiveQuotes({
     initialData: initialArray,
     refreshInterval: 30000,
   });
