@@ -4,7 +4,7 @@ const NewsSchema = new Schema(
   {
     title: { type: String, required: true },
     link: { type: String, required: true, unique: true },
-    pubDate: { type: Date, required: true, index: true },
+    pubDate: { type: Date, required: true },
     description: { type: String },
     creator: { type: String, required: true, index: true },
     image: { type: String },
