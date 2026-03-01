@@ -10,7 +10,7 @@ const NewsSchema = new Schema(
     image: { type: String },
     category: { type: String, index: true },
     source: { type: String },
-    favicon: { type: String }, // NUEVO CAMPO EN SCHEMA
+    favicon: { type: String },
     searchableText: { type: String },
   },
   {
@@ -25,7 +25,7 @@ NewsSchema.index({
 });
 
 // MongoDB borrará documentos donde 'pubDate' sea más viejo de 3 días.
-NewsSchema.index({ pubDate: 1 }, { expireAfterSeconds: 259200 });
+NewsSchema.index({ pubDate: 1 }, { expireAfterSeconds: 604800 });
 
 // Lógica de desarrollo para recargar modelo
 if (process.env.NODE_ENV === "development" && models.News) {
