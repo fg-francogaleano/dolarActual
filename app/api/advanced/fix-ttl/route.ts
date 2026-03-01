@@ -8,43 +8,43 @@ export async function GET() {
   try {
     await connectDB();
 
-    // 1. BYPASS DE MONGOOSE: Usamos el driver nativo de MongoDB
-    // Esto evita que Mongoose intente reconstruir los índices automáticamente mientras limpiamos
     const db = mongoose.connection.db;
     if (!db) {
       throw new Error("No hay conexión activa a la base de datos.");
     }
     
-    // 'news' es el nombre real de tu colección en Atlas
     const collection = db.collection('news'); 
     const messages: string[] = [];
 
-    // 2. LIMPIEZA MANUAL DE DATOS VIEJOS
+    // 1. LIMPIEZA PROFUNDA USANDO CREATED_AT
+    // Calculamos la fecha límite de 7 días
     const limitDate = new Date();
     limitDate.setDate(limitDate.getDate() - 7);
 
-    const deleteResult = await collection.deleteMany({ pubDate: { $lt: limitDate } });
-    messages.push(`Limpieza: Se eliminaron ${deleteResult.deletedCount} noticias más antiguas que 7 días.`);
+    // 🛑 CAMBIO CLAVE: Usamos 'createdAt' en lugar de 'pubDate' para la purga manual.
+    // Esto garantiza que atrapará los 2900+ documentos viejos sin importar si 
+    // su pubDate estaba corrupto como String.
+    const deleteResult = await collection.deleteMany({ createdAt: { $lt: limitDate } });
+    messages.push(`Limpieza Profunda: Se eliminaron ${deleteResult.deletedCount} noticias antiguas.`);
 
-    // 3. ELIMINACIÓN FORZADA DEL ÍNDICE CONFLICTIVO
+    // 2. RECONSTRUCCIÓN DEL ÍNDICE TTL (Por si acaso quedó a medias en el intento anterior)
     try {
       await collection.dropIndex('pubDate_1');
-      messages.push('Éxito: Índice conflictivo pubDate_1 eliminado de Atlas.');
-    } catch (indexError: any) {
-      messages.push(`Nota (Índice): El índice viejo ya no existía o fue borrado previamente.`);
+      messages.push('Índice anterior eliminado.');
+    } catch (e) {
+      // Ignoramos si no existe
     }
 
-    // 4. CREACIÓN DEL NUEVO ÍNDICE TTL DIRECTO EN ATLAS
     await collection.createIndex(
       { pubDate: 1 },
-      { expireAfterSeconds: 604800 } // 7 días exactos
+      { expireAfterSeconds: 604800 } // 7 días
     );
-    messages.push('Éxito: Nuevo índice TTL de 7 días creado y activado.');
+    messages.push('Éxito: Nuevo índice TTL de 7 días asegurado en Atlas.');
 
     return NextResponse.json({
       success: true,
       messages: messages,
-      nextSteps: "Todo resuelto. Ya puedes eliminar el archivo app/api/advanced/fix-ttl/route.ts por seguridad."
+      nextSteps: "Revisa la base de datos. Deberías ver una caída drástica en la cantidad de documentos."
     });
 
   } catch (error: any) {
