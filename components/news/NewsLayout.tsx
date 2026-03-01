@@ -147,9 +147,9 @@ export default function NewsLayout({
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group rounded-lg overflow-hidden transition-all duration-300 flex flex-col h-full"
+                className={`group flex flex-col overflow-hidden transition-all duration-300 h-full ${idx !== listNews.length -1 ? "border-b sm:border-none" : ""}`}
               >
-                <div className="aspect-video relative overflow-hidden rounded-xl">
+                <div className="aspect-video relative overflow-hidden rounded-md">
                   {item.image ? (
                     <img
                       src={item.image}
@@ -158,7 +158,7 @@ export default function NewsLayout({
                     />
                   ) : null}
                 </div>
-                <div className="flex-1 px-4 md:py-4 md:px-0 flex flex-col justify-between p-2">
+                <div className="flex-1 md:py-4 md:px-0 flex flex-col justify-between py-5">
                   <div>
                     {/* MEDIO + FAVICON */}
                     <div className="flex items-center gap-2 mb-1">
@@ -173,7 +173,7 @@ export default function NewsLayout({
                         {item.creator}
                       </span>
                     </div>
-
+                    {/* TITULO */}
                     <h5 className="mt-3 text-sm md:text-base font-medium text-foreground line-clamp-3 group-hover:text-accent transition-colors">
                       {item.title}
                     </h5>

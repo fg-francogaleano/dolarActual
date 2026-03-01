@@ -81,14 +81,14 @@ export default function NewsGridVariantD({
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1 h-full ${idx !== news.length -1 ? "border-b sm:border-none":"" }`}
+              className={`group flex flex-col overflow-hidden transition-transform duration-300 over:-translate-y-1 h-full ${idx !== news.length -1 ? "border-b sm:border-none":"" }`}
             >
-              <div className="relative w-full h-40 overflow-hidden rounded-md ">
+              <div className="relative aspect-video overflow-hidden rounded-md ">
                 {item.image ? (
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     onError={(e) =>
                       ((e.target as HTMLImageElement).style.display = "none")
                     }
