@@ -161,7 +161,7 @@ export default function CotizacionCard({
           {/* VARIACION */}
           {variacion !== undefined && (
             <span
-              className={`text-xs font-bold px-2 py-1 rounded flex items-center ${
+              className={`text-xs font-semibold px-2 py-1 rounded flex items-center ${
                 isPositive
                   ? "text-success"
                   : isNegative
